@@ -3,3 +3,8 @@
 #define XCLOG_FUNCTION_TRACK
 #include <xclogger/asynczmqlogsubmitstream.hpp>
 #include <xclogger/logger.hpp>
+
+namespace xcal {
+using float_t = float;
+using bool_t = bool;
+};  // namespace xcal
