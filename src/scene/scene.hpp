@@ -1,3 +1,3 @@
 #pragma once
 
-#include <scene/core/absscene.hpp>
+#include <scene/core/scene.hpp>
