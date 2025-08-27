@@ -28,6 +28,7 @@ class _PositionList : public MProperty {
 };
 
 using PositionList = _PositionList<Position, Type::PositionList>;
-using ThreeDPositionList = _PositionList<ThreeDPosition, Type::ThreeDPositionList>;
+using ThreeDPositionList =
+    _PositionList<ThreeDPosition, Type::ThreeDPositionList>;
 
 }  // namespace xcal::mobject::property

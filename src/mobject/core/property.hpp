@@ -97,6 +97,24 @@ class MProperty {
         const auto &operator()(Args &&...args) const {
             return value_(std::forward<Args>(args)...);
         }
+#define XCAL_PROPERTY_PROXY_OPERATOR(op) \
+    template <typename Arg>              \
+    auto &operator op(const Arg & arg) { \
+        on_changed();                    \
+        value_ op arg;                   \
+        return *this;                    \
+    }
+        XCAL_PROPERTY_PROXY_OPERATOR(+=)
+        XCAL_PROPERTY_PROXY_OPERATOR(-=)
+        XCAL_PROPERTY_PROXY_OPERATOR(*=)
+        XCAL_PROPERTY_PROXY_OPERATOR(/=)
+        XCAL_PROPERTY_PROXY_OPERATOR(%=)
+        XCAL_PROPERTY_PROXY_OPERATOR(^=)
+        XCAL_PROPERTY_PROXY_OPERATOR(|=)
+        XCAL_PROPERTY_PROXY_OPERATOR(&=)
+        XCAL_PROPERTY_PROXY_OPERATOR(<<=)
+        XCAL_PROPERTY_PROXY_OPERATOR(>>=)
+#undef XCAL_PROPERTY_PROXY_OPERATOR
     };
 
    public:

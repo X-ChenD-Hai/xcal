@@ -4,3 +4,5 @@
 !.clang-format
 !CMakeLists.txt
 !.gitignore
+!CONTRIBUTING.md
+!tools

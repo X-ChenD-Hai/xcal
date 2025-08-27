@@ -7,7 +7,6 @@
 #include <mobject/properties/position.hpp>
 #include <mobject/properties/scalar.hpp>
 
-
 namespace xcal::mobject {
 class MObject : public AbsMObject {
    private:

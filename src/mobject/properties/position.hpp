@@ -1,6 +1,6 @@
 #pragma once
-#include <mobject/core/property.hpp>
 #include <array>
+#include <mobject/core/property.hpp>
 
 namespace xcal::mobject::property {
 
