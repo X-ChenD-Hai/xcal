@@ -23,6 +23,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         XCAL_ERROR(OpenGLRender, OpenGL) << "Failed to initialize GLAD";
     }
+    setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
 
@@ -36,11 +37,26 @@ void xcal::render::opengl::OpenGLRender::show() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
-        render();
+        render_frame();
     }
 }
-void xcal::render::opengl::OpenGLRender::render() {
+void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
     glClear(GL_COLOR_BUFFER_BIT);
     glfwSwapBuffers(window_);
+};
+void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
+    Render::set_scene(scene);
+    setup_scene();
+};
+void xcal::render::opengl::OpenGLRender::setup_scene() {
+    XCAL_INFO(OpenGLRender, Scene) << "setup_scene" << scene();
+    objects_.clear();
+    if (!scene()) {
+        XCAL_WARN(OpenGLRender, Scene) << "scene is null";
+        return;
+    }
+    for (auto& obj : scene()->mobjects()) {
+        objects_.insert({obj.get(), object::create(obj.get())});
+    }
 };

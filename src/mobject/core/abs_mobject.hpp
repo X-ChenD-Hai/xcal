@@ -56,6 +56,8 @@ class AbsMObject {
      */
     bool& visible() { return visible_; }
 
+    Type type() const { return type_(); }
+
     /**
      * @brief 获取对象属性列表
      * @return std::vector<property::MProperty*>& 属性指针列表引用

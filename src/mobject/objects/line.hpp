@@ -10,6 +10,8 @@ class Line : public MObject {
     property::Position end_;
 
    public:
+    Line(float_t x1, float_t y1, float_t x2, float_t y2)
+        : Line(property::Position(x1, y1), property::Position(x2, y2)) {}
     Line(property::Position start, property::Position end)
         : MObject(start), start_(start), end_(end) {
         register_properties(start_, end_);
