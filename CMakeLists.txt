@@ -4,6 +4,10 @@ find_package(xclogger REQUIRED)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 启用 CTest 支持
+include(CTest)
+enable_testing()
+
 find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)

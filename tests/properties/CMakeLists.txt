@@ -6,3 +6,6 @@ target_link_libraries(test_properties PRIVATE
     GTest::gtest GTest::gtest_main
     xcal
 )
+
+# 注册 properties 测试
+add_test(NAME test_properties COMMAND test_properties)

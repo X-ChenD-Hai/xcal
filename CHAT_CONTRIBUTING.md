@@ -267,6 +267,33 @@ cmake --build --preset build-debug --target test_opengl
 
 # 运行特定测试
 ./build-debug/tests/test_opengl --gtest_filter="TestCircle.*"
+
+# 使用 CTest 运行所有测试（需要先构建测试）
+ctest --output-on-failure
+
+# 使用 CTest 运行特定测试
+ctest -R test_mobject --output-on-failure
+
+# 使用 CTest 查看测试列表
+ctest -N
+
+# 使用 CTest 并行运行测试
+ctest -j4 --output-on-failure
+
+# 构建所有测试目标
+cmake --build build --target test_mobject test_properties test_scene test_opengl
+```
+
+**注意**: 首次启用 CTest 或添加新测试后，需要重新配置和构建项目：
+```bash
+# 重新配置项目
+cmake -B build --preset build-debug
+
+# 构建所有测试
+cmake --build build --target test_mobject test_properties test_scene test_opengl
+
+# 然后就可以使用 CTest 了
+ctest --output-on-failure
 ```
 
 ## 🔧 构建和验证
@@ -393,6 +420,7 @@ git push origin feature/ai-your-feature-name
 - **v1.0.1** (2025-08-27): 根据用户反馈添加任务前后阅读和更新要求
 - **v1.1.0** (2025-08-27): 添加注释和测试最佳实践，更新测试示例
 - **v1.2.0** (2025-08-27): 添加项目概述和文件结构详细描述，完善文件操作更新机制
+- **v1.3.0** (2025-08-27): 添加 CTest 支持，完善测试运行机制
 
 ---
 
