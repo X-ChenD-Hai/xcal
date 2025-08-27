@@ -15,6 +15,8 @@ enum class Type {
     ThreeDPositionList,
     Scalar,
     Color,
+    TimeDuration,
+    TimePoint,
     User,
 };
 
