@@ -1,6 +1,6 @@
 #pragma once
 #include <mobject/mobject.hpp>
-#include <scene/core/absscene.hpp>
+#include <scene/core/abs_scene.hpp>
 
 namespace xcal::scene {
 

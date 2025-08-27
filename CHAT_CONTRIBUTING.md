@@ -73,7 +73,7 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 
 **scene/ 场景管理**:
 - `scene.hpp` - 场景接口
-- `core/absscene.hpp` - 抽象场景模板
+- `core/abs_scene.hpp` - 抽象场景模板
 - `core/scene.hpp` - 具体场景实现
 
 **render/ 渲染引擎**:
@@ -220,7 +220,7 @@ cmake --build build --target format-code
 
 #include <public.h>
 #include <memory>
-#include <mobject/core/absmobject.hpp>
+#include <mobject/core/abs_mobject.hpp>
 
 namespace xcal::mobject {
 class YourClass : public BaseClass {

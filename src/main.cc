@@ -1,8 +1,12 @@
-#include "public.h"
+#include <public.h>
 
-XCLOG_ENABLE_ASYNCZMQLOGSUBMITSTREAM("tcp://127.0.0.1:5555")
+#include <render/impl/opengl/opengl_render.hpp>
 
 int main(int argc, char **argv) {
-    XLOG(0, envman, main) << "START APP";
+    XCAL_INFO(XCAL, APP) << "app start";
+    auto scene = std::make_unique<xcal::scene::Scene>();
+    auto render = xcal::render::opengl::OpenGLRender(scene.get());
+    render.show();
+    XCAL_INFO(XCAL, APP) << "app end";
     return 0;
 }
