@@ -2,7 +2,7 @@
 #include <public.h>
 
 #include <memory>
-#include <mobject/core/absmobject.hpp>
+#include <mobject/core/abs_mobject.hpp>
 #include <mobject/properties/color.hpp>
 #include <mobject/properties/position.hpp>
 #include <mobject/properties/scalar.hpp>

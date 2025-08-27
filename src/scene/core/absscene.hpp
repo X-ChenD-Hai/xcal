@@ -1,7 +1,7 @@
 #pragma once
 #include <public.h>
 
-#include <mobject/core/absmobject.hpp>
+#include <mobject/core/abs_mobject.hpp>
 #include <type_traits>
 #include <vector>
 
@@ -96,6 +96,7 @@ class AbsScene {
      */
     const std::vector<ObjectPtr>& mobjects() const { return mobjects_; }
 
+   public:
     /**
      * @brief 虚析构函数
      */
