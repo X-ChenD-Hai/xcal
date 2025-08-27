@@ -1,4 +1,4 @@
-add_executable(test_scene scene.cc)
+add_executable(test_scene test_scene.cc)
 
 target_link_libraries(test_scene PRIVATE
     GTest::gtest GTest::gtest_main

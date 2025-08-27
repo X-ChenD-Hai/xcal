@@ -7,3 +7,5 @@ target_link_libraries(test_opengl PRIVATE
     glfw
 )
 add_subdirectory(scene)
+add_subdirectory(properties)
+add_subdirectory(mobject)
