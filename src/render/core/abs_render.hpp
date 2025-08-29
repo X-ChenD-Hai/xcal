@@ -13,10 +13,7 @@ class AbsRender {
     Scene *scene_ = nullptr;
 
    public:
-    virtual void set_scene(Scene *scene) {
-        XCAL_INFO(AbsScene, Scene) << "set scene " << scene;
-        scene_ = scene;
-    }
+    virtual void set_scene(Scene *scene);
     Scene *scene() const { return scene_; }
 
    public:
