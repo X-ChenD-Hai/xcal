@@ -4,10 +4,13 @@
 #include <public.h>
 
 #include <render/impl/opengl/opengl_render.hpp>
+#define ROLE OpenGL
+#define LABEL OpenGLRender
+#include <utils/logmacrohelper.inc>
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene) {
-    XCAL_INFO(OpenGLRender, OpenGL) << "OpenGLRender created";
+    _I("OpenGLRender created: " _SELF);
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -16,12 +19,12 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     window_ = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr);
     if (window_ == nullptr) {
         glfwTerminate();
-        XCAL_ERROR(OpenGLRender, OpenGL) << "Failed to create GLFW window";
+        _D("Failed to create GLFW window");
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window_);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        XCAL_ERROR(OpenGLRender, OpenGL) << "Failed to initialize GLAD";
+        _E("Failed to initialize GLAD");
     }
     setup_scene();
 }
@@ -30,7 +33,7 @@ xcal::render::opengl::OpenGLRender::~OpenGLRender() {
 };
 void xcal::render::opengl::OpenGLRender::show() {
     if (!window_) {
-        XCAL_ERROR(OpenGLRender, OpenGL) << "GLFW window is not created";
+        _E("GLFW window is not created");
         return;
     }
     glfwMakeContextCurrent(window_);
@@ -50,10 +53,10 @@ void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
     setup_scene();
 };
 void xcal::render::opengl::OpenGLRender::setup_scene() {
-    XCAL_INFO(OpenGLRender, Scene) << "setup_scene" << scene();
+    _I("setup_scene" << scene());
     objects_.clear();
     if (!scene()) {
-        XCAL_WARN(OpenGLRender, Scene) << "scene is null";
+        _W("scene is null");
         return;
     }
     for (auto& obj : scene()->mobjects()) {

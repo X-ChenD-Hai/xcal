@@ -1,6 +1,9 @@
 #pragma once
+#include <public.h>
+
 #include <mobject/objects/line.hpp>
 #include <render/impl/opengl/object/object.hpp>
+
 namespace xcal::render::opengl::object {
 class Line : public xcal::render::opengl::object::Object {
    private:

@@ -1,4 +1,6 @@
 #pragma once
+#include <public.h>
+
 #include <memory>
 #include <mobject/core/mobject.hpp>
 #include <render/impl/opengl/core/typedef.hpp>
@@ -27,11 +29,7 @@ using object_ptr = std::unique_ptr<Object>;
 
 template <class T>
     requires std::is_base_of_v<mobject::MObject, T>
-xcal::render::opengl::object::object_ptr create(T* mobject) {
-    XCAL_WARN(OpenGLRender, Object)
-        << "UnImplemented MObject type: " << mobject;
-    return nullptr;
-}
+xcal::render::opengl::object::object_ptr create(T* mobject);
 
 object_ptr create(mobject::MObject* mobject);
 }  // namespace xcal::render::opengl::object
