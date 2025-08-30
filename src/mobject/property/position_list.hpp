@@ -1,6 +1,6 @@
 #pragma once
 #include <mobject/core/property.hpp>
-#include <mobject/properties/position.hpp>
+#include <mobject/property/position.hpp>
 #include <vector>
 
 namespace xcal::mobject::property {

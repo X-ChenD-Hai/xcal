@@ -6,10 +6,10 @@
 #include <mobject/core/property.hpp>
 
 // 属性模块
-#include <mobject/properties/color.hpp>
-#include <mobject/properties/position.hpp>
-#include <mobject/properties/position_list.hpp>
-#include <mobject/properties/scalar.hpp>
+#include <mobject/property/color.hpp>
+#include <mobject/property/position.hpp>
+#include <mobject/property/position_list.hpp>
+#include <mobject/property/scalar.hpp>
 
 // 图形对象模块
 #include <mobject/objects/circle.hpp>

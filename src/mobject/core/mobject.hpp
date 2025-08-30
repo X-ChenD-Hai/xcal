@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <mobject/core/abs_mobject.hpp>
-#include <mobject/properties/color.hpp>
-#include <mobject/properties/position.hpp>
-#include <mobject/properties/scalar.hpp>
+#include <mobject/property/color.hpp>
+#include <mobject/property/position.hpp>
+#include <mobject/property/scalar.hpp>
 
 namespace xcal::mobject {
 class MObject : public AbsMObject {

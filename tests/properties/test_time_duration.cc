@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mobject/properties/time_duration.hpp>
+#include <mobject/property/time_duration.hpp>
 
 /**
  * @brief 时间段属性测试套件

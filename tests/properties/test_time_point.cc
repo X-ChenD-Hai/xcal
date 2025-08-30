@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <mobject/properties/time_duration.hpp>
-#include <mobject/properties/time_point.hpp>
+#include <mobject/property/time_duration.hpp>
+#include <mobject/property/time_point.hpp>
 
 /**
  * @brief 时间点属性测试套件

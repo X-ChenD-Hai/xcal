@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 #include <mobject/core/property.hpp>
-#include <mobject/properties/time_duration.hpp>
+#include <mobject/property/time_duration.hpp>
 #include <string>
 
 namespace xcal::mobject::property {

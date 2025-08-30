@@ -1,6 +1,6 @@
 #pragma once
-#include <mobject/properties/time_duration.hpp>
-#include <mobject/properties/time_point.hpp>
+#include <mobject/property/time_duration.hpp>
+#include <mobject/property/time_point.hpp>
 #include <scene/scene.hpp>
 
 namespace xcal::render {
