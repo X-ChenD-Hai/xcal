@@ -15,3 +15,13 @@ typedef float GLclampf;
 typedef double GLdouble;
 typedef double GLclampd;
 typedef void GLvoid;
+
+namespace xcal::render::opengl::object {
+class Object;
+}
+namespace xcal::render::opengl::GL {
+class Shader;
+class ShaderProgram;
+class VertexArrayObject;
+class Buffer;
+}  // namespace xcal::render::opengl::GL

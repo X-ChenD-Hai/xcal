@@ -4,6 +4,7 @@
 #include <memory>
 #include <mobject/core/mobject.hpp>
 #include <render/impl/opengl/core/typedef.hpp>
+#include <render/impl/opengl/gl/vertexarrayobject.hpp>
 
 namespace xcal::render::opengl {
 class OpenGLRender;
@@ -13,12 +14,14 @@ class Object {
     friend class xcal::render::opengl::OpenGLRender;
 
    private:
-    GLuint id_ = 0;
+    GL::VertexArrayObject vao_;
 
    protected:
     virtual void create() = 0;
     virtual void destroy() = 0;
     virtual void render() = 0;
+
+    GL::VertexArrayObject& vao() { return vao_; }
 
    public:
     Object();

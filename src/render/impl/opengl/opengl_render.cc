@@ -38,14 +38,28 @@ void xcal::render::opengl::OpenGLRender::show() {
     }
     glfwMakeContextCurrent(window_);
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    for (auto& obj : objects_) obj.second->create();
+    _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
         render_frame();
     }
+    _I("show loop ended");
+    _I("destroying objects");
+    for (auto& obj : objects_) obj.second->destroy();
+    _I("objects destroyed ");
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    for (auto& obj : objects_) {
+        auto& obj_ptr = obj.second;
+        if (obj_ptr) {
+            obj_ptr->render();
+        }
+    }
+
     glfwSwapBuffers(window_);
 };
 void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
@@ -60,6 +74,11 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
         return;
     }
     for (auto& obj : scene()->mobjects()) {
-        objects_.insert({obj.get(), object::create(obj.get())});
+        auto obj_ptr = object::create(obj.get());
+        if (!obj_ptr) {
+            _E("Failed to create object for " << obj.get());
+            continue;
+        }
+        objects_.insert({obj.get(), std::move(obj_ptr)});
     }
 };

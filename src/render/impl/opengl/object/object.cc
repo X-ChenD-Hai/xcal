@@ -7,8 +7,7 @@
 #define LABEL Object
 #include <utils/logmacrohelper.inc>
 xcal::render::opengl::object::Object::Object() {
-    glGenBuffers(1, &id_);
-    glBindVertexArray(id_);
+
 };
 template <class T>
     requires std::is_base_of_v<xcal::mobject::MObject, T>
@@ -17,7 +16,7 @@ xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
     _E("UnImplemented MObject type: " << T::META_INFO::type_name);
     return nullptr;
 }
-xcal::render::opengl::object::Object::~Object() { glDeleteBuffers(1, &id_); };
+xcal::render::opengl::object::Object::~Object() {};
 xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
     xcal::mobject::MObject* mobject) {
     switch (mobject->type()) {
