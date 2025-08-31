@@ -6,7 +6,6 @@
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
 
-
 namespace xcal::render::opengl {
 class OpenGLRender;
 }

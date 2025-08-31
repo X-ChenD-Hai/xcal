@@ -21,10 +21,10 @@ void xcal::render::opengl::GL::ShaderProgram::link() {
     }
     _gl glLinkProgram(program_);
     _gl GLint ok;
-    _gl glGetProgramiv(program_,_gl GL_LINK_STATUS, &ok);
+    _gl glGetProgramiv(program_, _gl GL_LINK_STATUS, &ok);
     if (!ok) {
-       _gl GLint length;
-        _gl glGetProgramiv(program_,_gl GL_INFO_LOG_LENGTH, &length);
+        _gl GLint length;
+        _gl glGetProgramiv(program_, _gl GL_INFO_LOG_LENGTH, &length);
         std::string log(length, '\0');
         _gl glGetProgramInfoLog(program_, length, nullptr, log.data());
         _E("Failed to link program: " << program_ << " " << log);

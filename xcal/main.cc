@@ -3,7 +3,6 @@
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 
-
 int main(int argc, char **argv) {
     XCAL_INFO(XCAL, APP) << "app start";
     auto scene = std::make_unique<xcal::scene::Scene>();

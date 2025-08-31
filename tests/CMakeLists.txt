@@ -9,3 +9,4 @@ target_link_libraries(test_opengl PRIVATE
 add_subdirectory(scene)
 add_subdirectory(properties)
 add_subdirectory(mobject)
+add_subdirectory(camera)

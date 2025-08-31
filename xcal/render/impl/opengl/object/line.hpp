@@ -5,7 +5,6 @@
 #include <xcal/render/impl/opengl/gl/buffer.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 
-
 namespace xcal::render::opengl::object {
 class Line : public xcal::render::opengl::object::Object {
    private:

@@ -5,7 +5,6 @@
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/abs_mobject.hpp>
 
-
 namespace xcal::scene {
 
 /**
@@ -19,8 +18,8 @@ namespace xcal::scene {
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
 class AbsScene {
    private:
-    using object_t = ObjectPtr::element_type;                  ///< 对象类型定义
-    std::vector<ObjectPtr> mobjects_;                          ///< 对象指针列表
+    using object_t = ObjectPtr::element_type;  ///< 对象类型定义
+    std::vector<ObjectPtr> mobjects_;          ///< 对象指针列表
     std::vector<std::unique_ptr<camera::AbsCamera>> cameras_;  ///< 相机列表
 
    public:

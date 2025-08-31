@@ -3,7 +3,6 @@
 #include <xcal/property/time_point.hpp>
 #include <xcal/scene/scene.hpp>
 
-
 namespace xcal::render {
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
 class AbsRender {

@@ -8,6 +8,6 @@ class AbsCamera {
    public:
     AbsCamera() {};
     virtual ~AbsCamera() = default;
-    virtual xcmath::mat2x2f projection_matrix() const = 0;
+    virtual const xcmath::mat<float_t, 4, 4>& projection_matrix() const = 0;
 };
 }  // namespace xcal::camera

@@ -4,7 +4,6 @@
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 
-
 namespace xcal::render::opengl {
 class OpenGLRender : public xcal::render::Render {
    private:
