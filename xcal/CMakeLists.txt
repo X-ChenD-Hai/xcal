@@ -3,8 +3,9 @@ file(GLOB_RECURSE SOURCES *.cc)
 target_sources(xcal PRIVATE ${SOURCES})
 target_link_libraries(xcal PUBLIC
     xclogger::zmq_support
-    glad::glad
+    # glad::glad
     xcmath::xcmath
+    glbinding::glbinding glbinding::glbinding-aux
     glfw
 )
 

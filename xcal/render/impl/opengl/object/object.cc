@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 //
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>

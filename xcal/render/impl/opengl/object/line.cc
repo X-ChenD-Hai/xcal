@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 //
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
@@ -11,13 +11,32 @@ void xcal::render::opengl::object::Line::create() {
     _I("Create Line: " << mobject_);
     vao().bind();
     vbo_.bind();
-    std::array<float, 6> vertices = {
-        mobject_->start().x(), mobject_->start().y(), 0,
-        mobject_->end().x(),   mobject_->end().y(),   0};
+    std::array<float, 12> vertices = {
+        mobject_->start().x(),
+        mobject_->start().y(),
+        0,  //
+        mobject_->stroke_color().r(),
+        mobject_->stroke_color().g(),
+        mobject_->stroke_color().b(),  //
+        mobject_->end().x(),
+        mobject_->end().y(),
+        0,  //
+        mobject_->stroke_color().r(),
+        mobject_->stroke_color().g(),
+        mobject_->stroke_color().b(),  //
+    };
     vbo_.buffer_data(vertices.data(), vertices.size() * sizeof(float),
-                     GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+                     _gl GL_STATIC_DRAW);
+    _gl glEnableVertexAttribArray(0);
+    _gl glVertexAttribPointer(0, 3, _gl GL_FLOAT, _gl GL_FALSE,
+                              6 * sizeof(float),            // stride
+                              (void*)(0 * sizeof(float)));  // offset
+
+    // 颜色属性：location 1，每个顶点 3 个 float，offset 3*float
+    _gl glEnableVertexAttribArray(1);
+    _gl glVertexAttribPointer(1, 3, _gl GL_FLOAT, _gl GL_FALSE,
+                              6 * sizeof(float),            // stride
+                              (void*)(3 * sizeof(float)));  // offset
     shader_program_ = get_shader_program();
     _D("Line created: " << this << " from mobject: " << mobject_);
 };
@@ -29,10 +48,10 @@ void xcal::render::opengl::object::Line::destroy() {
 void xcal::render::opengl::object::Line::render() {
     vao().bind();
     shader_program_->use();
-    glDrawArrays(GL_LINES, 0, 2);
+    _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
-    : mobject_(mobject), vbo_(GL_ARRAY_BUFFER) {
+    : mobject_(mobject), vbo_(_gl GL_ARRAY_BUFFER) {
     _I("Create Line: " << this << " from mobject: " << mobject_);
 };
 
@@ -46,9 +65,9 @@ xcal::render::opengl::object::Line::get_shader_program() {
         auto tmp = std::make_shared<xcal::render::opengl::GL::ShaderProgram>();
         static_program = tmp;
         tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
-            GL_VERTEX_SHADER, "res/line.vs"));
+            _gl GL_VERTEX_SHADER, "res/line.vs"));
         tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
-            GL_FRAGMENT_SHADER, "res/line.fs"));
+            _gl GL_FRAGMENT_SHADER, "res/line.fs"));
         tmp->link();
         tmp->use();
         _D("Shader program created: " << tmp.get());

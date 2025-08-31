@@ -1,19 +1,19 @@
-#include <glad/glad.h>
-
+#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+//
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
 
 xcal::render::opengl::GL::VertexArrayObject::VertexArrayObject() {
-    glGenVertexArrays(1, &vao_);
+    _gl glGenVertexArrays(1, &vao_);
 };
 xcal::render::opengl::GL::VertexArrayObject::~VertexArrayObject() {
-    if (is_valid()) glDeleteVertexArrays(1, &vao_);
+    if (is_valid()) _gl glDeleteVertexArrays(1, &vao_);
     vao_ = 0;
 };
 void xcal::render::opengl::GL::VertexArrayObject::bind() {
-    glBindVertexArray(vao_);
+    _gl glBindVertexArray(vao_);
 };
 void xcal::render::opengl::GL::VertexArrayObject::unbind() {
-    glBindVertexArray(0);
+    _gl glBindVertexArray(0);
 };
 
 xcal::render::opengl::GL::VertexArrayObject &

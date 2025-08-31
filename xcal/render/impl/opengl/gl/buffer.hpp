@@ -7,9 +7,9 @@ class Buffer {
     friend class Object;
 
    private:
-    GLuint vbo_ = 0;
-    GLuint size_ = 0;
-    GLenum target_ = 0;
+    gl::GLuint vbo_ = 0;
+    gl::GLuint size_ = 0;
+    gl::GLenum target_{};
 
    private:
     Buffer(const Buffer &) = delete;
@@ -22,7 +22,7 @@ class Buffer {
     }
 
    public:
-    Buffer(GLenum target);
+    Buffer(gl::GLenum target);
     ~Buffer();
 
    public:
@@ -31,15 +31,15 @@ class Buffer {
         std::swap(vbo_, o.vbo_);
         std::swap(size_, o.size_);
     }
-    void bind_as(GLenum target);
+    void bind_as(gl::GLenum target);
     void bind();
-    void buffer_data(const void *data, GLuint size, GLenum usage);
+    void buffer_data(const void *data, gl::GLuint size, gl::GLenum usage);
     template <typename T>
-    void buffer_data(const std::vector<T> &data, GLenum usage) {
+    void buffer_data(const std::vector<T> &data, gl::GLenum usage) {
         buffer_data(data.data(), data.size() * sizeof(T), usage);
     }
     void get_buffer_data(std::vector<char> &data);
-    void get_buffer_data(std::vector<char> &data, GLenum target);
+    void get_buffer_data(std::vector<char> &data, gl::GLenum target);
     void destroy();
 };
 }  // namespace xcal::render::opengl::GL

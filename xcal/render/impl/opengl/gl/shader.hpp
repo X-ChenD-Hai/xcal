@@ -8,8 +8,8 @@ class Shader {
     friend class xcal::render::opengl::GL::ShaderProgram;
 
    private:
-    GLuint shader_ = 0;
-    GLenum type_ = 0;
+    gl::GLuint shader_ = 0;
+    gl::GLenum type_;
 
    private:
     Shader(const Shader &) = delete;
@@ -21,15 +21,17 @@ class Shader {
     }
 
    public:
-    Shader(GLenum type) : type_(type) {};
-    Shader(GLenum type, GLuint shader) : type_{type}, shader_(shader) {};
+    Shader(gl::GLenum type) : type_(type) {};
+    Shader(gl::GLenum type, gl::GLuint shader)
+        : type_{type}, shader_(shader) {};
     ~Shader() { destroy(); };
 
    public:
     bool is_valid() { return shader_ != 0; };
     void swap(Shader &o) { _STD swap(shader_, o.shader_); }
     void destroy();
-    static Shader from_source(GLenum type, std::string_view source);
-    static Shader from_file(GLenum type, std::string_view file_path);
+    static Shader from_source(gl::GLenum type, std::string_view source);
+    static Shader from_file(gl::GLenum type, std::string_view file_path);
 };
+
 }  // namespace xcal::render::opengl::GL

@@ -1,11 +1,20 @@
-#include <glad/glad.h>
+#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 //
 #include <GLFW/glfw3.h>
+#include <glbinding-aux/ContextInfo.h>
+#include <glbinding/glbinding.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/opengl_render.hpp>
+
 #define ROLE OpenGL
 #define LABEL OpenGLRender
+#include <xcal/utils/logmacrohelper.inc>
+void init_glbinding() {
+    glbinding::initialize(glfwGetProcAddress, false);
+    std::cout << "OpenGL context: "
+              << glbinding::aux::ContextInfo::version().toString() << '\n';
+}
 #include <xcal/utils/logmacrohelper.inc>
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
@@ -23,9 +32,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window_);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        _E("Failed to initialize GLAD");
-    }
+    init_glbinding();
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
@@ -37,7 +44,7 @@ void xcal::render::opengl::OpenGLRender::show() {
         return;
     }
     glfwMakeContextCurrent(window_);
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    _gl glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     for (auto& obj : objects_) obj.second->create();
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
@@ -51,7 +58,7 @@ void xcal::render::opengl::OpenGLRender::show() {
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(_gl GL_COLOR_BUFFER_BIT);
 
     for (auto& obj : objects_) {
         auto& obj_ptr = obj.second;

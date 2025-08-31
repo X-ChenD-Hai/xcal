@@ -8,7 +8,7 @@ class ShaderProgram {
     friend class Object;
 
    private:
-    GLuint program_ = 0;
+    gl::GLuint program_{};
 
    private:
     ShaderProgram(const ShaderProgram &) = delete;

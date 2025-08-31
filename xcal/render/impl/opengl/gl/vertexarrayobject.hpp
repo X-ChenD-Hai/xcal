@@ -13,12 +13,12 @@ class VertexArrayObject {
     VertexArrayObject &operator=(VertexArrayObject &&o);
 
    private:
-    GLuint vao_ = 0;
+    gl::GLuint vao_ = 0;
 
    private:
     VertexArrayObject();
     ~VertexArrayObject();
-    VertexArrayObject(GLuint vao) : vao_(vao) {}
+    VertexArrayObject(gl::GLuint vao) : vao_(vao) {}
 
    public:
     void bind();

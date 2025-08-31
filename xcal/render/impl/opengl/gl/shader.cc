@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 //
 #include <fstream>
 #include <xcal/render/impl/opengl/gl/shader.hpp>
@@ -8,25 +8,25 @@
 #include <xcal/utils/logmacrohelper.inc>
 
 xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_source(
-    GLenum type, std::string_view source) {
-    GLuint shader = glCreateShader(type);
+    _gl GLenum type, std::string_view source) {
+    _gl GLuint shader = _gl glCreateShader(type);
     const char *src = source.data();
-    glShaderSource(shader, 1, &src, nullptr);
-    glCompileShader(shader);
-    GLint status;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE) {
-        GLint length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+    _gl glShaderSource(shader, 1, &src, nullptr);
+    _gl glCompileShader(shader);
+    _gl GLint ok;
+    _gl glGetShaderiv(shader, _gl GL_COMPILE_STATUS, &ok);
+    if (!ok) {
+        _gl GLint length;
+        _gl glGetShaderiv(shader, _gl GL_INFO_LOG_LENGTH, &length);
         std::string log(length, '\0');
-        glGetShaderInfoLog(shader, length, nullptr, log.data());
+        _gl glGetShaderInfoLog(shader, length, nullptr, log.data());
         _E("Failed to compile shader: " << log);
         throw std::runtime_error(log);
     }
-    return Shader(type, shader);
+    return Shader{type, shader};
 }
 xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_file(
-    GLenum type, std::string_view file_path) {
+    _gl GLenum type, std::string_view file_path) {
     _I("Loading shader from file: " << file_path);
     std::ifstream file(file_path.data());
     if (!file.is_open()) {
@@ -41,7 +41,7 @@ xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_file(
 }
 void xcal::render::opengl::GL::Shader::destroy() {
     if (shader_ != 0) {
-        glDeleteShader(shader_);
+        _gl glDeleteShader(shader_);
         _I("Shader deleted: " << shader_);
     }
     shader_ = 0;
