@@ -64,8 +64,8 @@ TEST(TestPerspectiveCamera, ProjectionMatrixCalculation) {
     EXPECT_NE(P[0][0], 0.0f);
     EXPECT_NE(P[1][1], 0.0f);
     EXPECT_NE(P[2][2], 0.0f);
-    EXPECT_NE(P[3][2], 0.0f);
-    EXPECT_EQ(P[2][3], -1.0f);
+    EXPECT_NE(P[2][3], 0.0f);
+    EXPECT_EQ(P[3][2], -1.0f);
 
     // 验证透视投影矩阵的特定值
     // 对于 90° FOV, aspect=1, near=0.1, far=100
@@ -93,4 +93,65 @@ TEST(TestPerspectiveCamera, ViewMatrixLookAt) {
     // 对于标准look-at，Z轴应该指向相机前方
     EXPECT_NEAR(V[0][2], 0.0f, 1e-5f);
 }
+
+TEST(TestPerspectiveCamera, VPTransformWholeVectors_Strict) {
+    auto cam = std::make_unique<PerspectiveCamera>(60.0f,         // fovY
+                                                   16.0f / 9.0f,  // aspect
+                                                   0.1f,          // near
+                                                   100.0f);       // far
+
+    cam->position() = {0, 0, -5};
+    cam->target() = {0, 0, 0};
+    cam->up() = {0, 1, 0};
+
+    const auto& V = cam->view_matrix();
+    const auto& P = cam->projection_matrix();
+    const auto VP = P ^ V;
+    const auto VP_inv = VP.inv();
+
+    // 预计算常用量
+    const float n = 0.1f;
+    const float f = 100.0f;
+    const float a = 16.0f / 9.0f;
+    const float tanHalf = std::tan(60.0f * 0.5f * float(xcmath::PI) / 180.0f);
+    const float halfH = n * tanHalf;
+    const float halfW = a * halfH;
+
+    auto worldFromNDC = [&](float x_ndc, float y_ndc,
+                            float z_ndc) -> xcmath::vec<float_t, 3> {
+        // Compute clip_w from depth value
+        float clip_w = (2.0f * f * n) / (f + n - z_ndc * (f - n));
+
+        // Reconstruct clip space coordinates
+        float clip_x = x_ndc * clip_w;
+        float clip_y = y_ndc * clip_w;
+        float clip_z = z_ndc * clip_w;
+
+        // Transform clip space to world space using inverse VP matrix
+        xcmath::vec<float_t, 4> clip{clip_x, clip_y, clip_z, clip_w};
+        xcmath::vec<float_t, 4> world4 = VP_inv ^ clip;
+        return world4.xyz() / world4.w();
+    };
+
+    // 27 点格网测试
+    for (int iz = -1; iz <= 1; ++iz) {
+        for (int iy = -1; iy <= 1; ++iy) {
+            for (int ix = -1; ix <= 1; ++ix) {
+                xcmath::vec<float_t, 3> ndc{float(ix), float(iy), float(iz)};
+                auto world = worldFromNDC(ndc.x(), ndc.y(), ndc.z());
+
+                // 正向再变换一次
+                xcmath::vec<float_t, 4> clip =
+                    VP ^ xcmath::vec<float_t, 4>{world.x(), world.y(),
+                                                 world.z(), 1.0f};
+                xcmath::vec<float_t, 3> back = clip.xyz() / clip.w();
+
+                EXPECT_NEAR(back.x(), ndc.x(), 1e-4f);
+                EXPECT_NEAR(back.y(), ndc.y(), 1e-4f);
+                EXPECT_NEAR(back.z(), ndc.z(), 1e-4f);
+            }
+        }
+    }
+}
+
 }  // namespace xcal::camera
