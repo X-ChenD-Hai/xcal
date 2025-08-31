@@ -4,7 +4,6 @@
 #include <xcal/property/core/property.hpp>
 #include <xcal/property/time_duration.hpp>
 
-
 namespace xcal::property {
 
 /**
@@ -16,7 +15,7 @@ namespace xcal::property {
 class TimePoint : public MProperty {
     XCAL_PROPERTY_TYPE(TimePoint)
    private:
-    Proxy<size_t> microseconds_since_epoch_{0, this};  ///< 从纪元开始的微秒数
+    Proxy<size_t> microseconds_since_epoch_{this, 0};  ///< 从纪元开始的微秒数
 
    public:
     /**

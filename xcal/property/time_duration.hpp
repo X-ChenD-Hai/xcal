@@ -2,7 +2,6 @@
 #include <string>
 #include <xcal/property/core/property.hpp>
 
-
 namespace xcal::property {
 
 /**
@@ -14,7 +13,7 @@ namespace xcal::property {
 class TimeDuration : public MProperty {
     XCAL_PROPERTY_TYPE(TimeDuration)
    private:
-    Proxy<size_t> microseconds_{0, this};  ///< 微秒值
+    Proxy<size_t> microseconds_{this, 0};  ///< 微秒值
 
    public:
     /**

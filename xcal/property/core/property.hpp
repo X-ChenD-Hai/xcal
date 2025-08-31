@@ -17,6 +17,7 @@ enum class Type {
     Color,
     TimeDuration,
     TimePoint,
+    Vec,
     User,
 };
 
@@ -24,7 +25,7 @@ class MProperty {
     virtual Type type_() const = 0;
 
    private:
-    bool_t is_changed_{true};
+    mutable bool_t is_changed_{true};
 
    protected:
     template <typename T>
@@ -36,15 +37,15 @@ class MProperty {
        public:
         template <typename... Args>
             requires(std::is_constructible_v<T, Args...>)
-        Proxy(Args &&...args, MProperty *self)
+        Proxy(MProperty *self, Args &&...args)
             : value_(std::forward<Args>(args)...) {
             proxy_to_self_[this] = self;
         }
 
-        Proxy(T &&value, MProperty *self) : value_(std::move(value)) {
+        Proxy(MProperty *self, T &&value) : value_(std::move(value)) {
             proxy_to_self_[this] = self;
         }
-        Proxy(const T &value, MProperty *self) : value_(value) {
+        Proxy(MProperty *self, const T &value) : value_(value) {
             proxy_to_self_[this] = self;
         }
         void on_changed() {
@@ -121,8 +122,8 @@ class MProperty {
 
    public:
     bool_t is_changed() const { return is_changed_; }
-    void set_changed() { is_changed_ = true; }
-    void reset_changed() { is_changed_ = false; }
+    void set_changed() const { is_changed_ = true; }
+    void reset_changed() const { is_changed_ = false; }
     Type type() const { return type_(); };
     virtual ~MProperty() = default;
 };

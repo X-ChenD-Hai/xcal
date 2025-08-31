@@ -3,7 +3,6 @@
 #include <string>
 #include <xcal/property/core/property.hpp>
 
-
 namespace xcal::property {
 
 /**
@@ -15,8 +14,8 @@ namespace xcal::property {
 class Color : public MProperty {
     XCAL_PROPERTY_TYPE(Color)
    private:
-    Proxy<std::array<float_t, 4>> data_ = {{0.0, 0.0, 0.0, 1.0},
-                                           this};  ///< RGBA 颜色数据
+    Proxy<std::array<float_t, 4>> data_{
+        this, {0.0, 0.0, 0.0, 1.0}};  ///< RGBA 颜色数据
 
    public:
     /**
@@ -32,9 +31,8 @@ class Color : public MProperty {
      * @param b 蓝色分量 (0.0-1.0)
      * @param a 透明度分量 (0.0-1.0)，默认为 1.0（不透明）
      */
-    Color(float_t r, float_t g, float_t b, float_t a = 1.0) {
-        data_ = {{r, g, b, a}};
-    }
+    Color(float_t r, float_t g, float_t b, float_t a = 1.0)
+        : MProperty(), data_{this, {r, g, b, a}} {}
 
     /**
      * @brief 获取红色分量（只读）
