@@ -1,10 +1,10 @@
 #pragma once
 #include <chrono>
-#include <mobject/core/property.hpp>
-#include <mobject/property/time_duration.hpp>
+#include <property/core/property.hpp>
+#include <property/time_duration.hpp>
 #include <string>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 /**
  * @brief 时间点属性类
@@ -186,4 +186,4 @@ class TimePoint : public MProperty {
     }
 };
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

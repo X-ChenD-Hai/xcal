@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
-#include <mobject/core/property.hpp>
+#include <property/core/property.hpp>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 class Position : public MProperty {
     XCAL_PROPERTY_TYPE(Position)
@@ -31,4 +31,4 @@ class ThreeDPosition : public Position {
     float_t &z() { return z_; }
 };
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

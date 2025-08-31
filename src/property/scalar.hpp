@@ -1,7 +1,7 @@
 #pragma once
-#include <mobject/core/property.hpp>
+#include <property/core/property.hpp>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 class Scalar : public MProperty {
     XCAL_PROPERTY_TYPE(Scalar)
@@ -25,4 +25,4 @@ class Scalar : public MProperty {
 #undef XCAL_SCALAR_OPERATOR
 };
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

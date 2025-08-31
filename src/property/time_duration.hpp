@@ -1,8 +1,8 @@
 #pragma once
-#include <mobject/core/property.hpp>
+#include <property/core/property.hpp>
 #include <string>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 /**
  * @brief 时间段属性类
@@ -256,4 +256,4 @@ class TimeDuration : public MProperty {
     }
 };
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

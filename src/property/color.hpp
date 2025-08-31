@@ -1,9 +1,9 @@
 #pragma once
 #include <array>
-#include <mobject/core/property.hpp>
+#include <property/core/property.hpp>
 #include <string>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 /**
  * @brief 颜色属性类
@@ -126,4 +126,4 @@ class Color : public MProperty {
     static Color from_hex(const std::string &hex);
 };
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

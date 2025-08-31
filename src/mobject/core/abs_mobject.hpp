@@ -2,7 +2,7 @@
 #include <public.h>
 
 #include <mobject/core/mobject_types.hpp>
-#include <mobject/core/property.hpp>
+#include <property/core/property.hpp>
 
 namespace xcal::mobject {
 

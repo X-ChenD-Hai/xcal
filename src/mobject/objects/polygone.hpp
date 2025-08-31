@@ -1,6 +1,6 @@
 #pragma once
 #include <mobject/core/mobject.hpp>
-#include <mobject/property/position_list.hpp>
+#include <property/position_list.hpp>
 
 namespace xcal::mobject {
 

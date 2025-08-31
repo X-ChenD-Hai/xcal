@@ -1,9 +1,9 @@
 #pragma once
-#include <mobject/core/property.hpp>
-#include <mobject/property/position.hpp>
+#include <property/core/property.hpp>
+#include <property/position.hpp>
 #include <vector>
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 template <typename __ItemType, Type __Type>
 class _PositionList : public MProperty {
@@ -31,4 +31,4 @@ using PositionList = _PositionList<Position, Type::PositionList>;
 using ThreeDPositionList =
     _PositionList<ThreeDPosition, Type::ThreeDPositionList>;
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

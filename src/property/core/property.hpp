@@ -6,7 +6,7 @@
 #define XCAL_PROPERTY_TYPE(type) \
     virtual Type type_() const override { return Type::type; }
 
-namespace xcal::mobject::property {
+namespace xcal::property {
 
 enum class Type {
     Position,
@@ -129,4 +129,4 @@ class MProperty {
 template <typename T>
 std::unordered_map<void *, MProperty *> MProperty::Proxy<T>::proxy_to_self_{};
 
-}  // namespace xcal::mobject::property
+}  // namespace xcal::property

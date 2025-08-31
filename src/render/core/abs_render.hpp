@@ -1,7 +1,8 @@
 #pragma once
-#include <mobject/property/time_duration.hpp>
-#include <mobject/property/time_point.hpp>
+#include <property/time_point.hpp>
+#include <property/time_duration.hpp>
 #include <scene/scene.hpp>
+
 
 namespace xcal::render {
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
