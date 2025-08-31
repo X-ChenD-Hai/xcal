@@ -63,14 +63,15 @@ cmake --build build --target format-code
 ### 命名约定
 项目遵循 Google C++ 风格指南：
 - **类名**: PascalCase (如 `MObject`, `Scene`)
-- **函数名**: camelCase (如 `calculatePosition`, `renderScene`) 
+- **函数名**: snake_case (如 `calculatePosition`, `renderScene`) 
 - **变量名**: snake_case (如 `position_list`, `color_value`)
+- **私有成员变量**: snake_case_
 - **常量名**: UPPER_SNAKE_CASE (如 `MAX_OBJECTS`, `DEFAULT_COLOR`)
+- **编译期常量名**: kPascalCase (如 `kTypeName`, `kEnumString`)
 
 ### 头文件组织
 - 使用 `#pragma once` 防止重复包含
 - 头文件按功能模块组织在相应目录中
-- 公共接口放在 `src/public.h` 中
 
 ## 提交贡献流程
 
