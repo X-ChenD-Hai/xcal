@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <property/time_duration.hpp>
+#include <xcal/property/time_duration.hpp>
 
 /**
  * @brief 时间段属性测试套件
@@ -21,8 +21,7 @@ TEST(TestTimeDuration, CreateWithDefaultValues) {
 TEST(TestTimeDuration, CreateFromMicroseconds) {
     // 测试从微秒创建
     xcal::property::TimeDuration duration =
-        xcal::property::TimeDuration::from_microseconds(
-            1500000u);  // 1.5秒
+        xcal::property::TimeDuration::from_microseconds(1500000u);  // 1.5秒
 
     EXPECT_EQ(duration.microseconds(), 1500000u);
     EXPECT_EQ(duration.milliseconds(), 1500u);
@@ -40,12 +39,10 @@ TEST(TestTimeDuration, CreateFromFloatSeconds) {
 
 TEST(TestTimeDuration, StaticFactoryMethods) {
     // 测试静态工厂方法
-    auto fromUs =
-        xcal::property::TimeDuration::from_microseconds(500000u);
+    auto fromUs = xcal::property::TimeDuration::from_microseconds(500000u);
     EXPECT_EQ(fromUs.microseconds(), 500000u);
 
-    auto fromMs =
-        xcal::property::TimeDuration::from_milliseconds(2500u);
+    auto fromMs = xcal::property::TimeDuration::from_milliseconds(2500u);
     EXPECT_EQ(fromMs.milliseconds(), 2500u);
     EXPECT_EQ(fromMs.microseconds(), 2500000u);
 
@@ -84,11 +81,9 @@ TEST(TestTimeDuration, SetterMethods) {
 TEST(TestTimeDuration, ArithmeticOperations) {
     // 测试算术运算
     xcal::property::TimeDuration d1 =
-        xcal::property::TimeDuration::from_microseconds(
-            1000000u);  // 1秒
+        xcal::property::TimeDuration::from_microseconds(1000000u);  // 1秒
     xcal::property::TimeDuration d2 =
-        xcal::property::TimeDuration::from_microseconds(
-            500000u);  // 0.5秒
+        xcal::property::TimeDuration::from_microseconds(500000u);  // 0.5秒
 
     // 加法
     auto sum = d1 + d2;
@@ -110,14 +105,11 @@ TEST(TestTimeDuration, ArithmeticOperations) {
 TEST(TestTimeDuration, ComparisonOperations) {
     // 测试比较运算
     xcal::property::TimeDuration d1 =
-        xcal::property::TimeDuration::from_microseconds(
-            1000000u);  // 1秒
+        xcal::property::TimeDuration::from_microseconds(1000000u);  // 1秒
     xcal::property::TimeDuration d2 =
-        xcal::property::TimeDuration::from_microseconds(
-            2000000u);  // 2秒
+        xcal::property::TimeDuration::from_microseconds(2000000u);  // 2秒
     xcal::property::TimeDuration d3 =
-        xcal::property::TimeDuration::from_microseconds(
-            1000000u);  // 1秒
+        xcal::property::TimeDuration::from_microseconds(1000000u);  // 1秒
 
     EXPECT_TRUE(d1 == d3);
     EXPECT_TRUE(d1 != d2);
@@ -132,14 +124,11 @@ TEST(TestTimeDuration, ComparisonOperations) {
 TEST(TestTimeDuration, ToStringConversion) {
     // 测试字符串转换
     xcal::property::TimeDuration micro =
-        xcal::property::TimeDuration::from_microseconds(
-            500u);  // 500微秒
+        xcal::property::TimeDuration::from_microseconds(500u);  // 500微秒
     xcal::property::TimeDuration milli =
-        xcal::property::TimeDuration::from_microseconds(
-            1500u);  // 1.5毫秒
+        xcal::property::TimeDuration::from_microseconds(1500u);  // 1.5毫秒
     xcal::property::TimeDuration sec =
-        xcal::property::TimeDuration::from_microseconds(
-            2500000u);  // 2.5秒
+        xcal::property::TimeDuration::from_microseconds(2500000u);  // 2.5秒
 
     EXPECT_TRUE(micro.to_string().find("us") != std::string::npos);
     EXPECT_TRUE(milli.to_string().find("ms") != std::string::npos);

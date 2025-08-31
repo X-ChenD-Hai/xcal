@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <mobject/objects/circle.hpp>
-#include <mobject/objects/rectangle.hpp>
-#include <scene/scene.hpp>
+#include <xcal/mobject/objects/circle.hpp>
+#include <xcal/mobject/objects/rectangle.hpp>
+#include <xcal/scene/scene.hpp>
 
 /**
  * @brief 场景管理测试套件

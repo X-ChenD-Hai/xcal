@@ -218,9 +218,9 @@ cmake --build build --target format-code
 ```cpp
 #pragma once  // 必须使用
 
-#include <public.h>
+#include <xcal/public.h>
 #include <memory>
-#include <mobject/core/abs_mobject.hpp>
+#include <xcal/mobject/core/abs_mobject.hpp>
 
 namespace xcal::mobject {
 class YourClass : public BaseClass {
@@ -251,7 +251,7 @@ float_t calculateDistance(const Position& p1, const Position& p2);
 ### 测试示例
 ```cpp
 #include <gtest/gtest.h>
-#include <mobject/objects/circle.hpp>
+#include <xcal/mobject/objects/circle.hpp>
 
 TEST(TestCircle, CreateAndValidate) {
     auto circle = std::make_unique<Circle>(Position{0, 0}, 5.0f);

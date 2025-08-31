@@ -10,11 +10,11 @@ enable_testing()
 
 find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(BUILD_TESTING OFF)
 add_subdirectory(third_party/xcmath)
 unset(BUILD_TESTING)
-add_subdirectory(src)
+add_subdirectory(xcal)
 add_subdirectory(tests)
 
 # 代码格式化目标

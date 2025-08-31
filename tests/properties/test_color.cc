@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <property/color.hpp>
+#include <xcal/property/color.hpp>
 
 /**
  * @brief 颜色属性测试套件

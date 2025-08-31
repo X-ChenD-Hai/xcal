@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <property/time_duration.hpp>
-#include <property/time_point.hpp>
+#include <xcal/property/time_duration.hpp>
+#include <xcal/property/time_point.hpp>
 
 /**
  * @brief 时间点属性测试套件
@@ -37,8 +37,7 @@ TEST(TestTimePoint, SetterMethods) {
 
 TEST(TestTimePoint, NowMethod) {
     // 测试获取当前时间点
-    xcal::property::TimePoint now =
-        xcal::property::TimePoint::now();
+    xcal::property::TimePoint now = xcal::property::TimePoint::now();
 
     // 当前时间应该大于纪元时间
     EXPECT_GT(now.microseconds_since_epoch(), 0u);
@@ -51,8 +50,7 @@ TEST(TestTimePoint, TimePointArithmetic) {
     tp1.set_microseconds_since_epoch(1000000u);  // 1秒从纪元开始
 
     xcal::property::TimeDuration duration =
-        xcal::property::TimeDuration::from_microseconds(
-            500000u);  // 0.5秒
+        xcal::property::TimeDuration::from_microseconds(500000u);  // 0.5秒
 
     // 时间点加法
     auto later = tp1 + duration;

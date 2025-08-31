@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mobject/objects/circle.hpp>
+#include <xcal/mobject/objects/circle.hpp>
 
 /**
  * @brief 圆形对象测试套件
