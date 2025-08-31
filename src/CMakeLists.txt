@@ -4,6 +4,7 @@ target_sources(xcal PRIVATE ${SOURCES})
 target_link_libraries(xcal PUBLIC
     xclogger::zmq_support
     glad::glad
+    xcmath::xcmath
     glfw
 )
 
