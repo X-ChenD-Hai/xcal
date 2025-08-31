@@ -1,7 +1,10 @@
-#include <glad/glad.h>
-//
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif  //
 #include <render/impl/opengl/gl/shader.hpp>
 #include <render/impl/opengl/gl/shaderprogram.hpp>
+using namespace ::gl;  //
 
 #define ROLE GL
 #define LABEL ShaderProgram
@@ -20,9 +23,9 @@ void xcal::render::opengl::GL::ShaderProgram::link() {
         throw std::runtime_error("program not created");
     }
     glLinkProgram(program_);
-    GLint status;
-    glGetProgramiv(program_, GL_LINK_STATUS, &status);
-    if (status == GL_FALSE) {
+    GLint ok;
+    glGetProgramiv(program_, GL_LINK_STATUS, &ok);
+    if (!ok) {
         GLint length;
         glGetProgramiv(program_, GL_INFO_LOG_LENGTH, &length);
         std::string log(length, '\0');

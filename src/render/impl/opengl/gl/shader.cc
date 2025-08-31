@@ -1,5 +1,8 @@
-#include <glad/glad.h>
-//
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif                 //
+using namespace ::gl;  //
 #include <fstream>
 #include <render/impl/opengl/gl/shader.hpp>
 
@@ -13,9 +16,9 @@ xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_source(
     const char *src = source.data();
     glShaderSource(shader, 1, &src, nullptr);
     glCompileShader(shader);
-    GLint status;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE) {
+    GLint ok;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+    if (!ok) {
         GLint length;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
         std::string log(length, '\0');

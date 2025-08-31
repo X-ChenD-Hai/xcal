@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 
-find_package(glad REQUIRED)
+# find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(glbinding CONFIG REQUIRED)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_subdirectory(src)

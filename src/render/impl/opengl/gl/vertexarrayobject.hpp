@@ -2,7 +2,7 @@
 #include <public.h>
 
 #include <render/impl/opengl/core/typedef.hpp>
-
+using namespace gl;
 namespace xcal::render::opengl::GL {
 class VertexArrayObject {
     friend class ::xcal::render::opengl::object::Object;

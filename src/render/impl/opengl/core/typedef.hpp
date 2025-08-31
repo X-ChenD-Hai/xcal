@@ -1,7 +1,10 @@
+#pragma once
 typedef struct GLFWwindow GLFWwindow;
-
-typedef unsigned int GLenum;
-typedef unsigned char GLboolean;
+namespace glbinding {
+class GLboolean;
+};
+namespace gl {
+enum class GLenum : unsigned int;
 typedef unsigned int GLbitfield;
 typedef signed char GLbyte;
 typedef short GLshort;
@@ -15,6 +18,7 @@ typedef float GLclampf;
 typedef double GLdouble;
 typedef double GLclampd;
 typedef void GLvoid;
+}  // namespace gl
 
 namespace xcal::render::opengl::object {
 class Object;

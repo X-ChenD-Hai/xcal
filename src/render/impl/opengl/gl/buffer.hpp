@@ -1,6 +1,7 @@
 #include <public.h>
 
 #include <render/impl/opengl/core/typedef.hpp>
+using namespace gl;
 namespace xcal::render::opengl::GL {
 
 class Buffer {
@@ -9,7 +10,7 @@ class Buffer {
    private:
     GLuint vbo_ = 0;
     GLuint size_ = 0;
-    GLenum target_ = 0;
+    GLenum target_{};
 
    private:
     Buffer(const Buffer &) = delete;

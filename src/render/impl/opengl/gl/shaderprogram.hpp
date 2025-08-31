@@ -2,13 +2,14 @@
 #include <public.h>
 
 #include <render/impl/opengl/core/typedef.hpp>
+using namespace gl;
 namespace xcal::render::opengl::GL {
 
 class ShaderProgram {
     friend class Object;
 
    private:
-    GLuint program_ = 0;
+    GLuint program_{};
 
    private:
     ShaderProgram(const ShaderProgram &) = delete;

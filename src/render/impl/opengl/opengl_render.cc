@@ -1,13 +1,23 @@
-#include <glad/glad.h>
-//
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif  //
 #include <GLFW/glfw3.h>
+#include <glbinding-aux/ContextInfo.h>
+#include <glbinding/glbinding.h>
 #include <public.h>
 
 #include <render/impl/opengl/opengl_render.hpp>
+using namespace ::gl;
+
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <utils/logmacrohelper.inc>
-
+void init_glbinding() {
+    glbinding::initialize(glfwGetProcAddress, false);
+    std::cout << "OpenGL context: "
+              << glbinding::aux::ContextInfo::version().toString() << '\n';
+}
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene) {
     _I("OpenGLRender created: " _SELF);
@@ -23,9 +33,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window_);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        _E("Failed to initialize GLAD");
-    }
+    init_glbinding();
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {

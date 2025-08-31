@@ -1,13 +1,16 @@
-#include <glad/glad.h>
-//
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif  //
 #include <render/impl/opengl/gl/buffer.hpp>
+using namespace ::gl;
 
 xcal::render::opengl::GL::Buffer::Buffer(GLenum target) : target_(target) {}
 xcal::render::opengl::GL::Buffer::~Buffer() {
     if (is_valid()) glDeleteBuffers(1, &vbo_);
     vbo_ = 0;
     size_ = 0;
-    target_ = 0;
+    target_ = GLenum{};
 }
 void xcal::render::opengl::GL::Buffer::bind() { glBindBuffer(target_, vbo_); };
 

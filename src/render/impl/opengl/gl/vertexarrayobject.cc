@@ -1,6 +1,9 @@
-#include <glad/glad.h>
-
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif  //
 #include <render/impl/opengl/gl/vertexarrayobject.hpp>
+using namespace ::gl;
 
 xcal::render::opengl::GL::VertexArrayObject::VertexArrayObject() {
     glGenVertexArrays(1, &vao_);

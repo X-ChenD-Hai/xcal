@@ -1,8 +1,11 @@
-#include <glad/glad.h>
-//
+#include <glbinding/gl/gl.h>
+#ifndef __gl_h_
+#define __gl_h_
+#endif  //
 #include <render/impl/opengl/gl/shader.hpp>
 #include <render/impl/opengl/gl/shaderprogram.hpp>
 #include <render/impl/opengl/object/line.hpp>
+using namespace ::gl;  //
 
 #define ROLE OpenGLObject
 #define LABEL Line
@@ -11,13 +14,32 @@ void xcal::render::opengl::object::Line::create() {
     _I("Create Line: " << mobject_);
     vao().bind();
     vbo_.bind();
-    std::array<float, 6> vertices = {
-        mobject_->start().x(), mobject_->start().y(), 0,
-        mobject_->end().x(),   mobject_->end().y(),   0};
+    std::array<float, 12> vertices = {
+        mobject_->start().x(),
+        mobject_->start().y(),
+        0,  //
+        mobject_->stroke_color().r(),
+        mobject_->stroke_color().g(),
+        mobject_->stroke_color().b(),  //
+        mobject_->end().x(),
+        mobject_->end().y(),
+        0,  //
+        mobject_->stroke_color().r(),
+        mobject_->stroke_color().g(),
+        mobject_->stroke_color().b(),  //
+    };
     vbo_.buffer_data(vertices.data(), vertices.size() * sizeof(float),
                      GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                          6 * sizeof(float),            // stride
+                          (void*)(0 * sizeof(float)));  // offset
+
+    // 颜色属性：location 1，每个顶点 3 个 float，offset 3*float
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+                          6 * sizeof(float),            // stride
+                          (void*)(3 * sizeof(float)));  // offset
     shader_program_ = get_shader_program();
     _D("Line created: " << this << " from mobject: " << mobject_);
 };
