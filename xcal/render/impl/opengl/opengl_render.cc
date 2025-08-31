@@ -1,12 +1,15 @@
 #include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 //
+#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
 #include <glbinding-aux/ContextInfo.h>
 #include <glbinding/glbinding.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/opengl_render.hpp>
-
+#include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
+#undef OUT // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
@@ -32,6 +35,9 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window_);
+    if (!enable_window_dark_titlebar(window_)) {
+        _D("Failed to enable dark titlebar");
+    }
     init_glbinding();
     setup_scene();
 }
@@ -58,7 +64,7 @@ void xcal::render::opengl::OpenGLRender::show() {
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
-    glClear(_gl GL_COLOR_BUFFER_BIT);
+    _gl glClear(_gl GL_COLOR_BUFFER_BIT);
 
     for (auto& obj : objects_) {
         auto& obj_ptr = obj.second;
