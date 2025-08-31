@@ -20,7 +20,7 @@ echo "clang-format path: $clang_format_path"
 echo "source path: $source_path"
 
 # 要扫描的目录列表
-for dir in src tests; do
+for dir in xcal tests; do
     search_dirs="$search_dirs $source_path/$dir"
 done
 
