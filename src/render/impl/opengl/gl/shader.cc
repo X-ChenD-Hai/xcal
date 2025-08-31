@@ -1,8 +1,5 @@
-#include <glbinding/gl/gl.h>
-#ifndef __gl_h_
-#define __gl_h_
-#endif                 //
-using namespace ::gl;  //
+#include <render/impl/opengl/utils/glbindingincludehelper.inc>
+//
 #include <fstream>
 #include <render/impl/opengl/gl/shader.hpp>
 
@@ -12,17 +9,17 @@ using namespace ::gl;  //
 
 xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_source(
     GLenum type, std::string_view source) {
-    GLuint shader = glCreateShader(type);
+    GLuint shader = _gl glCreateShader(type);
     const char *src = source.data();
-    glShaderSource(shader, 1, &src, nullptr);
-    glCompileShader(shader);
+    _gl glShaderSource(shader, 1, &src, nullptr);
+    _gl glCompileShader(shader);
     GLint ok;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+    _gl glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
     if (!ok) {
         GLint length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+        _gl glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
         std::string log(length, '\0');
-        glGetShaderInfoLog(shader, length, nullptr, log.data());
+        _gl glGetShaderInfoLog(shader, length, nullptr, log.data());
         _E("Failed to compile shader: " << log);
         throw std::runtime_error(log);
     }
@@ -44,7 +41,7 @@ xcal::render::opengl::GL::Shader xcal::render::opengl::GL::Shader::from_file(
 }
 void xcal::render::opengl::GL::Shader::destroy() {
     if (shader_ != 0) {
-        glDeleteShader(shader_);
+        _gl glDeleteShader(shader_);
         _I("Shader deleted: " << shader_);
     }
     shader_ = 0;

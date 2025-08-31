@@ -1,11 +1,8 @@
-#include <glbinding/gl/gl.h>
-#ifndef __gl_h_
-#define __gl_h_
-#endif  //
+#include <render/impl/opengl/utils/glbindingincludehelper.inc>
+//
 #include <mobject/mobject_all.hpp>
 #include <render/impl/opengl/object/line.hpp>
 #include <render/impl/opengl/object/object.hpp>
-using namespace ::gl;
 
 #define ROLE OpenGLRender
 #define LABEL Object
