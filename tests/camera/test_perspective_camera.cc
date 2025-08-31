@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
-#include <xcal/camera/core/perspectivecamera.hpp>
+#include <xcal/camera/perspectivecamera.hpp>
 
 /**
  * @brief PerspectiveCamera 测试套件
