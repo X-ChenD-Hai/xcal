@@ -1,3 +1,6 @@
 [submodule "third_party/xcmath"]
 	path = third_party/xcmath
 	url = https://github.com/X-ChenD-Hai/xcmath.git
+[submodule "third_party/xclogger"]
+	path = third_party/xclogger
+	url = https://github.com/X-ChenD-Hai/xclogger.git
