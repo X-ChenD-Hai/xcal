@@ -26,20 +26,22 @@ class Buffer {
     ~Buffer();
 
    public:
-    bool is_valid() { return vbo_ != 0; };
+    bool is_valid() const { return vbo_ != 0; };
+    void bind_as(gl::GLenum target) const;
+    void bind() const;
+    void get_buffer_data(std::vector<char> &data) const;
+    void get_buffer_data(std::vector<char> &data, gl::GLenum target) const;
+
+   public:
     void swap(Buffer &o) {
         std::swap(vbo_, o.vbo_);
         std::swap(size_, o.size_);
     }
-    void bind_as(gl::GLenum target);
-    void bind();
     void buffer_data(const void *data, gl::GLuint size, gl::GLenum usage);
     template <typename T>
     void buffer_data(const std::vector<T> &data, gl::GLenum usage) {
         buffer_data(data.data(), data.size() * sizeof(T), usage);
     }
-    void get_buffer_data(std::vector<char> &data);
-    void get_buffer_data(std::vector<char> &data, gl::GLenum target);
     void destroy();
 };
 }  // namespace xcal::render::opengl::GL

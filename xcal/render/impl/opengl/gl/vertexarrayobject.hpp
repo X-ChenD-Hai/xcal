@@ -21,9 +21,11 @@ class VertexArrayObject {
     VertexArrayObject(gl::GLuint vao) : vao_(vao) {}
 
    public:
-    void bind();
-    void unbind();
-    bool is_valid() { return vao_ != 0; };
+    void bind() const;
+    void unbind() const;
+    bool is_valid() const { return vao_ != 0; };
+
+   public:
     void swap(VertexArrayObject &o) { std::swap(vao_, o.vao_); }
 };
 }  // namespace xcal::render::opengl::GL

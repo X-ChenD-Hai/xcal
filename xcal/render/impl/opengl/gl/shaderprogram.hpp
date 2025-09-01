@@ -1,9 +1,10 @@
 #pragma once
+#include <glbinding/gl/types.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>
+#include <xcmath/xcmath.hpp>
 namespace xcal::render::opengl::GL {
-
 class ShaderProgram {
     friend class Object;
 
@@ -24,11 +25,18 @@ class ShaderProgram {
     ~ShaderProgram() { destroy(); };
 
    public:
-    bool is_valid() { return program_ != 0; };
-    void swap(ShaderProgram &o) { _STD swap(program_, o.program_); }
+   public:
+    bool is_valid() const { return program_ != 0; };
     void atttach_shader(const Shader &shader);
+    void use() const;
+    void uniform(const char *name,
+                 const xcmath::mat<gl::GLfloat, 4, 4> &mat) const;
+    void uniform(const char *name,
+                 const xcmath::mat<gl::GLfloat, 3, 3> &mat) const;
+
+   public:
+    void swap(ShaderProgram &o) { _STD swap(program_, o.program_); }
     void link();
-    void use();
     void destroy();
 };
 }  // namespace xcal::render::opengl::GL

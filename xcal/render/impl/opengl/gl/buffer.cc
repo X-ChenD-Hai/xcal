@@ -9,11 +9,11 @@ xcal::render::opengl::GL::Buffer::~Buffer() {
     size_ = 0;
     target_ = _gl GLenum{};
 }
-void xcal::render::opengl::GL::Buffer::bind() {
+void xcal::render::opengl::GL::Buffer::bind() const {
     _gl glBindBuffer(target_, vbo_);
 };
 
-void xcal::render::opengl::GL::Buffer::bind_as(_gl GLenum target) {
+void xcal::render::opengl::GL::Buffer::bind_as(_gl GLenum target) const {
     _gl glBindBuffer(target, vbo_);
 }
 void xcal::render::opengl::GL::Buffer::buffer_data(const void *data,
@@ -26,12 +26,12 @@ void xcal::render::opengl::GL::Buffer::buffer_data(const void *data,
     size_ = size;
 }
 void xcal::render::opengl::GL::Buffer::get_buffer_data(
-    std::vector<char> &data) {
+    std::vector<char> &data) const {
     data.resize(size_);
     _gl glGetBufferSubData(target_, 0, size_, data.data());
 }
-void xcal::render::opengl::GL::Buffer::get_buffer_data(std::vector<char> &data,
-                                                       _gl GLenum target) {
+void xcal::render::opengl::GL::Buffer::get_buffer_data(
+    std::vector<char> &data, _gl GLenum target) const {
     data.resize(size_);
     _gl glGetBufferSubData(target, 0, size_, data.data());
 }

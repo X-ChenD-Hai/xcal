@@ -9,10 +9,10 @@ xcal::render::opengl::GL::VertexArrayObject::~VertexArrayObject() {
     if (is_valid()) _gl glDeleteVertexArrays(1, &vao_);
     vao_ = 0;
 };
-void xcal::render::opengl::GL::VertexArrayObject::bind() {
+void xcal::render::opengl::GL::VertexArrayObject::bind() const {
     _gl glBindVertexArray(vao_);
 };
-void xcal::render::opengl::GL::VertexArrayObject::unbind() {
+void xcal::render::opengl::GL::VertexArrayObject::unbind() const {
     _gl glBindVertexArray(0);
 };
 

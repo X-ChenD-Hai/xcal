@@ -27,9 +27,13 @@ class Shader {
     ~Shader() { destroy(); };
 
    public:
-    bool is_valid() { return shader_ != 0; };
+    bool is_valid() const { return shader_ != 0; };
+
+   public:
     void swap(Shader &o) { _STD swap(shader_, o.shader_); }
     void destroy();
+
+   public:
     static Shader from_source(gl::GLenum type, std::string_view source);
     static Shader from_file(gl::GLenum type, std::string_view file_path);
 };
