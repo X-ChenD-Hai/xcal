@@ -64,3 +64,16 @@ void xcal::render::opengl::GL::ShaderProgram::uniform(
     _gl glUniformMatrix3fv(_gl glGetUniformLocation(program_, name), 1,
                            _gl GL_TRUE, &mat[0][0]);
 }
+std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
+xcal::render::opengl::GL::ShaderProgram::from_file(
+    std::string_view vertex_file, std::string_view fragment_file) {
+    auto tmp = std::make_shared<xcal::render::opengl::GL::ShaderProgram>();
+    tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
+        _gl GL_VERTEX_SHADER, vertex_file));
+    tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
+        _gl GL_FRAGMENT_SHADER, fragment_file));
+    tmp->link();
+    tmp->use();
+    _D("Shader program created: " << tmp.get());
+    return tmp;
+}

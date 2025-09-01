@@ -10,8 +10,13 @@
 #define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line
+#include <xcal/render/impl/opengl/utils/shaderinstence.hpp>
 #include <xcal/utils/logmacrohelper.inc>
 #include <xcmath/utils/show.hpp>
+#define SHADER_ID 0
+XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
+    return GL::ShaderProgram::from_file("res/line.vs", "res/line.fs");
+}
 
 void xcal::render::opengl::object::Line::create() {
     vao().bind();
@@ -45,7 +50,7 @@ void xcal::render::opengl::object::Line::create() {
                               6 * sizeof(float),            // stride
                               (void*)(3 * sizeof(float)));  // offset
 
-    shader_program_ = get_shader_program();
+    shader_program_ = utils::ShaderInstance<Line, SHADER_ID>::instance();
 };
 void xcal::render::opengl::object::Line::destroy() {
     _I("Destroy Line: " << this);
@@ -65,21 +70,4 @@ xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
 
 XCAL_OPENGL_OBJECT_CREATER_HELPER(Line, mobject) {
     return std::make_unique<xcal::render::opengl::object::Line>(mobject);
-}
-std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
-xcal::render::opengl::object::Line::get_shader_program() {
-    static std::weak_ptr<GL::ShaderProgram> static_program;
-    if (static_program.use_count() == 0) {
-        auto tmp = std::make_shared<xcal::render::opengl::GL::ShaderProgram>();
-        static_program = tmp;
-        tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
-            _gl GL_VERTEX_SHADER, "res/line.vs"));
-        tmp->atttach_shader(xcal::render::opengl::GL::Shader::from_file(
-            _gl GL_FRAGMENT_SHADER, "res/line.fs"));
-        tmp->link();
-        tmp->use();
-        _D("Shader program created: " << tmp.get());
-        return tmp;
-    }
-    return static_program.lock();
 }

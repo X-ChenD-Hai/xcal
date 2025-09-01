@@ -2,6 +2,8 @@
 #include <glbinding/gl/types.h>
 #include <xcal/public.h>
 
+#include <memory>
+#include <string_view>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcmath/xcmath.hpp>
 namespace xcal::render::opengl::GL {
@@ -33,6 +35,10 @@ class ShaderProgram {
                  const xcmath::mat<gl::GLfloat, 4, 4> &mat) const;
     void uniform(const char *name,
                  const xcmath::mat<gl::GLfloat, 3, 3> &mat) const;
+
+   public:
+    static std::shared_ptr<ShaderProgram> from_file(
+        std::string_view vertex_file, std::string_view fragment_file);
 
    public:
     void swap(ShaderProgram &o) { _STD swap(program_, o.program_); }

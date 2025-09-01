@@ -17,7 +17,6 @@ class Line : public Object {
     GL::Buffer vbo_;
     utils::SingleMObjectWrapper<mobject::Line> mobject_{nullptr};
     std::shared_ptr<GL::ShaderProgram> shader_program_;
-    static std::shared_ptr<GL::ShaderProgram> get_shader_program();
 
    public:
     explicit Line(mobject::Line *mobject);
