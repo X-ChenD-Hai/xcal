@@ -7,16 +7,16 @@ class Vec : public MProperty {
     XCAL_PROPERTY_TYPE(Vec)
 
    private:
-    using VecType = xcmath::vec<T, N>;
-    Proxy<VecType> value_{this, T{}};
+    using vec = xcmath::vec<T, N>;
+    Proxy<vec> value_{this, T{}};
 
    public:
     template <typename... Args>
-        requires std::constructible_from<VecType, Args...>
+        requires std::constructible_from<vec, Args...>
     Vec(Args&&... args) : value_{this, std::forward<Args>(args)...} {}
-    VecType& value() { return value_; }
-    const VecType& value() const { return value_; }
-    operator VecType&() { return value_; }
-    operator const VecType&() const { return value_; }
+    vec& value() { return value_; }
+    const vec& value() const { return value_; }
+    operator vec&() { return value_; }
+    operator const vec&() const { return value_; }
 };
 }  // namespace xcal::property

@@ -5,26 +5,28 @@
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcmath/xcmath.hpp>
 
+#include "xcal/public.h"
 #include "xcal/render/impl/opengl/object/object.hpp"
-
+#define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line
 #include <xcal/utils/logmacrohelper.inc>
 #include <xcmath/utils/show.hpp>
 
 void xcal::render::opengl::object::Line::create() {
-    _I("Create Line: " << mobject_);
     vao().bind();
     vbo_.bind();
-    std::array<float, 12> vertices = {
-        mobject_->start().x(),
-        mobject_->start().y(),
+    const xcmath::vec2<float_t> direct = mobject_->direct().value() / 2;
+    _D("Create Line: " << mobject_ << " with direct: " << direct);
+    std::array<_gl GLfloat, 12> vertices = {
+        -direct.x(),
+        -direct.y(),
         0,  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
-        mobject_->end().x(),
-        mobject_->end().y(),
+        direct.x(),
+        direct.y(),
         0,  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
@@ -44,7 +46,6 @@ void xcal::render::opengl::object::Line::create() {
                               (void*)(3 * sizeof(float)));  // offset
 
     shader_program_ = get_shader_program();
-    _D("Line created: " << this << " from mobject: " << mobject_);
 };
 void xcal::render::opengl::object::Line::destroy() {
     _I("Destroy Line: " << this);
@@ -54,12 +55,7 @@ void xcal::render::opengl::object::Line::destroy() {
 void xcal::render::opengl::object::Line::render() const {
     vao().bind();
     shader_program_->use();
-    if (Object::model_matrix_should_update(mobject_)) {
-        auto model = Object::get_model_matrix(mobject_);
-        _D("Render Line: " << this << " from mobject: " << mobject_
-                           << " with update model ");
-        shader_program_->uniform("model", model);
-    }
+    shader_program_->uniform("model", model_materix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
@@ -86,4 +82,13 @@ xcal::render::opengl::object::Line::get_shader_program() {
         return tmp;
     }
     return static_program.lock();
+}
+const xcal::render::opengl::object::Line::mat&
+xcal::render::opengl::object::Line::model_materix() const {
+    if (Object::model_matrix_should_update(mobject_)) {
+        model_matrox_cache_ = Object::get_model_matrix(mobject_);
+        _D("Render Line: " << this << " from mobject: " << mobject_
+                           << " with update model: " << model_matrox_cache_);
+    }
+    return model_matrox_cache_;
 }

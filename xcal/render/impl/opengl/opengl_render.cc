@@ -1,4 +1,7 @@
+#include <glbinding/gl/functions.h>
+
 #include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+
 //
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
@@ -9,10 +12,15 @@
 
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
-#undef OUT // undefine OUT macro to avoid conflict with xcal::OUT
+#undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
+void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
+    (w > h) ? _gl glViewport((w - h) / 2, 0, h, h)
+            : _gl glViewport(0, (h - w) / 2, w, w);
+}
+
 void init_glbinding() {
     glbinding::initialize(glfwGetProcAddress, false);
     std::cout << "OpenGL context: "
@@ -39,18 +47,21 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
         _D("Failed to enable dark titlebar");
     }
     init_glbinding();
+    // _gl glLineWidth(32.0f);
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
 
 };
-void xcal::render::opengl::OpenGLRender::show() {
+void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     if (!window_) {
         _E("GLFW window is not created");
         return;
     }
+    glfwSetWindowSize(window_, width, height);
     glfwMakeContextCurrent(window_);
-    _gl glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
+    _gl glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     for (auto& obj : objects_) obj.second->create();
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {

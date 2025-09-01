@@ -1,14 +1,7 @@
 #pragma once
 
 namespace xcal::mobject {
-enum class Type {
-    Polygone,
-    Circle,
-    Line,
-    Path,
-    Rectangle,
-    Ellipse,
-};
+enum class Type { Polygone, Circle, Line, Path, Rectangle, Ellipse, Unknown };
 namespace xcal {
 inline const char* to_string(Type type) {
     switch (type) {
@@ -24,6 +17,8 @@ inline const char* to_string(Type type) {
             return "Rectangle";
         case Type::Ellipse:
             return "Ellipse";
+        case Type::Unknown:
+            return "Unknown";
         default:
             return "Unknown";
     }

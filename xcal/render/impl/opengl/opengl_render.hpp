@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <unordered_map>
 #include <xcal/render/core/render.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
@@ -14,7 +15,7 @@ class OpenGLRender : public xcal::render::Render {
     void setup_scene();
 
    public:
-    void show();
+    void show(size_t width=800,size_t height = 600);
     void render_frame();
     virtual void set_scene(Scene* scene) override;
 
