@@ -63,6 +63,7 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
     _gl glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     for (auto& obj : objects_) obj.second->create();
+    framebuffer_size_callback(window_, width, height);
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();

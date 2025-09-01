@@ -1,3 +1,4 @@
+#pragma once
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>
