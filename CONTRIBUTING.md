@@ -25,13 +25,13 @@
 
 ```bash
 # 配置项目 (Debug 模式)
-cmake --preset build-debug
+cmake -B build/debug -S . --preset build-debug
 
 # 配置项目 (Release 模式)  
-cmake --preset build-release
+cmake -B build/release -S . --preset build-release
 
 # 构建项目
-cmake --build --preset build-debug
+cmake --build build/debug
 ```
 
 ### 可用预设
@@ -41,14 +41,35 @@ cmake --build --preset build-debug
 
 ### 运行测试
 ```bash
-# 构建测试
-cmake --build --preset build-debug --target test_opengl
+# 构建所有测试
+cmake --build build/debug --target test_mobject test_properties test_scene test_opengl test_camera
 
-# 运行测试
-./build-debug/tests/test_opengl
+# 使用 CTest 运行所有测试
+ctest --test-dir build/debug --output-on-failure
 
-# 运行场景测试
-./build-debug/tests/scene/scene_test
+# 使用 CTest 运行特定测试
+ctest --test-dir build/debug -R test_mobject --output-on-failure
+
+# 使用 CTest 查看测试列表
+ctest --test-dir build/debug -N
+
+# 使用 CTest 并行运行测试
+ctest --test-dir build/debug -j4 --output-on-failure
+
+# 直接运行特定测试可执行文件
+./build/debug/tests/test_opengl --gtest_filter="TestCircle.*"
+```
+
+**注意**: 首次启用 CTest 或添加新测试后，需要重新配置和构建项目：
+```bash
+# 重新配置项目
+cmake -B build/debug -S . --preset build-debug
+
+# 构建所有测试
+cmake --build build/debug --target test_mobject test_properties test_scene test_opengl test_camera
+
+# 然后就可以使用 CTest 了
+ctest --test-dir build/debug --output-on-failure
 ```
 
 ## 代码风格

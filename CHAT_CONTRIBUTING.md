@@ -28,7 +28,8 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - **mobject**: 图形对象模块（核心抽象）
 - **scene**: 场景管理模块  
 - **render**: 渲染引擎模块（OpenGL/GLFW）
-- **properties**: 属性系统（位置、颜色、标量、时间等）
+- **property**: 属性系统（位置、颜色、标量、时间、向量等）
+- **camera**: 相机系统（正交相机、透视相机）
 
 ### 文件结构详解
 
@@ -39,7 +40,7 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `CONTRIBUTING.md` - 传统贡献指南
 - `CHAT_CONTRIBUTING.md` - AI 贡献者专用指南
 
-#### src/ 源代码目录
+#### xcal/ 源代码目录
 **核心头文件**:
 - `public.h` - 公共头文件，定义基础类型和日志配置
 - `main.cc` - 应用程序入口点
@@ -47,13 +48,11 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 **mobject/ 图形对象模块**:
 - `mobject_all.hpp` - 所有 mobject 头文件的聚合
 - `mobject.hpp` - 基础图形对象头文件
-- `property.hpp` - 属性系统头文件
 
 **mobject/core/ 核心抽象**:
 - `abs_mobject.hpp` - 抽象图形对象基类
 - `mobject.hpp` - 基础图形对象实现
 - `mobject_types.hpp` - 对象类型定义
-- `property.hpp` - 属性基类定义
 
 **mobject/objects/ 具体图形对象**:
 - `circle.hpp` - 圆形对象
@@ -63,13 +62,15 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `ellipse.hpp` - 椭圆对象
 - `path.hpp` - 路径对象
 
-**mobject/properties/ 属性系统**:
-- `color.hpp/.cc` - 颜色属性
+**property/ 属性系统**:
+- `color.cc/.hpp` - 颜色属性实现
 - `position.hpp` - 位置属性
 - `position_list.hpp` - 位置列表属性
 - `scalar.hpp` - 标量属性
 - `time_duration.hpp` - 时间段属性
 - `time_point.hpp` - 时间点属性
+- `vec.hpp` - 向量属性
+- `core/property.hpp` - 属性基类定义
 
 **scene/ 场景管理**:
 - `scene.hpp` - 场景接口
@@ -78,13 +79,42 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 
 **render/ 渲染引擎**:
 - `render.hpp` - 渲染器接口
-- `core/abs_render.hpp` - 抽象渲染器基类
+- `core/abs_render.cc/.hpp` - 抽象渲染器基类实现
+- `core/render.hpp` - 具体渲染器实现
+- `impl/opengl/` - OpenGL 渲染实现
+  - `opengl_render.cc/.hpp` - OpenGL 渲染器
+  - `core/typedef.hpp` - 类型定义
+  - `gl/` - OpenGL 底层封装
+    - `buffer.cc/.hpp` - 缓冲区管理
+    - `shader.cc/.hpp` - 着色器管理
+    - `shaderprogram.cc/.hpp` - 着色器程序管理
+    - `vertexarrayobject.cc/.hpp` - 顶点数组对象管理
+  - `object/` - 图形对象渲染
+    - `line.cc/.hpp` - 线条对象渲染
+    - `object.cc/.hpp` - 基础对象渲染
+  - `utils/` - 工具类
+    - `glbindingincludehelper.inc` - OpenGL 头文件包含助手
+    - `glfwdarkheadersupport.inc` - 暗色标题栏支持
+    - `shaderinstence.hpp` - 着色器实例管理
+    - `singlemobjectwrapper.cc/.hpp` - 单对象包装器
 
 **camera/ 相机系统**:
-- (预留模块，当前为空)
+- `orthocamera.hpp` - 正交相机
+- `perspectivecamera.cc/.hpp` - 透视相机实现
+- `core/abs_camera.cc/.hpp` - 抽象相机基类
+- `core/frame.hpp` - 帧处理
 
 **threed/ 3D 功能**:
 - (预留模块，当前为空)
+
+**utils/ 工具类**:
+- `logmacrohelper.inc` - 日志宏助手
+
+#### third_party/ 第三方依赖
+**xcmath/ 数学库**:
+- 提供数学运算、向量、矩阵、四元数等数学功能
+- 符号系统支持表达式处理
+- 图形数学对象支持
 
 #### tests/ 测试目录
 **模块测试**:
@@ -386,6 +416,29 @@ git push origin feature/ai-your-feature-name
 3. 运行代码格式化工具检查风格
 4. 确保所有测试通过
 
+## 📅 更新记录 - 2025-09-02
+
+### 新增内容
+- 添加了相机系统模块文档，包括正交相机和透视相机实现
+- 完善了渲染引擎的 OpenGL 实现详细文档
+- 添加了第三方 xcmath 数学库依赖说明
+- 更新了属性系统文档，包括向量属性支持
+
+### 修正内容  
+- 修正了源代码目录结构描述（从 `src/` 改为 `xcal/`）
+- 更新了文件结构以反映实际项目布局
+- 修正了核心模块列表，添加了 camera 模块
+
+### 示例更新
+- 添加了透视相机测试文件说明
+- 更新了 OpenGL 渲染实现的详细文件结构
+
+### 新增最佳实践
+- **相机系统设计**: 支持正交和透视相机，提供抽象相机基类
+- **OpenGL 渲染优化**: 使用 glbinding 替代 glad，提供更好的类型安全
+- **数学库集成**: 集成 xcmath 库提供数学运算支持
+- **构建系统改进**: 支持更灵活的 CMake 预设配置
+
 ## 📅 更新记录 - 2025-08-27
 
 ### 新增内容
@@ -416,13 +469,14 @@ git push origin feature/ai-your-feature-name
 
 ## 📊 版本历史
 
-- **v1.0.0** (2025-08-27): 初始版本，基于 CONTRIBUTING.md 和项目分析创建
-- **v1.0.1** (2025-08-27): 根据用户反馈添加任务前后阅读和更新要求
-- **v1.1.0** (2025-08-27): 添加注释和测试最佳实践，更新测试示例
-- **v1.2.0** (2025-08-27): 添加项目概述和文件结构详细描述，完善文件操作更新机制
+- **v1.4.0** (2025-09-02): 根据项目变更更新文件结构和模块文档
 - **v1.3.0** (2025-08-27): 添加 CTest 支持，完善测试运行机制
+- **v1.2.0** (2025-08-27): 添加项目概述和文件结构详细描述，完善文件操作更新机制
+- **v1.1.0** (2025-08-27): 添加注释和测试最佳实践，更新测试示例
+- **v1.0.1** (2025-08-27): 根据用户反馈添加任务前后阅读和更新要求
+- **v1.0.0** (2025-08-27): 初始版本，基于 CONTRIBUTING.md 和项目分析创建
 
 ---
 
-*最后更新: 2025-08-27*  
+*最后更新: 2025-09-02*  
 *AI 贡献者请在每次任务开始前读取本指南，并在任务完成后更新本指南*
