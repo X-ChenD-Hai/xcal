@@ -1,4 +1,7 @@
+#include "xcal/mobject/objects/line.hpp"
+
 #include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+
 //
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
@@ -68,6 +71,4 @@ xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
     _I("Create Line: " << this << " from mobject: " << mobject_.mobject());
 };
 
-XCAL_OPENGL_OBJECT_CREATER_HELPER(Line, mobject) {
-    return std::make_unique<xcal::render::opengl::object::Line>(mobject);
-}
+XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Line, Line)

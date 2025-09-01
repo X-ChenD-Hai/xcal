@@ -44,8 +44,16 @@ xcal::render::opengl::object::object_ptr create(T* mobject);
 
 object_ptr create(mobject::MObject* mobject);
 }  // namespace xcal::render::opengl::object
-#define XCAL_OPENGL_OBJECT_CREATER_HELPER(type, mobj)          \
+#define XCAL_OPENGL_REGIST_OBJECT(class_, type)                \
     template <>                                                \
     xcal::render::opengl::object::object_ptr                   \
     xcal::render::opengl::object::create<xcal::mobject::type>( \
         xcal::mobject::type * mobj)
+
+#define XCAL_OPENGL_REGIST_OBJECT_IMPL(class_, type)           \
+    template <>                                                \
+    xcal::render::opengl::object::object_ptr                   \
+    xcal::render::opengl::object::create<xcal::mobject::type>( \
+        xcal::mobject::type * mobj) {                          \
+        return std::make_unique<class_>(mobj);                 \
+    }

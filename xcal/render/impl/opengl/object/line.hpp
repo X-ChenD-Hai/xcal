@@ -27,4 +27,4 @@ class Line : public Object {
     Line(const Line &) = delete;
 };
 }  // namespace xcal::render::opengl::object
-XCAL_OPENGL_OBJECT_CREATER_HELPER(Line, mobject);
+XCAL_OPENGL_REGIST_OBJECT(xcal::render::opengl::object::Line, Line);
