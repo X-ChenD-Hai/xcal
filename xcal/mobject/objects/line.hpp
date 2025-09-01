@@ -21,6 +21,7 @@ class Line : public MObject {
     Line(const vec& start, const vec& end)
         : MObject({(start.x() + end.x()) / 2, (start.y() + end.y()) / 2}),
           direct_(end - start) {}
+    Line(float_t length) : MObject(), direct_({length, 0.0f}) {}
 
     const vec4 start() const {
         return vec4{pos().data() - (direct_.value() / 2.f), 0.0f, 1.0f};
