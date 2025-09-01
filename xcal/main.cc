@@ -6,13 +6,9 @@
 int main(int argc, char **argv) {
     XCAL_INFO(XCAL, APP) << "app start";
     auto scene = std::make_unique<xcal::scene::Scene>();
-    // scene->add<xcal::mobject::Line>(0, 0, 1, 1)->stroke_color() =
-    //     xcal::property::Color(1, 0, 0);
-    scene
-        ->add<xcal::mobject::Line>(0, 0, 1, 1)
-        ->translate(-0.5, 0)
-        ->rotate(45)
-        ->set_stroke_color({0, 1, 0, 1});
+
+    scene->add<xcal::mobject::Line>(2)->set_stroke_color({1, 0, 0});
+    scene->add<xcal::mobject::Line>(2)->set_stroke_color({0, 1, 0})->rotate(90);
 
     auto render = xcal::render::opengl::OpenGLRender(scene.get());
     render.show();

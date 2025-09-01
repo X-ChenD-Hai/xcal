@@ -17,7 +17,7 @@ void xcal::render::opengl::object::Line::create() {
     vao().bind();
     vbo_.bind();
     const xcmath::vec2<float_t> direct = mobject_->direct().value() / 2;
-    _D("Create Line: " << mobject_ << " with direct: " << direct);
+    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct);
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
@@ -55,12 +55,12 @@ void xcal::render::opengl::object::Line::destroy() {
 void xcal::render::opengl::object::Line::render() const {
     vao().bind();
     shader_program_->use();
-    shader_program_->uniform("model", model_materix());
+    shader_program_->uniform("model", mobject_.model_materix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
     : mobject_(mobject), vbo_(_gl GL_ARRAY_BUFFER) {
-    _I("Create Line: " << this << " from mobject: " << mobject_);
+    _I("Create Line: " << this << " from mobject: " << mobject_.mobject());
 };
 
 XCAL_OPENGL_OBJECT_CREATER_HELPER(Line, mobject) {
@@ -82,13 +82,4 @@ xcal::render::opengl::object::Line::get_shader_program() {
         return tmp;
     }
     return static_program.lock();
-}
-const xcal::render::opengl::object::Line::mat&
-xcal::render::opengl::object::Line::model_materix() const {
-    if (Object::model_matrix_should_update(mobject_)) {
-        model_matrox_cache_ = Object::get_model_matrix(mobject_);
-        _D("Render Line: " << this << " from mobject: " << mobject_
-                           << " with update model: " << model_matrox_cache_);
-    }
-    return model_matrox_cache_;
 }
