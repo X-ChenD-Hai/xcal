@@ -1,7 +1,7 @@
 #include <xcal/render/impl/opengl/utils/singlemobjectwrapper.hpp>
 #define XCAL_OUT_TO_STDERR
-#define ROLE OpenGLObject
-#define LABEL SingleObject
+#define ROLE SingleMObjectWrapperImpl
+#define LABEL SingleMObjectWrapperImpl
 #include <xcal/utils/logmacrohelper.inc>
 #include <xcmath/utils/show.hpp>
 
