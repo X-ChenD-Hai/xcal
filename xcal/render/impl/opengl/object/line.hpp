@@ -17,7 +17,7 @@ class Line : public xcal::render::opengl::object::Object {
     explicit Line(mobject::Line *mobject);
     virtual void create() override;
     virtual void destroy() override;
-    virtual void render() override;
+    virtual void render() const override;
     Line(const Line &) = delete;
 };
 }  // namespace xcal::render::opengl::object

@@ -5,6 +5,9 @@
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
+#include <xcmath/xcmath.hpp>
+
+#include "xcmath/mobject/mat.hpp"
 
 namespace xcal::render::opengl {
 class OpenGLRender;
@@ -19,9 +22,14 @@ class Object {
    protected:
     virtual void create() = 0;
     virtual void destroy() = 0;
-    virtual void render() = 0;
+    virtual void render() const = 0;
 
     GL::VertexArrayObject& vao() { return vao_; }
+    const GL::VertexArrayObject& vao() const { return vao_; }
+    static xcmath::mat<float_t, 4, 4> get_model_matrix(
+        const xcal::mobject::MObject* mobject);
+    static bool model_matrix_should_update(
+        const xcal::mobject::MObject* mobject);
 
    public:
     Object();

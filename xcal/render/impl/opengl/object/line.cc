@@ -3,10 +3,15 @@
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
+#include <xcmath/xcmath.hpp>
+
+#include "xcal/render/impl/opengl/object/object.hpp"
 
 #define ROLE OpenGLObject
 #define LABEL Line
 #include <xcal/utils/logmacrohelper.inc>
+#include <xcmath/utils/show.hpp>
+
 void xcal::render::opengl::object::Line::create() {
     _I("Create Line: " << mobject_);
     vao().bind();
@@ -37,6 +42,7 @@ void xcal::render::opengl::object::Line::create() {
     _gl glVertexAttribPointer(1, 3, _gl GL_FLOAT, _gl GL_FALSE,
                               6 * sizeof(float),            // stride
                               (void*)(3 * sizeof(float)));  // offset
+
     shader_program_ = get_shader_program();
     _D("Line created: " << this << " from mobject: " << mobject_);
 };
@@ -45,9 +51,15 @@ void xcal::render::opengl::object::Line::destroy() {
     shader_program_.reset();
     vbo_.destroy();
 };
-void xcal::render::opengl::object::Line::render() {
+void xcal::render::opengl::object::Line::render() const {
     vao().bind();
     shader_program_->use();
+    if (Object::model_matrix_should_update(mobject_)) {
+        auto model = Object::get_model_matrix(mobject_);
+        _D("Render Line: " << this << " from mobject: " << mobject_
+                           << " with update model ");
+        shader_program_->uniform("model", model);
+    }
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)

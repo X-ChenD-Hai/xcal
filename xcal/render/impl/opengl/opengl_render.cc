@@ -66,7 +66,7 @@ void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
     _gl glClear(_gl GL_COLOR_BUFFER_BIT);
 
-    for (auto& obj : objects_) {
+    for (const auto& obj : objects_) {
         auto& obj_ptr = obj.second;
         if (obj_ptr) {
             obj_ptr->render();
