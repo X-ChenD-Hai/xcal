@@ -29,7 +29,7 @@ class MObject : public AbsMObject {
                             scale_x_, scale_y_, rotation_, depth_);
     }
 
-    const property::Position pos() const { return pos_; }
+    const property::Position& pos() const { return pos_; }
     property::Position& pos() { return pos_; }
     const property::Color& stroke_color() const { return stroke_color_; }
     property::Color& stroke_color() { return stroke_color_; }
