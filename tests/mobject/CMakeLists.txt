@@ -1,4 +1,5 @@
-add_executable(test_mobject test_circle.cc)
+file(GLOB_RECURSE SOURCES *.cc)
+add_executable(test_mobject ${SOURCES})
 
 target_link_libraries(test_mobject PRIVATE
     GTest::gtest GTest::gtest_main

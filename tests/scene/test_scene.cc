@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <mobject/objects/circle.hpp>
-#include <mobject/objects/rectangle.hpp>
-#include <scene/scene.hpp>
+#include <xcal/mobject/objects/circle.hpp>
+#include <xcal/mobject/objects/rectangle.hpp>
+#include <xcal/scene/scene.hpp>
 
 /**
  * @brief 场景管理测试套件
@@ -24,7 +24,7 @@ TEST(TestScene, AddCircleWithSmartPointer) {
 
     // 创建圆形对象并添加到场景
     xcal::mobject::Circle* circlePtr = scene.add<xcal::mobject::Circle>(
-        xcal::mobject::property::Position{1.0f, 2.0f}, 3.0f);
+        xcal::property::Position{1.0f, 2.0f}, 3.0f);
 
     // 验证对象添加成功
     EXPECT_FALSE(scene.mobjects().empty());
@@ -40,8 +40,8 @@ TEST(TestScene, AddCircleWithRawPointer) {
     xcal::scene::Scene scene;
 
     // 创建圆形对象并添加到场景
-    auto circle = new xcal::mobject::Circle(
-        xcal::mobject::property::Position{4.0f, 5.0f}, 6.0f);
+    auto circle =
+        new xcal::mobject::Circle(xcal::property::Position{4.0f, 5.0f}, 6.0f);
     xcal::mobject::Circle* circlePtr = scene.add(circle);
 
     // 验证对象添加成功
@@ -57,7 +57,7 @@ TEST(TestScene, AddCircleWithConstruction) {
 
     // 在场景中直接构造圆形对象
     xcal::mobject::Circle* circlePtr = scene.add<xcal::mobject::Circle>(
-        xcal::mobject::property::Position{7.0f, 8.0f}, 9.0f);
+        xcal::property::Position{7.0f, 8.0f}, 9.0f);
 
     // 验证对象添加成功
     EXPECT_FALSE(scene.mobjects().empty());
@@ -74,11 +74,11 @@ TEST(TestScene, AddMultipleObjects) {
 
     // 添加圆形对象
     auto circlePtr = scene.add<xcal::mobject::Circle>(
-        xcal::mobject::property::Position{1.0f, 1.0f}, 2.0f);
+        xcal::property::Position{1.0f, 1.0f}, 2.0f);
 
     // 添加矩形对象
     auto rectPtr = scene.add<xcal::mobject::Rectangle>(
-        xcal::mobject::property::Position{3.0f, 3.0f}, 4.0f, 5.0f);
+        xcal::property::Position{3.0f, 3.0f}, 4.0f, 5.0f);
 
     // 验证两个对象都添加成功
     EXPECT_EQ(scene.mobjects().size(), 2);

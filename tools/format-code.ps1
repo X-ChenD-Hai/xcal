@@ -19,7 +19,7 @@ Write-Output "source path: $sourcePath"
 
 # 要扫描的目录
 $searchDirs = @(
-    Join-Path $sourcePath "src"
+    Join-Path $sourcePath "xcal"
     Join-Path $sourcePath "tests"
 )
 

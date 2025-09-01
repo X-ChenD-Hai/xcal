@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mobject/objects/circle.hpp>
+#include <xcal/mobject/objects/circle.hpp>
 
 /**
  * @brief 圆形对象测试套件
@@ -19,7 +19,7 @@ TEST(TestCircle, CreateWithDefaultValues) {
 TEST(TestCircle, CreateWithCustomValues) {
     // 测试自定义参数构造函数
     auto circle = std::make_unique<xcal::mobject::Circle>(
-        xcal::mobject::property::Position{2.0f, 3.0f}, 5.0f);
+        xcal::property::Position{2.0f, 3.0f}, 5.0f);
 
     EXPECT_EQ(circle->radius(), 5.0f);
     EXPECT_EQ(circle->pos().x(), 2.0f);
@@ -49,7 +49,7 @@ TEST(TestCircle, SetRadius) {
 TEST(TestCircle, PositionInheritance) {
     // 测试从 MObject 继承的位置功能
     auto circle = std::make_unique<xcal::mobject::Circle>(
-        xcal::mobject::property::Position{7.0f, 8.0f}, 2.0f);
+        xcal::property::Position{7.0f, 8.0f}, 2.0f);
 
     // 验证位置继承
     EXPECT_EQ(circle->pos().x(), 7.0f);

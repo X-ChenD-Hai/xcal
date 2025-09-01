@@ -1,12 +1,12 @@
 find_package(GTest REQUIRED)
 
-
 add_executable(test_opengl opengl.cc)
 target_link_libraries(test_opengl PRIVATE
-    glad::glad
+    glbinding::glbinding glbinding::glbinding-aux
     glfw
 )
 
 add_subdirectory(scene)
 add_subdirectory(properties)
 add_subdirectory(mobject)
+add_subdirectory(camera)

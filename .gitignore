@@ -1,6 +1,6 @@
 /*
 !res
-!src
+!xcal
 !tests
 !.clang-format
 !CMakeLists.txt
@@ -8,3 +8,4 @@
 !CONTRIBUTING.md
 !tools
 !CHAT_CONTRIBUTING.md
+!third_party
