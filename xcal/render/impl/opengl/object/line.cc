@@ -1,5 +1,3 @@
-#include "xcal/mobject/objects/line.hpp"
-
 #include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
 
 //
