@@ -1,4 +1,4 @@
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <fstream>
 #include <xcal/render/impl/opengl/gl/shader.hpp>

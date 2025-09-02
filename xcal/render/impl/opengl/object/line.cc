@@ -1,13 +1,14 @@
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 
 //
+#include <xcal/public.h>
+
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
+#include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
 
-#include "xcal/public.h"
-#include "xcal/render/impl/opengl/object/object.hpp"
 #define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line

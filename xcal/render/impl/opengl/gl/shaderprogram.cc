@@ -1,13 +1,8 @@
-#include <glbinding/gl/boolean.h>
-#include <glbinding/gl/functions.h>
-
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 
 //
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
-
-#include "xcal/render/impl/opengl/core/typedef.hpp"
 
 #define ROLE GL
 #define LABEL ShaderProgram

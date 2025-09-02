@@ -1,6 +1,9 @@
 // 平台检测宏
 #if defined(_WIN32) || defined(_WIN64)
 #define XC_PLATFORM_WINDOWS 1
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
 #include <dwmapi.h>
 #include <windows.h>
 #pragma comment(lib, "dwmapi.lib")
