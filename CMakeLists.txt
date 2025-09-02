@@ -3,21 +3,38 @@ project(xcal VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 启用 CTest 支持
-include(CTest)
-enable_testing()
-
 # find_package(glad REQUIRED)
-find_package(glbinding REQUIRED)
 find_package(glfw3 REQUIRED)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-option(BUILD_TESTING "Build tests" OFF)
+
+set(BUILD_TESTING OFF)
 add_subdirectory(third_party/xcmath)
 add_subdirectory(third_party/xclogger)
+unset(BUILD_TESTING)
+
+set(RENDER_BACKEND glad CACHE STRING "Choose the rendering backend: glbinding or glad")
+set_property(CACHE RENDER_BACKEND PROPERTY STRINGS glbinding glad)
+if(RENDER_BACKEND STREQUAL "glbinding")
+    find_package(glbinding REQUIRED)
+    set(OPENGL_BACKEND_LIBS glbinding::glbinding glbinding::glbinding-aux)
+    add_compile_definitions(GL_BACKEND_GLBINDING=1)
+elseif(RENDER_BACKEND STREQUAL "glad")
+    find_package(glad REQUIRED)
+    set(OPENGL_BACKEND_LIBS glad::glad)
+    add_compile_definitions(GL_BACKEND_GLAD=1)
+else()
+    message(FATAL_ERROR "Invalid rendering backend: ${RENDER_BACKEND}")
+endif()
+
 add_subdirectory(xcal)
+
+option(BUILD_TESTING "Build tests" OFF)
 if(BUILD_TESTING)
+    # 启用 CTest 支持
+    include(CTest)
+    enable_testing()
     add_subdirectory(tests)
 endif()
+
 # 代码格式化目标
 find_program(CLANG_FORMAT "clang-format")
 if(CLANG_FORMAT)

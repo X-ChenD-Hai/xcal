@@ -2,8 +2,29 @@
 
 namespace xcal::mobject {
 enum class Type { Polygone, Circle, Line, Path, Rectangle, Ellipse, Unknown };
+
+class MObject;
+class Polygone;
+class Circle;
+class Line;
+class Path;
+class Rectangle;
+class Ellipse;
+
+#define XCAL_MOBJECT_TYPE(type)                                \
+    virtual Type type_() const override { return Type::type; } \
+                                                               \
+   public:                                                     \
+    struct META_INFO {                                         \
+        static constexpr auto type_name = #type;               \
+    };                                                         \
+                                                               \
+   private:
+
+}  // namespace xcal::mobject
 namespace xcal {
-inline const char* to_string(Type type) {
+inline const char* to_string(xcal::mobject::Type type) {
+    using namespace xcal::mobject;
     switch (type) {
         case Type::Polygone:
             return "Polygone";
@@ -24,22 +45,3 @@ inline const char* to_string(Type type) {
     }
 }
 }  // namespace xcal
-class MObject;
-class Polygone;
-class Circle;
-class Line;
-class Path;
-class Rectangle;
-class Ellipse;
-
-#define XCAL_MOBJECT_TYPE(type)                                \
-    virtual Type type_() const override { return Type::type; } \
-                                                               \
-   public:                                                     \
-    struct META_INFO {                                         \
-        static constexpr auto type_name = #type;               \
-    };                                                         \
-                                                               \
-   private:
-
-}  // namespace xcal::mobject

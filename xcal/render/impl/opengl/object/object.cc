@@ -1,10 +1,9 @@
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/render/impl/opengl/object/circle.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
-
 
 #define ROLE OpenGLRender
 #define LABEL Object

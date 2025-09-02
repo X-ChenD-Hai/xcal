@@ -24,7 +24,7 @@ $searchDirs = @(
 )
 
 # 匹配模式
-$patterns = @("*.h", "*.hpp", "*.cc", "*.cpp")
+$patterns = @("*.h", "*.hpp", "*.cc", "*.cpp",“*.c”,"*.inc")
 
 # 获取文件列表
 $files = Get-ChildItem -Path $searchDirs -Recurse -Include $patterns
