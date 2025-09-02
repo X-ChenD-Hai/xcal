@@ -3,21 +3,25 @@ project(xcal VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 启用 CTest 支持
-include(CTest)
-enable_testing()
-
 # find_package(glad REQUIRED)
 find_package(glbinding REQUIRED)
 find_package(glfw3 REQUIRED)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-option(BUILD_TESTING "Build tests" OFF)
+
+set(BUILD_TESTING OFF)
 add_subdirectory(third_party/xcmath)
 add_subdirectory(third_party/xclogger)
+unset(BUILD_TESTING)
+
 add_subdirectory(xcal)
+
+option(BUILD_TESTING "Build tests" OFF)
 if(BUILD_TESTING)
+    # 启用 CTest 支持
+    include(CTest)
+    enable_testing()
     add_subdirectory(tests)
 endif()
+
 # 代码格式化目标
 find_program(CLANG_FORMAT "clang-format")
 if(CLANG_FORMAT)
