@@ -5,7 +5,6 @@
 //
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
 #include <glbinding-aux/ContextInfo.h>
 #include <glbinding/glbinding.h>
 #include <xcal/public.h>
@@ -50,7 +49,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     // _gl glLineWidth(32.0f);
     setup_scene();
 }
-xcal::render::opengl::OpenGLRender::~OpenGLRender() {
+xcal::render::opengl::OpenGLRender::~OpenGLRender(){
 
 };
 void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
