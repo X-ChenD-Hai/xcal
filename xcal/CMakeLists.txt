@@ -9,7 +9,7 @@ target_link_libraries(xcal PUBLIC
     xclogger::zmq_support
     # glad::glad
     xcmath::xcmath
-    glbinding::glbinding glbinding::glbinding-aux
+    ${OPENGL_BACKEND_LIBS}
     glfw
 )
 

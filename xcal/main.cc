@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
     scene->add<Circle>()->set_stroke_color({0, 0.5, 0.5});
     scene->add<Line>(2)->set_stroke_color({1, 0, 0});
     scene->add<Line>(2)->set_stroke_color({0, 1, 0})->rotate(90);
-    auto render = xcal::render::opengl::OpenGLRender(scene.get());
+    auto render = xcal::render::opengl::OpenGLRender{scene.get()};
     render.show();
     XCAL_INFO(XCAL, APP) << "app end";
     return 0;

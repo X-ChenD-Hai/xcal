@@ -1,5 +1,4 @@
 #pragma once
-#include <glbinding/gl/types.h>
 #include <xcal/public.h>
 
 #include <memory>
