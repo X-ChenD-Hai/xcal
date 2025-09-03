@@ -34,6 +34,8 @@ jobs:
 
       - name: Generate Doxygen Documentation
         run: |
+          git submodule init
+          git submodule update
           doxygen Doxyfile
           mkdir -p ./_site
           cp -r ./docs/html/* ./_site
@@ -51,4 +53,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
+
         uses: actions/deploy-pages@v4
