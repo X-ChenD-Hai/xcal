@@ -4,6 +4,8 @@
 
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
+#include <xcmath/utils/show.hpp>
+
 //
 #ifdef GL_BACKEND_GLBINDING
 #    include <glbinding-aux/ContextInfo.h>
@@ -85,7 +87,17 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
     _gl glClear(_gl GL_COLOR_BUFFER_BIT);
-
+    if (!scene()->cameras().empty()) {
+        const auto& cam = scene()->cameras().front();
+        if (cam->is_updated()) {
+            for (auto& obj : objects_) {
+                _D("updating object: " << obj.first
+                                       << " with camera: " << cam.get());
+                _D("pv_matrix: " << cam->pv_matrix());
+                obj.second->update_projection_view(cam->pv_matrix());
+            }
+        }
+    }
     for (const auto& obj : objects_) {
         auto& obj_ptr = obj.second;
         if (obj_ptr) {

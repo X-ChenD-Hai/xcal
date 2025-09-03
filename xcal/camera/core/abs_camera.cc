@@ -1,5 +1,8 @@
 #include <xcal/camera/core/abs_camera.hpp>
-
+#undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
+#define ROLE Camera
+#define LABEL AbsCamera
+#include <xcal/utils/logmacrohelper.inc>
 void xcal::camera::AbsCamera::update_view_matrix() const {
     if (!position_.is_changed() && !target_.is_changed() && !up_.is_changed())
         return;
@@ -35,3 +38,9 @@ void xcal::camera::AbsCamera::update_view_matrix() const {
     target_.reset_changed();
     up_.reset_changed();
 }
+xcal::bool_t xcal::camera::AbsCamera::view_is_updated() const {
+    return position_.is_changed() || target_.is_changed() || up_.is_changed();
+};
+xcal::bool_t xcal::camera::AbsCamera::is_updated() const {
+    return projection_is_updated() || view_is_updated();
+};

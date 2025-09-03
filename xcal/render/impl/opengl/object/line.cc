@@ -71,3 +71,9 @@ xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
 };
 
 XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Line, Line)
+void xcal::render::opengl::object::Line::update_projection_view(
+    const xcmath::mat4<float_t>& projection_view) {
+    _D("Update view projection for Line: " << this << " with view_projection: "
+                                           << projection_view);
+    shader_program_->uniform("projection_view", projection_view);
+};

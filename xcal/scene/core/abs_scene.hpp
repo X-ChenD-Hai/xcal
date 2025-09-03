@@ -2,6 +2,7 @@
 #include <xcal/public.h>
 
 #include <vector>
+#include <xcal/animation/core/abs_animation.hpp>
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/abs_mobject.hpp>
 
@@ -21,6 +22,8 @@ class XCAL_API AbsScene {
     using object_t = ObjectPtr::element_type;  ///< 对象类型定义
     std::vector<ObjectPtr> mobjects_{};        ///< 对象指针列表
     std::vector<std::unique_ptr<camera::AbsCamera>> cameras_{};  ///< 相机列表
+    std::vector<std::unique_ptr<animation::AbsAnimation>>
+        animations_{};  ///< 动画列表
 
    public:
     AbsScene() {};
@@ -88,17 +91,42 @@ class XCAL_API AbsScene {
         return result;
     }
 
+    template <typename T>
+    T* add(std::unique_ptr<T>&& obj) {
+        if constexpr (std::is_base_of_v<object_t, T>)
+            return (T*)mobjects_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<camera::AbsCamera, T>)
+            return (T*)cameras_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<animation::AbsAnimation, T>)
+            return (T*)animations_.emplace_back(std::move(obj)).get();
+        else
+            static_assert(false, "unsupported type");
+    }
+
     /**
      * @brief 获取对象列表（可修改）
      * @return std::vector<ObjectPtr>& 对象指针列表引用
      */
     std::vector<ObjectPtr>& mobjects() { return mobjects_; }
+    std::vector<std::unique_ptr<camera::AbsCamera>>& cameras() {
+        return cameras_;
+    }
+    std::vector<std::unique_ptr<animation::AbsAnimation>>& animations() {
+        return animations_;
+    }
 
     /**
      * @brief 获取对象列表（只读）
      * @return const std::vector<ObjectPtr>& 对象指针列表常量引用
      */
     const std::vector<ObjectPtr>& mobjects() const { return mobjects_; }
+    const std::vector<std::unique_ptr<camera::AbsCamera>>& cameras() const {
+        return cameras_;
+    }
+    const std::vector<std::unique_ptr<animation::AbsAnimation>>& animations()
+        const {
+        return animations_;
+    }
 
    public:
     /**
