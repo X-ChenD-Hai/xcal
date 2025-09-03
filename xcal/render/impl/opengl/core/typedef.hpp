@@ -1,6 +1,6 @@
 #pragma once
 #if defined(GL_BACKEND_GLBINDING) && defined(GL_BACKEND_GLAD)
-#error "Cannot define both GL_BACKEND_GLBINDING and GL_BACKEND_GLAD"
+#    error "Cannot define both GL_BACKEND_GLBINDING and GL_BACKEND_GLAD"
 #endif
 
 typedef struct GLFWwindow GLFWwindow;

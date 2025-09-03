@@ -3,9 +3,9 @@
 #include <GLFW/glfw3.h>
 //
 #ifdef GL_BACKEND_GLBINDING
-#include <glbinding-aux/ContextInfo.h>
-#include <glbinding/gl/functions.h>
-#include <glbinding/glbinding.h>
+#    include <glbinding-aux/ContextInfo.h>
+#    include <glbinding/gl/functions.h>
+#    include <glbinding/glbinding.h>
 using namespace gl;  // 把  前缀去掉，直接写 glClear 等
 #endif
 
@@ -57,7 +57,7 @@ void init_glbackend() {
         throw std::runtime_error("Failed to initialize GLAD");
     }
 #else
-#error "No OpenGL backend defined"
+#    error "No OpenGL backend defined"
 #endif
 }
 

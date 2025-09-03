@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
+option(BUILD_DYNAMIC_LIBRARY "Build dynamic library" ON)
 
 set(BUILD_TESTING OFF)
 add_subdirectory(third_party/xcmath)

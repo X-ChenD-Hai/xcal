@@ -6,9 +6,9 @@
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 //
 #ifdef GL_BACKEND_GLBINDING
-#include <glbinding-aux/ContextInfo.h>
-#include <glbinding/gl/functions.h>
-#include <glbinding/glbinding.h>
+#    include <glbinding-aux/ContextInfo.h>
+#    include <glbinding/gl/functions.h>
+#    include <glbinding/glbinding.h>
 #endif
 
 //
@@ -32,7 +32,7 @@ void init_glbackend() {
         throw std::runtime_error("Failed to initialize GLAD");
     }
 #else
-#error "No OpenGL backend defined"
+#    error "No OpenGL backend defined"
 #endif
 }
 
