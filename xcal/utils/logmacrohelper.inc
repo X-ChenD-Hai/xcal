@@ -131,16 +131,16 @@
 #define _NAMED_VALUE(value)                \
     << "(" << #value << "=" << name << " " \
     << ")"
-#define _LINE_MSG(msg) \
-    do {               \
-    << msg << "\n"
+#define _LINE_MSG(msg) << msg << "\n"
 #define _SELF << "(" << this << ")"
 #ifdef XCAL_OUT_TO_STDERR
 constexpr static auto PRO_LEN =
     sizeof("D:\\31003\\Desktop\\code\\C++\\xc1\\xcal");
-#    define OUT(msg)                                                     \
-        std::cerr << "[" << _STD string(__FILE__).substr(PRO_LEN) << ":" \
-                  << __LINE__ << "] " << msg << std::endl;
+#    define OUT(msg)                                                         \
+        do {                                                                 \
+            std::cerr << "[" << _STD string(__FILE__).substr(PRO_LEN) << ":" \
+                      << __LINE__ << "] " << msg << std::endl;               \
+        } while (0)
 #else
 #    define OUT(msg) \
         do {         \
