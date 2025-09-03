@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xcal/public.h>
 namespace xcal::mobject {
 enum class Type { Polygone, Circle, Line, Path, Rectangle, Ellipse, Unknown };
 
@@ -23,7 +24,7 @@ class Ellipse;
 
 }  // namespace xcal::mobject
 namespace xcal {
-inline const char* to_string(xcal::mobject::Type type) {
+XCAL_API inline const char* to_string(xcal::mobject::Type type) {
     using namespace xcal::mobject;
     switch (type) {
         case Type::Polygone:

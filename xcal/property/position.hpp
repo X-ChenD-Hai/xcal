@@ -6,7 +6,7 @@
 
 namespace xcal::property {
 
-class Position : public MProperty {
+class XCAL_API Position : public MProperty {
     XCAL_PROPERTY_TYPE(Position)
    public:
     using vec = xcmath::vec<float_t, 2>;
@@ -27,7 +27,7 @@ class Position : public MProperty {
     vec &data() { return data_; }
 };
 
-class ThreeDPosition : public Position {
+class XCAL_API ThreeDPosition : public Position {
     XCAL_PROPERTY_TYPE(ThreeDPosition)
    private:
     Proxy<float_t> z_ = {this, 0.0};

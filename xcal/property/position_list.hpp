@@ -6,7 +6,7 @@
 namespace xcal::property {
 
 template <typename __ItemType, Type __Type>
-class _PositionList : public MProperty {
+class XCAL_API _PositionList : public MProperty {
     virtual Type type_() const override { return __Type; }
 
    private:

@@ -4,7 +4,7 @@
 
 namespace xcal::mobject {
 
-class Path : public MObject {
+class XCAL_API Path : public MObject {
     XCAL_MOBJECT_TYPE(Path)
    private:
     property::PositionList points_;

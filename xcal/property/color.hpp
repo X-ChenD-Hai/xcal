@@ -11,7 +11,7 @@ namespace xcal::property {
  * 表示 RGBA 颜色属性，继承自 MProperty 基类。
  * 支持颜色值的获取、设置和格式转换。
  */
-class Color : public MProperty {
+class XCAL_API Color : public MProperty {
     XCAL_PROPERTY_TYPE(Color)
    private:
     Proxy<std::array<float_t, 4>> data_{

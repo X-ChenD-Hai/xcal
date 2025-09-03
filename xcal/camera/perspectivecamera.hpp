@@ -8,7 +8,7 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::camera {
-class PerspectiveCamera : public AbsCamera {
+class XCAL_API PerspectiveCamera : public AbsCamera {
    private:
     /* 投影参数 */
     property::Scalar fov_;

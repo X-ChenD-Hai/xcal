@@ -7,7 +7,7 @@
 
 namespace xcal::mobject {
 
-class Line : public MObject {
+class XCAL_API Line : public MObject {
     XCAL_MOBJECT_TYPE(Line)
    public:
     using vec = xcmath::vec<float_t, 2>;

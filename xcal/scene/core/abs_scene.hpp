@@ -16,13 +16,16 @@ namespace xcal::scene {
  * @tparam ObjectPtr 对象指针类型，默认为 mobject::AbsMObject_ptr
  */
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
-class AbsScene {
+class XCAL_API AbsScene {
    private:
     using object_t = ObjectPtr::element_type;  ///< 对象类型定义
-    std::vector<ObjectPtr> mobjects_;          ///< 对象指针列表
-    std::vector<std::unique_ptr<camera::AbsCamera>> cameras_;  ///< 相机列表
+    std::vector<ObjectPtr> mobjects_{};        ///< 对象指针列表
+    std::vector<std::unique_ptr<camera::AbsCamera>> cameras_{};  ///< 相机列表
 
    public:
+    AbsScene() {};
+    AbsScene(const AbsScene&) = delete;
+    AbsScene& operator=(const AbsScene&) = delete;
     /**
      * @brief 添加智能指针对象
      * @param obj 要添加的对象智能指针

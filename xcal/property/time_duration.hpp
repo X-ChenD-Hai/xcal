@@ -10,7 +10,7 @@ namespace xcal::property {
  * 表示时间间隔或持续时间，使用微秒精度存储。
  * 支持从浮点数秒构造和各种时间单位转换。
  */
-class TimeDuration : public MProperty {
+class XCAL_API TimeDuration : public MProperty {
     XCAL_PROPERTY_TYPE(TimeDuration)
    private:
     Proxy<size_t> microseconds_{this, 0};  ///< 微秒值

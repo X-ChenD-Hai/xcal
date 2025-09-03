@@ -3,7 +3,7 @@
 
 namespace xcal::mobject {
 
-class Ellipse : public MObject {
+class XCAL_API Ellipse : public MObject {
     XCAL_MOBJECT_TYPE(Ellipse)
    private:
     property::Position pos_;

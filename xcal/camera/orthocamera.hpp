@@ -3,5 +3,5 @@
 #include <xcal/camera/core/abs_camera.hpp>
 
 namespace xcal::camera {
-class OrthoCamera : public AbsCamera {};
+class XCAL_API OrthoCamera : public AbsCamera {};
 }  // namespace xcal::camera

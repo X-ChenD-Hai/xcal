@@ -6,4 +6,4 @@ target_link_libraries(test_scene PRIVATE
 )
 
 # 注册 scene 测试
-add_test(NAME test_scene COMMAND test_scene)
+add_xcal_test(scene)

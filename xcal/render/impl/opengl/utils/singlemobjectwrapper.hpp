@@ -5,7 +5,7 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::render::opengl::utils {
-class SingleMObjectWrapperImpl {
+class XCAL_API SingleMObjectWrapperImpl {
     template <class T>
         requires(std::is_base_of_v<mobject::MObject, T>)
     friend class SingleMObjectWrapper;
@@ -28,7 +28,7 @@ class SingleMObjectWrapperImpl {
 };
 template <class T>
     requires(std::is_base_of_v<mobject::MObject, T>)
-class SingleMObjectWrapper : public SingleMObjectWrapperImpl {
+class XCAL_API SingleMObjectWrapper : public SingleMObjectWrapperImpl {
    public:
     using SingleMObjectWrapperImpl::mat;
     using SingleMObjectWrapperImpl::SingleMObjectWrapperImpl;

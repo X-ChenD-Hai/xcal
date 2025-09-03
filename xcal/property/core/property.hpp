@@ -21,7 +21,7 @@ enum class Type {
     User,
 };
 
-class MProperty {
+class XCAL_API MProperty {
     virtual Type type_() const = 0;
 
    private:
@@ -29,7 +29,7 @@ class MProperty {
 
    protected:
     template <typename T>
-    class Proxy {
+    class XCAL_API Proxy {
        private:
         T value_;
         static std::unordered_map<void *, MProperty *> proxy_to_self_;

@@ -5,7 +5,7 @@
 
 namespace xcal::render {
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
-class AbsRender {
+class XCAL_API AbsRender {
    public:
     using Scene = scene::AbsScene<ObjectPtr>;
 

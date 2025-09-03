@@ -4,7 +4,7 @@
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 
 namespace xcal::render::opengl::GL {
-class VertexArrayObject {
+class XCAL_API VertexArrayObject {
     friend class ::xcal::render::opengl::object::Object;
 
     VertexArrayObject(const VertexArrayObject &) = delete;

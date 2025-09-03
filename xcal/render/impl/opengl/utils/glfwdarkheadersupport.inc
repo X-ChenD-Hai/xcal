@@ -1,4 +1,5 @@
 // 平台检测宏
+#include <xcal/public.h>
 #if defined(_WIN32) || defined(_WIN64)
 #    define XC_PLATFORM_WINDOWS 1
 #    define GLFW_EXPOSE_NATIVE_WIN32
@@ -33,7 +34,7 @@
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-bool enable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API bool enable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -96,7 +97,7 @@ bool enable_window_dark_titlebar(GLFWwindow* window) {
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-bool disable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API bool disable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -132,7 +133,7 @@ bool disable_window_dark_titlebar(GLFWwindow* window) {
 }
 
 // 平台检测辅助函数
-const char* get_platform_name() {
+XCAL_API const char* get_platform_name() {
 #if defined(XC_PLATFORM_WINDOWS)
     return "Windows";
 #elif defined(XC_PLATFORM_MAC)

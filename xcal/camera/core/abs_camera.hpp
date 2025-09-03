@@ -6,13 +6,14 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::camera {
-class AbsCamera {
+class XCAL_API AbsCamera {
    private:
     /* 视图参数 */
     property::Vec<float_t, 3> position_{0.f, 0.f, -1.f};
     property::Vec<float_t, 3> target_{0.f, 0.f, 0.f};
     property::Vec<float_t, 3> up_{0.f, 1.f, 0.f};
-    mutable xcmath::mat<float_t, 4, 4> view_matrix_cache_;
+    mutable xcmath::mat<float_t, 4, 4> view_matrix_cache_{
+        xcmath::mat<float_t, 4, 4>::eye()};
 
    private:
     void update_view_matrix() const;
@@ -39,3 +40,4 @@ class AbsCamera {
     virtual const xcmath::mat<float_t, 4, 4>& projection_matrix() const = 0;
 };
 }  // namespace xcal::camera
+template class XCAL_API xcal::property::Vec<float_t, 3>;

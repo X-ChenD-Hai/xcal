@@ -1,6 +1,9 @@
 if(BUILD_DYNAMIC_LIBRARY)
     add_library(xcal SHARED)
-    target_compile_definitions(xcal PRIVATE XCAL_ENABLE_DYNAMIC_LIBRARY XCAL_BUILD)
+    target_compile_definitions(xcal
+        PUBLIC XCAL_ENABLE_DYNAMIC_LIBRARY
+        PRIVATE XCAL_BUILD
+    )
 else()
     add_library(xcal STATIC)
 endif()

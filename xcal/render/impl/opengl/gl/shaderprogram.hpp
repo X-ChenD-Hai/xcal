@@ -6,7 +6,7 @@
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcmath/xcmath.hpp>
 namespace xcal::render::opengl::GL {
-class ShaderProgram {
+class XCAL_API ShaderProgram {
     friend class Object;
 
    private:

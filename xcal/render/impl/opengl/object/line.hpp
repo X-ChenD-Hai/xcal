@@ -9,7 +9,7 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::render::opengl::object {
-class Line : public Object {
+class XCAL_API Line : public Object {
    public:
     using mat = xcmath::mat<float_t, 4, 4>;
 

@@ -6,7 +6,7 @@
 #include <xcal/render/impl/opengl/object/object.hpp>
 
 namespace xcal::render::opengl {
-class OpenGLRender : public xcal::render::Render {
+class XCAL_API OpenGLRender : public xcal::render::Render {
    private:
     GLFWwindow* window_ = nullptr;
     std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
@@ -20,6 +20,8 @@ class OpenGLRender : public xcal::render::Render {
     virtual void set_scene(Scene* scene) override;
 
    public:
+    OpenGLRender(const OpenGLRender&) = delete;
+    OpenGLRender& operator=(const OpenGLRender&) = delete;
     OpenGLRender(Scene* scene);
     virtual ~OpenGLRender() override;
 };

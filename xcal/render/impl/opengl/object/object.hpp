@@ -13,7 +13,7 @@ namespace xcal::render::opengl {
 class OpenGLRender;
 }
 namespace xcal::render::opengl::object {
-class Object {
+class XCAL_API Object {
     friend class xcal::render::opengl::OpenGLRender;
 
    private:

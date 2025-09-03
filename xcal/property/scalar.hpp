@@ -3,7 +3,7 @@
 
 namespace xcal::property {
 
-class Scalar : public MProperty {
+class XCAL_API Scalar : public MProperty {
     XCAL_PROPERTY_TYPE(Scalar)
    private:
     Proxy<float_t> value_{this, 0.0f};
