@@ -58,7 +58,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     // _gl glLineWidth(32.0f);
     setup_scene();
 }
-xcal::render::opengl::OpenGLRender::~OpenGLRender(){
+xcal::render::opengl::OpenGLRender::~OpenGLRender() {
 
 };
 void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {

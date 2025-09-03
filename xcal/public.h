@@ -4,10 +4,10 @@
 #define XCLOG_FUNCTION_TRACK
 #include <xclogger/logger.hpp>
 #ifdef _WIN32
-#include <xclogger/asynczmqlogsubmitstream.hpp>
+#    include <xclogger/asynczmqlogsubmitstream.hpp>
 XCLOG_ENABLE_ASYNCZMQLOGSUBMITSTREAM("tcp://127.0.0.1:5553")
 #else
-#include <xclogger/asyncostreamlogsubmitstream.hpp>
+#    include <xclogger/asyncostreamlogsubmitstream.hpp>
 XCLOG_ENABLE_ASYNCSTREAMLOGSUBMITSTREAM();
 #endif
 
@@ -29,7 +29,7 @@ using bool_t = bool;
 };  // namespace xcal
 
 #ifndef _STD
-#define _STD ::std::
+#    define _STD ::std::
 #endif
 #ifdef XCAL_ENABLE_DYNAMIC_LIBRARY
     // 定义导出和导入宏
