@@ -1,16 +1,16 @@
-#include <glbinding/gl/gl.h>
-#ifndef __gl_h_
-#define __gl_h_
-#endif
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <GLFW/glfw3.h>
-#include <glbinding-aux/ContextInfo.h>
-#include <glbinding/glbinding.h>
+//
+#ifdef GL_BACKEND_GLBINDING
+#    include <glbinding-aux/ContextInfo.h>
+#    include <glbinding/gl/functions.h>
+#    include <glbinding/glbinding.h>
+using namespace gl;  // 把  前缀去掉，直接写 glClear 等
+#endif
 
 #include <cstdlib>
 #include <iostream>
-
-using namespace gl;  // 把  前缀去掉，直接写 glClear 等
 
 //----------------------------------------
 // 回调：窗口大小变化
@@ -49,10 +49,16 @@ GLFWwindow* init_glfw() {
 
 //----------------------------------------
 // 初始化 glbinding（只需一次）
-void init_glbinding() {
+void init_glbackend() {
+#ifdef GL_BACKEND_GLBINDING
     glbinding::initialize(glfwGetProcAddress, false);
-    std::cout << "OpenGL context: "
-              << glbinding::aux::ContextInfo::version().toString() << '\n';
+#elif defined(GL_BACKEND_GLAD)
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+#else
+#    error "No OpenGL backend defined"
+#endif
 }
 
 //----------------------------------------
@@ -103,7 +109,7 @@ GLuint make_shader(const char* vs_src, const char* fs_src) {
 //----------------------------------------
 int main() {
     GLFWwindow* win = init_glfw();
-    init_glbinding();
+    init_glbackend();
 
     // 顶点数据
     float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,

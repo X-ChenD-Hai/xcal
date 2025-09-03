@@ -2,7 +2,7 @@
 #include <xcal/render/core/abs_render.hpp>
 
 namespace xcal::render {
-class Render : public AbsRender<mobject::mobject_ptr> {
+class XCAL_API Render : public AbsRender<mobject::mobject_ptr> {
    public:
     using AbsRender<mobject::mobject_ptr>::AbsRender;
 };

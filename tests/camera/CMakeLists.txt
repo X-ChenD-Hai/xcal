@@ -5,6 +5,5 @@ target_link_libraries(test_camera PRIVATE
     GTest::gtest GTest::gtest_main
     xcal
 )
-
 # 注册 camera 测试
-add_test(NAME test_camera COMMAND test_camera)
+add_xcal_test(camera)

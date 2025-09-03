@@ -4,7 +4,7 @@
 
 namespace xcal::mobject {
 
-class Polygone : public MObject {
+class XCAL_API Polygone : public MObject {
     XCAL_MOBJECT_TYPE(Polygone)
    private:
     property::PositionList points_;

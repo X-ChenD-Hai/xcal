@@ -9,7 +9,7 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::render::opengl::object {
-class Line : public Object {
+class XCAL_API Line : public Object {
    public:
     using mat = xcmath::mat<float_t, 4, 4>;
 
@@ -23,6 +23,8 @@ class Line : public Object {
     virtual void create() override;
     virtual void destroy() override;
     virtual void render() const override;
+    virtual void update_projection_view(
+        const xcmath::mat4<float_t> &view_projection) override;
 
     Line(const Line &) = delete;
 };

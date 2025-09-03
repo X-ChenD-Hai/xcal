@@ -12,7 +12,7 @@ namespace xcal::mobject {
  * 所有图形对象的抽象基类，定义了图形对象的基本接口和属性管理功能。
  * 提供可见性控制和属性注册机制。
  */
-class AbsMObject {
+class XCAL_API AbsMObject {
    private:
     /**
      * @brief 获取对象类型（纯虚函数）

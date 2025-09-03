@@ -12,7 +12,7 @@ namespace xcal::property {
  * 表示特定的时间点，使用从纪元开始的微秒数存储。
  * 支持从浮点数秒构造和时间运算。
  */
-class TimePoint : public MProperty {
+class XCAL_API TimePoint : public MProperty {
     XCAL_PROPERTY_TYPE(TimePoint)
    private:
     Proxy<size_t> microseconds_since_epoch_{this, 0};  ///< 从纪元开始的微秒数

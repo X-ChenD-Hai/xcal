@@ -1,9 +1,7 @@
 #include <xcal/camera/perspectivecamera.hpp>
 
 void xcal::camera::PerspectiveCamera::update_projection_matrix() const {
-    if (!fov_.is_changed() && !aspect_.is_changed() && !near_.is_changed() &&
-        !far_.is_changed())
-        return;
+    if (!projection_is_updated()) return;
 
     const float fov_rad = fov_.value() * xcmath::PI / 180.0f;
     const float tan_half = std::tan(fov_rad * 0.5f);
@@ -26,4 +24,13 @@ void xcal::camera::PerspectiveCamera::update_projection_matrix() const {
     aspect_.reset_changed();
     near_.reset_changed();
     far_.reset_changed();
+}
+xcal::bool_t xcal::camera::PerspectiveCamera::projection_is_updated() const {
+    return fov_.is_changed() || aspect_.is_changed() || near_.is_changed() ||
+           far_.is_changed();
+};
+const xcmath::mat<float_t, 4, 4>&
+xcal::camera::PerspectiveCamera::projection_matrix() const {
+    update_projection_matrix();
+    return projection_matrix_cache_;
 }

@@ -8,7 +8,7 @@
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::camera {
-class PerspectiveCamera : public AbsCamera {
+class XCAL_API PerspectiveCamera : public AbsCamera {
    private:
     /* 投影参数 */
     property::Scalar fov_;
@@ -37,10 +37,8 @@ class PerspectiveCamera : public AbsCamera {
     property::Scalar& far() { return far_; }
     const property::Scalar& far() const { return far_; }
 
-    const xcmath::mat<float_t, 4, 4>& projection_matrix() const {
-        update_projection_matrix();
-        return projection_matrix_cache_;
-    }
+    const xcmath::mat<float_t, 4, 4>& projection_matrix() const override;
+    bool_t projection_is_updated() const override;
 
    private:
     /* 你的实现里这部分逻辑正确 */

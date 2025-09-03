@@ -31,6 +31,8 @@ files=$(find $search_dirs -type f \( \
     -name '*.hpp' -o \
     -name '*.cc' -o \
     -name '*.cpp' \
+    -name '*.c' \
+    -name '*.inc' \
 \) 2>/dev/null)
 
 # 逐个格式化

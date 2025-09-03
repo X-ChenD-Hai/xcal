@@ -3,7 +3,7 @@
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 namespace xcal::render::opengl::GL {
-class Shader {
+class XCAL_API Shader {
     friend class Object;
     friend class xcal::render::opengl::GL::ShaderProgram;
 

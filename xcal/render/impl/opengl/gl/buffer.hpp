@@ -4,7 +4,7 @@
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 namespace xcal::render::opengl::GL {
 
-class Buffer {
+class XCAL_API Buffer {
     friend class Object;
 
    private:

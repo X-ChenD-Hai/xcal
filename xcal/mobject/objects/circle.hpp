@@ -9,7 +9,7 @@ namespace xcal::mobject {
  * 表示一个圆形图形对象，继承自 MObject 基类。
  * 具有位置和半径属性，支持半径的获取和设置。
  */
-class Circle : public MObject {
+class XCAL_API Circle : public MObject {
     XCAL_MOBJECT_TYPE(Circle)
 
    private:

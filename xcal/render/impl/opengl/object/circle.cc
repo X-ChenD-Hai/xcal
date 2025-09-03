@@ -1,4 +1,4 @@
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
 
@@ -76,7 +76,7 @@ void xcal::render::opengl::object::Circle::destroy() {
 void xcal::render::opengl::object::Circle::render() const {
     vao().bind();
     shader_program_->use();
-    shader_program_->uniform("model", mobject_.model_materix());
+    shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_TRIANGLE_FAN, 0,
                      segments_ + 2);  // +2 for center and duplicate first point
 };
@@ -87,3 +87,9 @@ xcal::render::opengl::object::Circle::Circle(mobject::Circle* mobject)
 };
 
 XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Circle, Circle)
+void xcal::render::opengl::object::Circle::update_projection_view(
+    const xcmath::mat4<float_t>& projection_view) {
+    _D("Update view projection for Line: " << this << " with view_projection: "
+                                           << projection_view);
+    shader_program_->uniform("projection_view", projection_view);
+}

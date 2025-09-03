@@ -3,7 +3,7 @@
 #include <xcmath/mobject/vec.hpp>
 namespace xcal::property {
 template <typename T, size_t N>
-class Vec : public MProperty {
+class XCAL_API Vec : public MProperty {
     XCAL_PROPERTY_TYPE(Vec)
 
    private:

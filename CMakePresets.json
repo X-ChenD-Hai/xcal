@@ -1,0 +1,52 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "build",
+            "hidden": true,
+            "generator": "Ninja",
+            "displayName": "Build",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "build-debug",
+            "inherits": [
+                "build"
+            ],
+            "displayName": "Debug",
+            "description": "编译类型: Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "BUILD_TESTING": true
+            }
+        },
+        {
+            "name": "build-release",
+            "inherits": [
+                "build"
+            ],
+            "displayName": "Release",
+            "description": "编译类型: Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "BUILD_TESTING": true
+            }
+        },
+        {
+            "name": "release",
+            "inherits": [
+                "build",
+                "build-release"
+            ],
+            "displayName": "Release",
+            "description": "编译类型: Release",
+            "cacheVariables": {
+                "BUILD_TESTING": false
+            }
+        }
+    ],
+    "packagePresets": []
+}

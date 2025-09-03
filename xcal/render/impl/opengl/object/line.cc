@@ -1,13 +1,14 @@
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 
 //
+#include <xcal/public.h>
+
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
+#include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
 
-#include "xcal/public.h"
-#include "xcal/render/impl/opengl/object/object.hpp"
 #define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line
@@ -61,7 +62,7 @@ void xcal::render::opengl::object::Line::destroy() {
 void xcal::render::opengl::object::Line::render() const {
     vao().bind();
     shader_program_->use();
-    shader_program_->uniform("model", mobject_.model_materix());
+    shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
@@ -70,3 +71,9 @@ xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
 };
 
 XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Line, Line)
+void xcal::render::opengl::object::Line::update_projection_view(
+    const xcmath::mat4<float_t>& projection_view) {
+    _D("Update view projection for Line: " << this << " with view_projection: "
+                                           << projection_view);
+    shader_program_->uniform("projection_view", projection_view);
+};

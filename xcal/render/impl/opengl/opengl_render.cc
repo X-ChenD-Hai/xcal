@@ -1,32 +1,42 @@
-#include <glbinding/gl/functions.h>
-
-#include <xcal/render/impl/opengl/utils/glbindingincludehelper.inc>
-
+#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
-#include <glbinding-aux/ContextInfo.h>
-#include <glbinding/glbinding.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
+#include <xcmath/utils/show.hpp>
+
+//
+#ifdef GL_BACKEND_GLBINDING
+#    include <glbinding-aux/ContextInfo.h>
+#    include <glbinding/gl/functions.h>
+#    include <glbinding/glbinding.h>
+#endif
+
+//
+#include <GLFW/glfw3.h>
+
 #undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
+
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
     (w > h) ? _gl glViewport((w - h) / 2, 0, h, h)
             : _gl glViewport(0, (h - w) / 2, w, w);
 }
 
-void init_glbinding() {
+void init_glbackend() {
+#ifdef GL_BACKEND_GLBINDING
     glbinding::initialize(glfwGetProcAddress, false);
-    std::cout << "OpenGL context: "
-              << glbinding::aux::ContextInfo::version().toString() << '\n';
+#elif defined(GL_BACKEND_GLAD)
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+#else
+#    error "No OpenGL backend defined"
+#endif
 }
-#include <xcal/utils/logmacrohelper.inc>
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene) {
@@ -46,7 +56,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     if (!enable_window_dark_titlebar(window_)) {
         _D("Failed to enable dark titlebar");
     }
-    init_glbinding();
+    init_glbackend();
     // _gl glLineWidth(32.0f);
     setup_scene();
 }
@@ -77,7 +87,17 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
     _gl glClear(_gl GL_COLOR_BUFFER_BIT);
-
+    if (!scene()->cameras().empty()) {
+        const auto& cam = scene()->cameras().front();
+        if (cam->is_updated()) {
+            for (auto& obj : objects_) {
+                _D("updating object: " << obj.first
+                                       << " with camera: " << cam.get());
+                _D("pv_matrix: " << cam->pv_matrix());
+                obj.second->update_projection_view(cam->pv_matrix());
+            }
+        }
+    }
     for (const auto& obj : objects_) {
         auto& obj_ptr = obj.second;
         if (obj_ptr) {

@@ -30,20 +30,35 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - **render**: 渲染引擎模块（OpenGL/GLFW）
 - **property**: 属性系统（位置、颜色、标量、时间、向量等）
 - **camera**: 相机系统（正交相机、透视相机）
+- **animation**: 动画系统模块（新增）
 
 ### 文件结构详解
 
 #### 根目录文件
 - `CMakeLists.txt` - 主构建配置文件，定义项目设置和依赖
-- `CMakeUserPresets.json` - CMake 预设配置
+- `CMakePresets.json` - CMake 预设配置
 - `.clang-format` - 代码格式化配置
 - `CONTRIBUTING.md` - 传统贡献指南
 - `CHAT_CONTRIBUTING.md` - AI 贡献者专用指南
+- `.gitignore` - Git 忽略文件配置
+
+#### 资源文件
+- `res/line.fs` - 线条片段着色器
+- `res/line.vs` - 线条顶点着色器
 
 #### xcal/ 源代码目录
 **核心头文件**:
 - `public.h` - 公共头文件，定义基础类型和日志配置
 - `main.cc` - 应用程序入口点
+
+**animation/ 动画系统模块**:
+- `core/abs_animation.hpp` - 抽象动画基类，提供动画基础功能
+
+**camera/ 相机系统**:
+- `orthocamera.hpp` - 正交相机
+- `perspectivecamera.cc/.hpp` - 透视相机实现
+- `core/abs_camera.cc/.hpp` - 抽象相机基类
+- `core/frame.hpp` - 帧处理
 
 **mobject/ 图形对象模块**:
 - `mobject_all.hpp` - 所有 mobject 头文件的聚合
@@ -78,7 +93,6 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `core/scene.hpp` - 具体场景实现
 
 **render/ 渲染引擎**:
-- `render.hpp` - 渲染器接口
 - `core/abs_render.cc/.hpp` - 抽象渲染器基类实现
 - `core/render.hpp` - 具体渲染器实现
 - `impl/opengl/` - OpenGL 渲染实现
@@ -90,19 +104,14 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
     - `shaderprogram.cc/.hpp` - 着色器程序管理
     - `vertexarrayobject.cc/.hpp` - 顶点数组对象管理
   - `object/` - 图形对象渲染
+    - `circle.cc/.hpp` - 圆形对象渲染
     - `line.cc/.hpp` - 线条对象渲染
     - `object.cc/.hpp` - 基础对象渲染
   - `utils/` - 工具类
-    - `glbindingincludehelper.inc` - OpenGL 头文件包含助手
     - `glfwdarkheadersupport.inc` - 暗色标题栏支持
+    - `openglapiloadhelper.inc` - OpenGL API 加载助手
     - `shaderinstence.hpp` - 着色器实例管理
     - `singlemobjectwrapper.cc/.hpp` - 单对象包装器
-
-**camera/ 相机系统**:
-- `orthocamera.hpp` - 正交相机
-- `perspectivecamera.cc/.hpp` - 透视相机实现
-- `core/abs_camera.cc/.hpp` - 抽象相机基类
-- `core/frame.hpp` - 帧处理
 
 **threed/ 3D 功能**:
 - (预留模块，当前为空)
@@ -111,6 +120,11 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `logmacrohelper.inc` - 日志宏助手
 
 #### third_party/ 第三方依赖
+**xclogger/ 日志库**:
+- 提供异步日志提交功能
+- 支持 ZMQ 和流式日志输出
+- 包含日志消息处理和配置
+
 **xcmath/ 数学库**:
 - 提供数学运算、向量、矩阵、四元数等数学功能
 - 符号系统支持表达式处理
@@ -119,10 +133,12 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 #### tests/ 测试目录
 **模块测试**:
 - `mobject/test_circle.cc` - 圆形对象测试
+- `mobject/test_mobject.cc` - 基础图形对象测试
 - `properties/test_color.cc` - 颜色属性测试
 - `properties/test_time_duration.cc` - 时间段测试
 - `properties/test_time_point.cc` - 时间点测试
 - `scene/test_scene.cc` - 场景管理测试
+- `camera/test_perspective_camera.cc` - 透视相机测试
 
 **集成测试**:
 - `opengl.cc` - OpenGL 渲染测试
@@ -150,7 +166,17 @@ MProperty (属性基类)
   ├── Color (颜色属性)
   ├── Scalar (标量属性)
   ├── TimeDuration (时间段属性)
-  └── TimePoint (时间点属性)
+  ├── TimePoint (时间点属性)
+  └── Vec (向量属性)
+```
+
+### 动画系统架构
+```
+AbsAnimation (抽象动画基类)
+  ├── 提供动画基础功能
+  ├── 支持播放控制（开始、暂停、恢复、停止）
+  ├── 时间管理和更新机制
+  └── 可扩展的具体动画实现
 ```
 
 ### 场景管理系统
@@ -165,8 +191,17 @@ AbsRender<T> (模板抽象渲染器)
   └── (具体渲染器实现，连接 OpenGL/GLFW)
 ```
 
+### 相机系统架构
+```
+AbsCamera (抽象相机基类)
+  ├── OrthoCamera (正交相机)
+  └── PerspectiveCamera (透视相机)
+```
+
 ### 关键技术栈
-- **编译器**: Clang-cl 19.1.0
+- **编译器**: 
+  - Windows: Clang-cl 19.1.0
+  - Linux: Clang 19.1+
 - **C++标准**: C++23
 - **图形库**: OpenGL + GLFW
 - **构建系统**: CMake 3.15+
@@ -240,9 +275,10 @@ cmake --build build --target format-code
 
 ### 命名约定（严格遵循）
 - **类名**: PascalCase (`MObject`, `Scene`)
-- **函数名**: camelCase (`calculatePosition`, `renderScene`)
+- **函数名**: snake_case (`set_stroke_color`, `rotate`)
 - **变量名**: snake_case (`position_list`, `color_value`)
 - **常量名**: UPPER_SNAKE_CASE (`MAX_OBJECTS`, `DEFAULT_COLOR`)
+- **编译期常量**: kPascalCase (`kEpsilon`, `kTypeName`)
 
 ### 头文件规范
 ```cpp
@@ -293,37 +329,37 @@ TEST(TestCircle, CreateAndValidate) {
 ### 运行测试
 ```bash
 # 构建测试
-cmake --build --preset build-debug --target test_opengl
+cmake --build build --target test_opengl
 
 # 运行特定测试
 ./build-debug/tests/test_opengl --gtest_filter="TestCircle.*"
 
 # 使用 CTest 运行所有测试（需要先构建测试）
-ctest --output-on-failure
+ctest --test-dir build/debug --output-on-failure
 
 # 使用 CTest 运行特定测试
-ctest -R test_mobject --output-on-failure
+ctest --test-dir build/debug -R test_mobject --output-on-failure
 
 # 使用 CTest 查看测试列表
-ctest -N
+ctest --test-dir build/debug -N
 
 # 使用 CTest 并行运行测试
-ctest -j4 --output-on-failure
+ctest --test-dir build/debug -j4 --output-on-failure
 
 # 构建所有测试目标
-cmake --build build --target test_mobject test_properties test_scene test_opengl
+cmake --build build --target test_mobject test_properties test_scene test_opengl test_camera
 ```
 
 **注意**: 首次启用 CTest 或添加新测试后，需要重新配置和构建项目：
 ```bash
 # 重新配置项目
-cmake -B build --preset build-debug
+cmake -B build/debug -S . --preset build-debug
 
 # 构建所有测试
-cmake --build build --target test_mobject test_properties test_scene test_opengl
+cmake --build build/debug --target test_mobject test_properties test_scene test_opengl test_camera
 
 # 然后就可以使用 CTest 了
-ctest --output-on-failure
+ctest --test-dir build/debug --output-on-failure
 ```
 
 ## 🔧 构建和验证
@@ -331,11 +367,11 @@ ctest --output-on-failure
 ### CMake 预设使用
 ```bash
 # Debug 构建
-cmake -Bbuild/debug -S. --preset build-debug
+cmake -B build/debug -S . --preset build-debug
 cmake --build build/debug
 
 # Release 构建  
-cmake  -Bbuild/release -S. --preset build-release
+cmake -B build/release -S . --preset build-release
 cmake --build build/release
 ```
 
@@ -416,6 +452,30 @@ git push origin feature/ai-your-feature-name
 3. 运行代码格式化工具检查风格
 4. 确保所有测试通过
 
+## 📅 更新记录 - 2025-09-04
+
+### 新增内容
+- 添加了动画系统模块文档，包括抽象动画基类实现
+- 更新了完整的文件结构以反映当前项目状态
+- 添加了相机系统测试文件说明
+- 完善了属性系统架构，添加向量属性支持
+
+### 修正内容  
+- 修正了所有目录结构引用（从 `src/` 改为 `xcal/`）
+- 更新了核心模块列表，添加了 animation 模块
+- 修正了文件路径描述，确保与实际结构一致
+- 更新了测试运行命令格式
+
+### 示例更新
+- 添加了动画系统架构说明
+- 更新了相机系统架构文档
+- 添加了透视相机测试文件说明
+
+### 新增最佳实践
+- **动画系统设计**: 提供抽象动画基类，支持播放控制和时间管理
+- **文件结构管理**: 确保文档与实际项目结构保持同步
+- **测试覆盖率**: 为所有新增功能编写相应的测试用例
+
 ## 📅 更新记录 - 2025-09-02
 
 ### 新增内容
@@ -448,7 +508,7 @@ git push origin feature/ai-your-feature-name
 - **添加了完整的项目概述和文件结构详细描述**
 - **完善了文件操作更新机制和规范**
 
-### 修正内容  
+### 修正内容
 - 更新了测试运行命令的正确格式（Windows 路径格式)
 - 修正了测试示例中的属性访问方法
 - 解决了构造函数歧义问题（移除 size_t 构造函数，使用设置方法）
@@ -469,6 +529,7 @@ git push origin feature/ai-your-feature-name
 
 ## 📊 版本历史
 
+- **v1.5.0** (2025-09-04): 添加动画系统模块，全面更新文件结构文档
 - **v1.4.0** (2025-09-02): 根据项目变更更新文件结构和模块文档
 - **v1.3.0** (2025-08-27): 添加 CTest 支持，完善测试运行机制
 - **v1.2.0** (2025-08-27): 添加项目概述和文件结构详细描述，完善文件操作更新机制
@@ -478,5 +539,5 @@ git push origin feature/ai-your-feature-name
 
 ---
 
-*最后更新: 2025-09-02*  
+*最后更新: 2025-09-04*  
 *AI 贡献者请在每次任务开始前读取本指南，并在任务完成后更新本指南*

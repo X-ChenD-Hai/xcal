@@ -8,4 +8,4 @@ void xcal::render::AbsRender<ObjectPtr>::set_scene(Scene *scene) {
     scene_ = scene;
 }
 
-template class xcal::render::AbsRender<xcal::mobject::mobject_ptr>;
+template class XCAL_API xcal::render::AbsRender<xcal::mobject::mobject_ptr>;

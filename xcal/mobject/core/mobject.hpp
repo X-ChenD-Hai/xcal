@@ -12,7 +12,7 @@
 #include "xcmath/mobject/vec.hpp"
 
 namespace xcal::mobject {
-class MObject : public AbsMObject {
+class XCAL_API MObject : public AbsMObject {
    public:
     using vec4 = xcmath::vec4<float_t>;
     using vec3 = xcmath::vec3<float_t>;

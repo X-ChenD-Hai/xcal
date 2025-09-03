@@ -1,28 +1,32 @@
 // 平台检测宏
+#include <xcal/public.h>
 #if defined(_WIN32) || defined(_WIN64)
-#define XC_PLATFORM_WINDOWS 1
-#include <dwmapi.h>
-#include <windows.h>
-#pragma comment(lib, "dwmapi.lib")
+#    define XC_PLATFORM_WINDOWS 1
+#    define GLFW_EXPOSE_NATIVE_WIN32
+#    include <GLFW/glfw3.h>
+#    include <GLFW/glfw3native.h>
+#    include <dwmapi.h>
+#    include <windows.h>
+#    pragma comment(lib, "dwmapi.lib")
 #elif defined(__APPLE__)
-#define XC_PLATFORM_MACOS 1
-#include <TargetConditionals.h>
-#if TARGET_OS_MAC
-#define XC_PLATFORM_MAC 1
-#endif
+#    define XC_PLATFORM_MACOS 1
+#    include <TargetConditionals.h>
+#    if TARGET_OS_MAC
+#        define XC_PLATFORM_MAC 1
+#    endif
 #elif defined(__linux__)
-#define XC_PLATFORM_LINUX 1
+#    define XC_PLATFORM_LINUX 1
 // Linux 平台可能需要额外的头文件
 #endif
 
 // Windows 深色模式常量定义
 #ifdef XC_PLATFORM_WINDOWS
-#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
-#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
-#endif
-#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
-#define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
-#endif
+#    ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#        define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#    endif
+#    ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
+#        define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
+#    endif
 #endif
 
 /**
@@ -30,7 +34,7 @@
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-bool enable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API bool enable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -69,20 +73,21 @@ bool enable_window_dark_titlebar(GLFWwindow* window) {
 // macOS 平台实现
 // 注意：GLFW 在 macOS 上使用 NSWindow，需要 Objective-C 或 Swift 代码
 // 这里只是一个占位符，实际需要 Objective-C++ 实现
-#pragma message( \
-    "macOS dark titlebar support requires Objective-C implementation")
+#    pragma message( \
+        "macOS dark titlebar support requires Objective-C implementation")
     return false;
 
 #elif defined(XC_PLATFORM_LINUX)
 // Linux 平台实现
 // Linux 桌面环境多样，需要根据不同的桌面环境实现
 // 常见的如 GNOME、KDE、Xfce 等各有不同的方法
-#pragma message("Linux dark titlebar support depends on desktop environment")
+#    pragma message( \
+        "Linux dark titlebar support depends on desktop environment")
     return false;
 
 #else
 // 其他不支持的平台
-#pragma message("Dark titlebar not supported on this platform")
+#    pragma message("Dark titlebar not supported on this platform")
     return false;
 #endif
 }
@@ -92,7 +97,7 @@ bool enable_window_dark_titlebar(GLFWwindow* window) {
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-bool disable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API bool disable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -128,7 +133,7 @@ bool disable_window_dark_titlebar(GLFWwindow* window) {
 }
 
 // 平台检测辅助函数
-const char* get_platform_name() {
+XCAL_API const char* get_platform_name() {
 #if defined(XC_PLATFORM_WINDOWS)
     return "Windows";
 #elif defined(XC_PLATFORM_MAC)

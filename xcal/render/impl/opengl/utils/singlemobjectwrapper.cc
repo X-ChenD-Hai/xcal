@@ -6,7 +6,7 @@
 #include <xcmath/utils/show.hpp>
 
 xcal::render::opengl::utils::SingleMObjectWrapperImpl::mat&
-xcal::render::opengl::utils::SingleMObjectWrapperImpl::model_materix() const {
+xcal::render::opengl::utils::SingleMObjectWrapperImpl::model_matrix() const {
     if (model_matrix_should_update()) {
         update_model_matrix();
         _D("Render SingleObject: " << this << " from mobject: " << mobject_

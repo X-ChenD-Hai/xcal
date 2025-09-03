@@ -2,11 +2,12 @@
 
 namespace xcal::render::opengl::utils {
 template <class T, size_t _id>
-std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> create_shader() {
+XCAL_API std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
+create_shader() {
     static_assert(false, "Not implemented");
 };
 template <class T, size_t _id>
-class ShaderInstance {
+class XCAL_API ShaderInstance {
    private:
     static std::weak_ptr<xcal::render::opengl::GL::ShaderProgram> shader_;
 

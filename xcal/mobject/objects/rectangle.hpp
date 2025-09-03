@@ -3,7 +3,7 @@
 
 namespace xcal::mobject {
 
-class Rectangle : public MObject {
+class XCAL_API Rectangle : public MObject {
     XCAL_MOBJECT_TYPE(Rectangle)
    private:
     property::Position pos_;
