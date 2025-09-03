@@ -41,6 +41,8 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `CONTRIBUTING.md` - 传统贡献指南
 - `CHAT_CONTRIBUTING.md` - AI 贡献者专用指南
 - `.gitignore` - Git 忽略文件配置
+- `Doxyfile` - Doxygen 配置文件，用于生成项目文档
+- `doxygen-dark-theme.css` - Doxygen 黑暗主题样式表
 
 #### 资源文件
 - `res/line.fs` - 线条片段着色器
