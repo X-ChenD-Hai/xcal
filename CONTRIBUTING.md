@@ -4,6 +4,7 @@
 
 ## 目录
 - [开发环境设置](#开发环境设置)
+- [项目结构](#项目结构)
 - [构建指南](#构建指南)
 - [代码风格](#代码风格)
 - [提交贡献流程](#提交贡献流程)
@@ -14,9 +15,84 @@
 ## 开发环境设置
 
 ### 编译器要求
-- **编译器**: Clang-cl 19.1.0
+- **编译器**: 
+  - Windows: Clang-cl 19.1.0
+  - Linux: Clang 19.1+
 - **C++标准**: C++23
 - **构建系统**: CMake 3.15+
+
+### 依赖项
+
+- **GLFW3**: 窗口管理和 OpenGL 上下文创建
+- **渲染后端** (二选一):
+  - **glbinding**: OpenGL 函数绑定库
+  - **glad**: OpenGL 函数加载库
+- **ZeroMQ**: 异步日志支持 (通过 cppzmq)
+- **JSON**: 日志消息格式化 (通过 nlohmann_json)
+- **xcmath**: 内部数学运算库
+- **xclogger**: 内部日志系统
+
+## 项目结构
+
+### 核心模块
+- **mobject**: 图形对象模块（核心抽象）
+- **scene**: 场景管理模块  
+- **render**: 渲染引擎模块（OpenGL/GLFW）
+- **property**: 属性系统（位置、颜色、标量、时间、向量等）
+- **camera**: 相机系统（正交相机、透视相机）
+- **animation**: 动画系统模块
+
+### 文件结构
+```
+xcal/
+├── xcal/                 # 源代码目录
+│   ├── animation/        # 动画系统模块
+│   ├── camera/           # 相机系统模块
+│   ├── mobject/          # 图形对象模块
+│   ├── property/         # 属性系统模块
+│   ├── render/           # 渲染引擎模块
+│   ├── scene/            # 场景管理模块
+│   ├── public.h          # 公共头文件
+│   └── main.cc           # 应用程序入口点
+├── tests/                # 测试目录
+├── third_party/          # 第三方依赖
+├── res/                  # 资源文件
+├── tools/                # 工具脚本
+└── CMakeLists.txt        # 主构建配置
+```
+
+### 关键文件说明
+- **核心头文件**: `public.h` (基础类型和日志配置), `main.cc` (应用程序入口点)
+- **动画系统**: `animation/core/abs_animation.hpp` (抽象动画基类)
+- **相机系统**: 正交相机、透视相机实现和抽象基类
+- **图形对象**: 圆形、矩形、线条、多边形、椭圆、路径等具体对象
+- **属性系统**: 位置、颜色、标量、时间、向量等属性实现
+- **场景管理**: 场景接口和具体实现
+- **渲染引擎**: OpenGL 渲染实现，包括缓冲区、着色器、顶点数组对象管理
+- **第三方依赖**: xclogger (日志库), xcmath (数学库)
+
+### 继承结构
+```
+AbsMObject (抽象基类)
+  └── MObject (基础图形对象)
+       ├── Circle
+       ├── Rectangle  
+       ├── Line
+       ├── Polygon
+       ├── Ellipse
+       └── Path
+```
+
+### 属性系统架构
+```
+MProperty (属性基类)
+  ├── Position (位置属性)
+  ├── Color (颜色属性)
+  ├── Scalar (标量属性)
+  ├── TimeDuration (时间段属性)
+  ├── TimePoint (时间点属性)
+  └── Vec (向量属性)
+```
 
 ## 构建指南
 
@@ -84,7 +160,7 @@ cmake --build build --target format-code
 ### 命名约定
 项目遵循 Google C++ 风格指南：
 - **类名**: PascalCase (如 `MObject`, `Scene`)
-- **函数名**: snake_case (如 `calculatePosition`, `renderScene`) 
+- **函数名**: snake_case (如 `set_stroke_color`, `rotate`) 
 - **变量名**: snake_case (如 `position_list`, `color_value`)
 - **私有成员变量**: snake_case_
 - **常量名**: UPPER_SNAKE_CASE (如 `MAX_OBJECTS`, `DEFAULT_COLOR`)
@@ -189,4 +265,4 @@ float_t calculateDistance(const Position& p1, const Position& p2);
 
 ---
 
-*最后更新: 2025-08-27*
+*最后更新: 2025-09-04*
