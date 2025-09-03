@@ -62,7 +62,7 @@ void xcal::render::opengl::object::Line::destroy() {
 void xcal::render::opengl::object::Line::render() const {
     vao().bind();
     shader_program_->use();
-    shader_program_->uniform("model", mobject_.model_materix());
+    shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)

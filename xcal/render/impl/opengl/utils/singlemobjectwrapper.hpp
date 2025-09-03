@@ -24,7 +24,7 @@ class SingleMObjectWrapperImpl {
     mobject::MObject* mobject() const { return mobject_; }
     bool model_matrix_should_update() const;
     void update_model_matrix() const;
-    mat& model_materix() const;
+    mat& model_matrix() const;
 };
 template <class T>
     requires(std::is_base_of_v<mobject::MObject, T>)

@@ -76,7 +76,7 @@ void xcal::render::opengl::object::Circle::destroy() {
 void xcal::render::opengl::object::Circle::render() const {
     vao().bind();
     shader_program_->use();
-    shader_program_->uniform("model", mobject_.model_materix());
+    shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_TRIANGLE_FAN, 0,
                      segments_ + 2);  // +2 for center and duplicate first point
 };
