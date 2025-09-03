@@ -1,0 +1,193 @@
+/* Doxygen Dark Theme for xcal project */
+:root {
+  --dark-bg: #1e1e1e;
+  --dark-text: #d4d4d4;
+  --dark-accent: #569cd6;
+  --dark-border: #444;
+  --dark-hover: #2d2d30;
+  --dark-code-bg: #252526;
+  --dark-code-text: #d4d4d4;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header and navigation */
+.navpath ul {
+  background-color: var(--dark-bg);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.navpath li {
+  background-color: var(--dark-bg);
+}
+
+.navpath li.navelem a {
+  color: var(--dark-accent);
+}
+
+.navpath li.navelem a:hover {
+  color: var(--dark-text);
+  background-color: var(--dark-hover);
+}
+
+/* Main content */
+.contents {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.contents .textblock {
+  background-color: var(--dark-bg);
+}
+
+/* Code blocks */
+.code {
+  background-color: var(--dark-code-bg);
+  color: var(--dark-code-text);
+  border: 1px solid var(--dark-border);
+}
+
+.fragment {
+  background-color: var(--dark-code-bg);
+  color: var(--dark-code-text);
+  border: 1px solid var(--dark-border);
+}
+
+/* Tables */
+table.doxtable {
+  background-color: var(--dark-bg);
+  border: 1px solid var(--dark-border);
+}
+
+table.doxtable th {
+  background-color: var(--dark-hover);
+  color: var(--dark-text);
+  border: 1px solid var(--dark-border);
+}
+
+table.doxtable td {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  border: 1px solid var(--dark-border);
+}
+
+/* Links */
+a {
+  color: var(--dark-accent);
+}
+
+a:visited {
+  color: #c586c0;
+}
+
+a:hover {
+  color: var(--dark-text);
+  background-color: var(--dark-hover);
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-text);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+/* Menu */
+#nav-tree {
+  background-color: var(--dark-bg);
+  border-right: 1px solid var(--dark-border);
+}
+
+#nav-tree .selected {
+  background-color: var(--dark-hover);
+  color: var(--dark-accent);
+}
+
+/* Search box */
+#MSearchBox {
+  background-color: var(--dark-code-bg);
+  border: 1px solid var(--dark-border);
+}
+
+#MSearchField {
+  background-color: var(--dark-code-bg);
+  color: var(--dark-text);
+}
+
+/* Buttons */
+input, button {
+  background-color: var(--dark-code-bg);
+  color: var(--dark-text);
+  border: 1px solid var(--dark-border);
+}
+
+input:hover, button:hover {
+  background-color: var(--dark-hover);
+}
+
+/* Member descriptions */
+.memitem {
+  background-color: var(--dark-bg);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.memname {
+  color: var(--dark-accent);
+}
+
+.memdoc {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  border-top: 1px solid var(--dark-border);
+}
+
+/* Syntax highlighting */
+span.keyword {
+  color: #569cd6;
+}
+
+span.keywordtype {
+  color: #569cd6;
+}
+
+span.keywordflow {
+  color: #569cd6;
+}
+
+span.comment {
+  color: #6a9955;
+}
+
+span.string {
+  color: #ce9178;
+}
+
+span.preprocessor {
+  color: #9cdcfe;
+}
+
+span.number {
+  color: #b5cea8;
+}
+
+/* Responsive design for mobile */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  #nav-tree {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--dark-border);
+  }
+}
