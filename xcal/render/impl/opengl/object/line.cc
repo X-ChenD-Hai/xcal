@@ -28,16 +28,16 @@ void xcal::render::opengl::object::Line::create() {
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
         direct.x(),
         direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
-        mobject_->stroke_color().b(),  //
+        mobject_->stroke_color().b(),
     };
     vbo_.buffer_data(vertices.data(), vertices.size() * sizeof(float),
                      _gl GL_STATIC_DRAW);
@@ -64,6 +64,7 @@ void xcal::render::opengl::object::Line::render() const {
     shader_program_->use();
     shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
+    vao().unbind();
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
     : mobject_(mobject), vbo_(_gl GL_ARRAY_BUFFER) {

@@ -44,7 +44,7 @@ void xcal::render::opengl::object::Circle::create() {
         float_t angle = 2.0f * xcmath::PI * i / segments_;
         float_t x = radius * cos(angle);
         float_t y = radius * sin(angle);
-        vertices.insert(vertices.end(), {x, y, 0.0f});
+        vertices.insert(vertices.end(), {x, y, mobject_->depth().value()});
         vertices.insert(vertices.end(), {mobject_->stroke_color().r(),
                                          mobject_->stroke_color().g(),
                                          mobject_->stroke_color().b()});
@@ -79,6 +79,7 @@ void xcal::render::opengl::object::Circle::render() const {
     shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_TRIANGLE_FAN, 0,
                      segments_ + 2);  // +2 for center and duplicate first point
+    vao().unbind();
 };
 
 xcal::render::opengl::object::Circle::Circle(mobject::Circle* mobject)

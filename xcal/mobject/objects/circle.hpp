@@ -36,7 +36,10 @@ class XCAL_API Circle : public MObject {
      * @brief 设置半径值
      * @param radius 新的半径值
      */
-    void set_radius(float_t radius) { radius_ = radius; }
+    Circle* set_radius(float_t radius) {
+        radius_ = radius;
+        return this;
+    }
 
     /**
      * @brief 析构函数

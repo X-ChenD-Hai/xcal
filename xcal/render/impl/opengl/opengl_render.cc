@@ -21,9 +21,12 @@
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
 
+constexpr static float_t kDDepth = 0.001;
+
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
-    (w > h) ? _gl glViewport((w - h) / 2, 0, h, h)
-            : _gl glViewport(0, (h - w) / 2, w, w);
+    static_cast<xcal::render::opengl::OpenGLRender*>(
+        glfwGetWindowUserPointer(window))
+        ->framebuffer_size_callback(window, w, h);
 }
 
 void init_glbackend() {
@@ -57,6 +60,12 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
         _D("Failed to enable dark titlebar");
     }
     init_glbackend();
+    _gl glEnable(_gl GL_DEPTH_TEST);
+    _gl glDepthFunc(_gl GL_LESS);
+    // _gl glEnable(_gl GL_BLEND);
+    // _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
+    glfwSetWindowUserPointer(window_, this);
+    glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
     // _gl glLineWidth(32.0f);
     setup_scene();
 }
@@ -70,10 +79,17 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     }
     glfwSetWindowSize(window_, width, height);
     glfwMakeContextCurrent(window_);
-    glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
-    _gl glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    for (auto& obj : objects_) obj.second->create();
-    framebuffer_size_callback(window_, width, height);
+    _gl glClearColor(background_color_.r(), background_color_.g(),
+                     background_color_.b(), background_color_.a());
+    // float_t dep = 0.0f;
+    for (auto& obj : objects_) {
+        // if (obj.first->depth() == 0) {
+        //     obj.first->depth() = dep + kDDepth;
+        //     dep = obj.first->depth();
+        // }
+        obj.second->create();
+    }
+    ::framebuffer_size_callback(window_, width, height);
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
@@ -86,7 +102,6 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
     glfwMakeContextCurrent(window_);
-    _gl glClear(_gl GL_COLOR_BUFFER_BIT);
     if (!scene()->cameras().empty()) {
         const auto& cam = scene()->cameras().front();
         if (cam->is_updated()) {
@@ -98,6 +113,7 @@ void xcal::render::opengl::OpenGLRender::render_frame() {
             }
         }
     }
+    _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
     for (const auto& obj : objects_) {
         auto& obj_ptr = obj.second;
         if (obj_ptr) {
@@ -127,3 +143,39 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
         objects_.insert({obj.get(), std::move(obj_ptr)});
     }
 };
+void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
+    GLFWwindow* window, int w, int h) {
+    _D("framebuffer_size_callback: " << w << "x" << h);
+
+    // 计算保持宽高比的视口尺寸
+    float target_aspect = aspect_;
+    int viewport_width = w;
+    int viewport_height = h;
+    int viewport_x = 0;
+    int viewport_y = 0;
+
+    // 计算实际宽高比
+    float actual_aspect = static_cast<float>(w) / static_cast<float>(h);
+
+    if (actual_aspect > target_aspect) {
+        // 窗口太宽，上下加黑边
+        viewport_width = static_cast<int>(h * target_aspect);
+        viewport_height = h;
+        viewport_x = (w - viewport_width) / 2;
+        viewport_y = 0;
+    } else {
+        // 窗口太高，左右加黑边
+        viewport_width = w;
+        viewport_height = static_cast<int>(w / target_aspect);
+        viewport_x = 0;
+        viewport_y = (h - viewport_height) / 2;
+    }
+
+    // 设置视口
+    _gl glViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+    _gl glClearColor(background_color_.r(), background_color_.g(),
+                     background_color_.b(), background_color_.a());
+
+    _D("Viewport set to: " << viewport_x << ", " << viewport_y << ", "
+                           << viewport_width << ", " << viewport_height);
+}
