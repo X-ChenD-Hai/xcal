@@ -26,6 +26,11 @@ else()
     message(FATAL_ERROR "Invalid rendering backend: ${RENDER_BACKEND}")
 endif()
 
+option(XCAL_LOG_OUT_TO_STDERR "Log output to stderr" OFF)
+if(XCAL_LOG_OUT_TO_STDERR)
+    add_compile_definitions(XCAL_LOG_OUT_TO_STDERR=1)
+endif()
+
 add_subdirectory(xcal)
 
 option(BUILD_TESTING "Build tests" OFF)

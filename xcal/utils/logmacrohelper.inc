@@ -133,7 +133,7 @@
     << ")"
 #define _LINE_MSG(msg) << msg << "\n"
 #define _SELF << "(" << this << ")"
-#ifdef XCAL_OUT_TO_STDERR
+#ifdef XCAL_LOG_OUT_TO_STDERR
 constexpr static auto PRO_LEN =
     sizeof("D:\\31003\\Desktop\\code\\C++\\xc1\\xcal");
 #    define OUT(msg)                                                         \
