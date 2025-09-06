@@ -12,6 +12,7 @@ class XCAL_API AbsCamera {
     property::Vec<float_t, 3> position_{0.f, 0.f, -1.f};
     property::Vec<float_t, 3> target_{0.f, 0.f, 0.f};
     property::Vec<float_t, 3> up_{0.f, 1.f, 0.f};
+    mutable bool_t view_or_projection_has_changed_{true};
     mutable xcmath::mat<float_t, 4, 4> view_matrix_cache_{
         xcmath::mat<float_t, 4, 4>::eye()};
     mutable xcmath::mat<float_t, 4, 4> pv_matrix_cache_{
@@ -48,23 +49,19 @@ class XCAL_API AbsCamera {
     }
 
     /* 获取视图矩阵 V */
-    const xcmath::mat<float_t, 4, 4>& view_matrix() const {
-        update_view_matrix();
-        return view_matrix_cache_;
-    }
+    const xcmath::mat<float_t, 4, 4>& view_matrix() const;
+
+   protected:
+    void projection_has_changed() const;
 
    public:
     AbsCamera() {};
     virtual ~AbsCamera() = default;
     virtual const xcmath::mat<float_t, 4, 4>& projection_matrix() const = 0;
-    virtual bool_t projection_is_updated() const = 0;
-    bool_t view_is_updated() const;
-    bool_t is_updated() const;
-    xcmath::mat<float_t, 4, 4> pv_matrix() const {
-        if (is_updated())
-            pv_matrix_cache_ = projection_matrix() ^ view_matrix();
-        return pv_matrix_cache_;
-    }
+    virtual bool_t projection_should_update() const = 0;
+    bool_t view_should_update() const;
+    bool_t should_update() const;
+    const xcmath::mat<float_t, 4, 4>& pv_matrix() const;
 };
 }  // namespace xcal::camera
 template class XCAL_API xcal::property::Vec<float_t, 3>;

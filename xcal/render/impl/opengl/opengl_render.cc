@@ -102,7 +102,7 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
 void xcal::render::opengl::OpenGLRender::render_frame() {
     if (!scene()->cameras().empty()) {
         const auto& cam = scene()->cameras().front();
-        if (cam->is_updated()) {
+        if (cam->should_update()) {
             for (auto& obj : objects_) {
                 _D("updating object: " << obj.first
                                        << " with camera: " << cam.get());

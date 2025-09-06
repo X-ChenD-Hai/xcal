@@ -17,11 +17,11 @@ class XCAL_API PerspectiveCamera : public AbsCamera {
     property::Scalar far_;
 
     /* 缓存 */
-    mutable xcmath::mat<float_t, 4, 4> projection_matrix_cache_;
+    mutable xcmath::mat<float_t, 4, 4> projection_matrix_cache_{};
 
    public:
     PerspectiveCamera(float fov, float aspect, float near, float far)
-        : fov_(fov), aspect_(aspect), near_(near), far_(far) {}
+        : AbsCamera(), fov_(fov), aspect_(aspect), near_(near), far_(far) {}
 
    public:
     /* 公共访问器方法 */
@@ -38,7 +38,7 @@ class XCAL_API PerspectiveCamera : public AbsCamera {
     const property::Scalar& far() const { return far_; }
 
     const xcmath::mat<float_t, 4, 4>& projection_matrix() const override;
-    bool_t projection_is_updated() const override;
+    bool_t projection_should_update() const override;
 
    private:
     /* 你的实现里这部分逻辑正确 */
