@@ -30,3 +30,11 @@ std::weak_ptr<xcal::render::opengl::GL::ShaderProgram>
     template <>                                              \
     std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> \
     xcal::render::opengl::utils::create_shader<T, _id>()
+#ifdef XCAL_debug
+#    define SHADER_FILE(name) (std::string(XCAL_OPENGL_SHADER_DIR) + name)
+#else
+#    include <xcal/utils/paths.hpp>
+#    define SHADER_FILE(name)                                                \
+        (xcal::utils::paths::EXECUTABLE_DIR + "/" + XCAL_OPENGL_SHADER_DIR + \
+         name)
+#endif

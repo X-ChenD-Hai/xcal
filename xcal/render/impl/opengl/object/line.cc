@@ -16,7 +16,8 @@
 #include <xcmath/utils/show.hpp>
 #define SHADER_ID 0
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
-    return GL::ShaderProgram::from_file("res/line.vs", "res/line.fs");
+    return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
+                                        SHADER_FILE("line.fs"));
 }
 
 void xcal::render::opengl::object::Line::create() {
