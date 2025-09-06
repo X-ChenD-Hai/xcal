@@ -1,3 +1,5 @@
+#include <chrono>
+#include <thread>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
@@ -21,7 +23,7 @@
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
 
-constexpr static float_t kDDepth = 0.001;
+constexpr static float_t kDDepth = 1;
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
     static_cast<xcal::render::opengl::OpenGLRender*>(
@@ -62,8 +64,8 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     init_glbackend();
     _gl glEnable(_gl GL_DEPTH_TEST);
     _gl glDepthFunc(_gl GL_LESS);
-    // _gl glEnable(_gl GL_BLEND);
-    // _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
+    _gl glEnable(_gl GL_BLEND);
+    _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
     glfwSetWindowUserPointer(window_, this);
     glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
     // _gl glLineWidth(32.0f);
@@ -81,19 +83,16 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     glfwMakeContextCurrent(window_);
     _gl glClearColor(background_color_.r(), background_color_.g(),
                      background_color_.b(), background_color_.a());
-    // float_t dep = 0.0f;
     for (auto& obj : objects_) {
-        // if (obj.first->depth() == 0) {
-        //     obj.first->depth() = dep + kDDepth;
-        //     dep = obj.first->depth();
-        // }
         obj.second->create();
     }
     ::framebuffer_size_callback(window_, width, height);
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
+        _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
+        glfwSwapBuffers(window_);
     }
     _I("show loop ended");
     _I("destroying objects");
@@ -101,7 +100,6 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     _I("objects destroyed ");
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
-    glfwMakeContextCurrent(window_);
     if (!scene()->cameras().empty()) {
         const auto& cam = scene()->cameras().front();
         if (cam->is_updated()) {
@@ -113,15 +111,13 @@ void xcal::render::opengl::OpenGLRender::render_frame() {
             }
         }
     }
-    _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
     for (const auto& obj : objects_) {
         auto& obj_ptr = obj.second;
         if (obj_ptr) {
             obj_ptr->render();
         }
     }
-
-    glfwSwapBuffers(window_);
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 };
 void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
     Render::set_scene(scene);
@@ -134,7 +130,9 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
         _W("scene is null");
         return;
     }
+    _D("Number of mobjects in scene: " << scene()->mobjects().size());
     for (auto& obj : scene()->mobjects()) {
+        _D("Processing mobject: " << obj.get());
         auto obj_ptr = object::create(obj.get());
         if (!obj_ptr) {
             _E("Failed to create object for " << obj.get());

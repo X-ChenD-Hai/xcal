@@ -31,7 +31,7 @@ class XCAL_API MObject : public AbsMObject {
     property::Scalar scale_x_{1.0};
     property::Scalar scale_y_{1.0};
     property::Scalar rotation_{0.0};
-    property::Scalar depth_{1.0};
+    property::Scalar depth_{0.0};
 
    public:
     MObject() : MObject({0, 0}) {};

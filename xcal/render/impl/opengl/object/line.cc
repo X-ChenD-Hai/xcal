@@ -9,7 +9,6 @@
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
 
-#define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line
 #include <xcal/render/impl/opengl/utils/shaderinstence.hpp>
@@ -22,19 +21,21 @@ XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
 
 void xcal::render::opengl::object::Line::create() {
     vao().bind();
+    vbo_ = GL::Buffer(_gl GL_ARRAY_BUFFER);
     vbo_.bind();
     const xcmath::vec2<float_t> direct = mobject_->direct().value() / 2;
-    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct);
+    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct
+                       << " and depth: " << mobject_->depth().value());
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
-        mobject_->depth().value(),  //
+        0,  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
         direct.x(),
         direct.y(),
-        mobject_->depth().value(),  //
+        0,  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),
@@ -53,6 +54,7 @@ void xcal::render::opengl::object::Line::create() {
                               (void*)(3 * sizeof(float)));  // offset
 
     shader_program_ = utils::ShaderInstance<Line, SHADER_ID>::instance();
+    vao().unbind();
 };
 void xcal::render::opengl::object::Line::destroy() {
     _I("Destroy Line: " << this);
@@ -60,6 +62,7 @@ void xcal::render::opengl::object::Line::destroy() {
     vbo_.destroy();
 };
 void xcal::render::opengl::object::Line::render() const {
+    _D("Render Line: " << this << " from mobject: " << mobject_.mobject());
     vao().bind();
     shader_program_->use();
     shader_program_->uniform("model", mobject_.model_matrix());
@@ -77,4 +80,8 @@ void xcal::render::opengl::object::Line::update_projection_view(
     _D("Update view projection for Line: " << this << " with view_projection: "
                                            << projection_view);
     shader_program_->uniform("projection_view", projection_view);
+    xcmath::vec4 pos{mobject_->pos().x(), mobject_->pos().y(), 0.0f, 1.0f};
+    _D("Line position: " << pos);
+    xcmath::vec4 pos_view =projection_view ^ mobject_.model_matrix() ^ pos;
+    _D("Line position in view space: " << pos_view);
 };
