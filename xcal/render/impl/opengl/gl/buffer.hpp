@@ -1,4 +1,5 @@
 #pragma once
+#include <glbinding/gl/enum.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>
@@ -13,6 +14,7 @@ class XCAL_API Buffer {
     gl::GLenum target_{};
 
    private:
+   public:
     Buffer(const Buffer &) = delete;
     Buffer(Buffer &&o) { swap(o); }
 
@@ -21,8 +23,6 @@ class XCAL_API Buffer {
         swap(o);
         return *this;
     }
-
-   public:
     Buffer(gl::GLenum target);
     ~Buffer();
 
@@ -30,6 +30,8 @@ class XCAL_API Buffer {
     bool is_valid() const { return vbo_ != 0; };
     void bind_as(gl::GLenum target) const;
     void bind() const;
+    void unbind() const;
+    static void unbind(gl::GLenum target);
     void get_buffer_data(std::vector<char> &data) const;
     void get_buffer_data(std::vector<char> &data, gl::GLenum target) const;
 
@@ -37,6 +39,7 @@ class XCAL_API Buffer {
     void swap(Buffer &o) {
         std::swap(vbo_, o.vbo_);
         std::swap(size_, o.size_);
+        std::swap(target_, o.target_);
     }
     void buffer_data(const void *data, gl::GLuint size, gl::GLenum usage);
     template <typename T>

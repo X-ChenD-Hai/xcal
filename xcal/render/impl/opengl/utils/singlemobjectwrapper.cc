@@ -2,7 +2,6 @@
 
 #include "xcal/mobject/core/mobject_types.hpp"
 
-#define XCAL_OUT_TO_STDERR
 #define ROLE SingleMObjectWrapperImpl
 #define LABEL SingleMObjectWrapperImpl
 #include <xcal/utils/logmacrohelper.inc>

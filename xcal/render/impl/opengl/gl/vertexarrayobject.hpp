@@ -22,7 +22,7 @@ class XCAL_API VertexArrayObject {
 
    public:
     void bind() const;
-    void unbind() const;
+    static void unbind();
     bool is_valid() const { return vao_ != 0; };
 
    public:
