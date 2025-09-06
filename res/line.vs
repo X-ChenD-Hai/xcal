@@ -7,6 +7,7 @@ uniform mat4 projection_view;
 out vec3 ourColor;
 void main()
 {
+    // gl_Position =  model * vec4(aPos, 1.0);
     gl_Position = projection_view * model * vec4(aPos, 1.0);
     ourColor = aColor;
 }

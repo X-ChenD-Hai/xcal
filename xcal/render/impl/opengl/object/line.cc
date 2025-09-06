@@ -62,7 +62,6 @@ void xcal::render::opengl::object::Line::destroy() {
     vbo_.destroy();
 };
 void xcal::render::opengl::object::Line::render() const {
-    _D("Render Line: " << this << " from mobject: " << mobject_.mobject());
     vao().bind();
     shader_program_->use();
     shader_program_->uniform("model", mobject_.model_matrix());
@@ -80,8 +79,4 @@ void xcal::render::opengl::object::Line::update_projection_view(
     _D("Update view projection for Line: " << this << " with view_projection: "
                                            << projection_view);
     shader_program_->uniform("projection_view", projection_view);
-    xcmath::vec4 pos{mobject_->pos().x(), mobject_->pos().y(), 0.0f, 1.0f};
-    _D("Line position: " << pos);
-    xcmath::vec4 pos_view =projection_view ^ mobject_.model_matrix() ^ pos;
-    _D("Line position in view space: " << pos_view);
 };

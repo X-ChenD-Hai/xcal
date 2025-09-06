@@ -24,7 +24,7 @@ class XCAL_API Position : public MProperty {
     float_t &x() { return data_[0]; }
     float_t &y() { return data_[1]; }
     const vec &data() const { return data_; }
-    vec &data() { return data_; }
+    vec &value() { return data_; }
 };
 
 class XCAL_API ThreeDPosition : public Position {

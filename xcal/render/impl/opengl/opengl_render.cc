@@ -1,5 +1,3 @@
-#include <chrono>
-#include <thread>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
@@ -117,7 +115,7 @@ void xcal::render::opengl::OpenGLRender::render_frame() {
             obj_ptr->render();
         }
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(300));
 };
 void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
     Render::set_scene(scene);
@@ -143,7 +141,7 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
 };
 void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
     GLFWwindow* window, int w, int h) {
-    _D("framebuffer_size_callback: " << w << "x" << h);
+    // _D("framebuffer_size_callback: " << w << "x" << h);
 
     // 计算保持宽高比的视口尺寸
     float target_aspect = aspect_;
@@ -174,6 +172,6 @@ void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
     _gl glClearColor(background_color_.r(), background_color_.g(),
                      background_color_.b(), background_color_.a());
 
-    _D("Viewport set to: " << viewport_x << ", " << viewport_y << ", "
-                           << viewport_width << ", " << viewport_height);
+    // _D("Viewport set to: " << viewport_x << ", " << viewport_y << ", "
+    //                        << viewport_width << ", " << viewport_height);
 }
