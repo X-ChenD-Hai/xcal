@@ -62,7 +62,7 @@ class XCAL_API MObject : public AbsMObject {
      * @brief 带位置参数的构造函数
      * @param pos 初始位置
      */
-    MObject(property::Position pos) : AbsMObject(), pos_(pos) {
+    MObject(const property::Position::data_t& pos) : AbsMObject(), pos_(pos) {
         register_properties(pos_, stroke_color_, fill_color_, stroke_width_,
                             scale_x_, scale_y_, rotation_, depth_);
     }
@@ -84,15 +84,15 @@ class XCAL_API MObject : public AbsMObject {
     const property::Scalar& depth() const { return depth_; }
     property::Scalar& depth() { return depth_; }
 
-    MObject* set_pos(const property::Position& pos) {
+    MObject* set_pos(const property::Position::data_t& pos) {
         pos_ = pos;
         return this;
     }
-    MObject* set_stroke_color(const property::Color& color) {
+    MObject* set_stroke_color(const property::Color::data_t& color) {
         stroke_color_ = color;
         return this;
     }
-    MObject* set_fill_color(const property::Color& color) {
+    MObject* set_fill_color(const property::Color::data_t& color) {
         fill_color_ = color;
         return this;
     }

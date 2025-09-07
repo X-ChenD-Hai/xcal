@@ -1,6 +1,8 @@
 #pragma once
 #include <xcal/mobject/core/mobject.hpp>
 
+#include "xcal/public.h"
+
 namespace xcal::mobject {
 
 class XCAL_API Rectangle : public MObject {
@@ -11,8 +13,8 @@ class XCAL_API Rectangle : public MObject {
     property::Scalar height_;
 
    public:
-    Rectangle(property::Position pos, property::Scalar width,
-              property::Scalar height)
+    Rectangle(const property::Position::data_t& pos, float_t width,
+              float_t height)
         : MObject(pos), width_(width), height_(height) {
         register_properties(pos_, width_, height_);
     }

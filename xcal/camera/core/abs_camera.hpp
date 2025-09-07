@@ -30,6 +30,8 @@ namespace xcal::camera {
  * 所有具体相机类（正交相机、透视相机）都应该继承自此类。
  */
 class XCAL_API AbsCamera {
+    using vec = xcmath::vec<float_t, 3>;
+
    private:
     /* 视图参数 */
     property::Vec<float_t, 3> position_{0.f, 0.f, -1.f};  ///< 相机位置向量
@@ -94,8 +96,9 @@ class XCAL_API AbsCamera {
      * @return AbsCamera* this指针，支持链式调用
      */
     template <typename... Args>
-    AbsCamera* set_position(Args... args) {
-        position_ = {args...};
+        requires(std::is_constructible_v<vec, Args...>)
+    AbsCamera* set_position(Args&&... args) {
+        position_ = vec{float_t(std::forward<Args>(args))...};
         return this;
     }
 
@@ -106,8 +109,9 @@ class XCAL_API AbsCamera {
      * @return AbsCamera* this指针，支持链式调用
      */
     template <typename... Args>
-    AbsCamera* set_target(Args... args) {
-        target_ = {args...};
+        requires(std::is_constructible_v<vec, Args...>)
+    AbsCamera* set_target(Args&&... args) {
+        target_ = vec{float_t(std::forward<Args>(args))...};
         return this;
     }
 
@@ -118,8 +122,9 @@ class XCAL_API AbsCamera {
      * @return AbsCamera* this指针，支持链式调用
      */
     template <typename... Args>
-    AbsCamera* set_up(Args... args) {
-        up_ = {args...};
+        requires(std::is_constructible_v<vec, Args...>)
+    AbsCamera* set_up(Args&&... args) {
+        up_ = vec{float_t(std::forward<Args>(args))...};
         return this;
     }
 

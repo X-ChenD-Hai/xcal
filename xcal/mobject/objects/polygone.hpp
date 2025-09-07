@@ -20,10 +20,12 @@ class XCAL_API Polygone : public MObject {
         register_properties(points_);
         points_.closed() = true;
     }
-    const std::vector<property::Position>& points() const {
+    const property::PositionList::data_t& points() const {
         return points_.positions();
     }
-    void set_points(const property::PositionList& points) { points_ = points; }
+    void set_points(const property::PositionList::data_t& points) {
+        points_ = points;
+    }
     virtual ~Polygone() override = default;
 };
 

@@ -1,7 +1,9 @@
 #pragma once
-#include <array>
+#include <xcal/public.h>
+
 #include <string>
 #include <xcal/property/core/property.hpp>
+#include <xcmath/xcmath.hpp>
 
 namespace xcal::property {
 
@@ -13,9 +15,11 @@ namespace xcal::property {
  */
 class XCAL_API Color : public MProperty {
     XCAL_PROPERTY_TYPE(Color)
+   public:
+    using data_t = xcmath::vec4<float_t>;
+
    private:
-    Proxy<std::array<float_t, 4>> data_{
-        this, {0.0, 0.0, 0.0, 1.0}};  ///< RGBA 颜色数据
+    Proxy<data_t> data_{this, {0.0f, 0.0, 0.0, 1.0}};  ///< RGBA 颜色数据
 
    public:
     /**
@@ -24,6 +28,10 @@ class XCAL_API Color : public MProperty {
      */
     Color() : MProperty() {}
 
+    Color(const Color &) = delete;
+    Color(Color &&) = delete;
+    Color &operator=(const Color &) = delete;
+    Color &operator=(Color &&) = delete;
     /**
      * @brief 构造函数
      * @param r 红色分量 (0.0-1.0)
@@ -123,6 +131,11 @@ class XCAL_API Color : public MProperty {
      * @note 透明度设置为 1.0（不透明）
      */
     static Color from_hex(const std::string &hex);
+
+    Color &operator=(const data_t &other) {
+        data_ = other;
+        return *this;
+    }
 };
 
 }  // namespace xcal::property

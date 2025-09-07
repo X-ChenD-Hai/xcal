@@ -1,6 +1,8 @@
 #pragma once
 #include <xcal/mobject/core/mobject.hpp>
 
+#include "xcal/public.h"
+
 namespace xcal::mobject {
 
 class XCAL_API Ellipse : public MObject {
@@ -11,8 +13,8 @@ class XCAL_API Ellipse : public MObject {
     property::Scalar radius_y_;
 
    public:
-    Ellipse(property::Position pos, property::Scalar radius_x,
-            property::Scalar radius_y)
+    Ellipse(const property::Position::data_t& pos, float_t radius_x,
+            float_t radius_y)
         : MObject(pos), radius_x_(radius_x), radius_y_(radius_y) {
         register_properties(pos_, radius_x_, radius_y_);
     }

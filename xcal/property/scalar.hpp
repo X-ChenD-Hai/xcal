@@ -23,6 +23,11 @@ class XCAL_API Scalar : public MProperty {
     XCAL_SCALAR_OPERATOR(*=)
     XCAL_SCALAR_OPERATOR(/=)
 #undef XCAL_SCALAR_OPERATOR
+
+    Scalar &operator=(float_t value) {
+        value_ = value;
+        return *this;
+    }
 };
 
 }  // namespace xcal::property

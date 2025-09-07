@@ -48,6 +48,7 @@ class XCAL_API MProperty {
         Proxy(MProperty *self, const T &value) : value_(value) {
             proxy_to_self_[this] = self;
         }
+        ~Proxy() { proxy_to_self_.erase(this); }
         void on_changed() {
             if (auto it = proxy_to_self_.find(this);
                 it != proxy_to_self_.end()) {
@@ -64,8 +65,10 @@ class XCAL_API MProperty {
             on_changed();
             return *this;
         }
-        Proxy(const Proxy &other) { value_ = other.value_; }
-        Proxy(Proxy &&other) { value_ = std::move(other.value_); }
+        Proxy(const Proxy &other) = delete;
+        Proxy(Proxy &&other) : value_(std::move(other.value_)) {
+            proxy_to_self_[this] = proxy_to_self_[&other];
+        }
         Proxy &operator=(const Proxy &other) {
             value_ = other.value_;
             on_changed();
@@ -121,11 +124,16 @@ class XCAL_API MProperty {
     };
 
    public:
+    MProperty() = default;
+    MProperty(const MProperty &) = delete;
+    MProperty(MProperty &&) = delete;
+    MProperty &operator=(const MProperty &) = delete;
+    MProperty &operator=(MProperty &&) = delete;
     bool_t is_changed() const { return is_changed_; }
     void set_changed() const { is_changed_ = true; }
     void reset_changed() const { is_changed_ = false; }
     Type type() const { return type_(); };
-    virtual ~MProperty() = default;
+    virtual ~MProperty() {};
 };
 template <typename T>
 std::unordered_map<void *, MProperty *> MProperty::Proxy<T>::proxy_to_self_{};

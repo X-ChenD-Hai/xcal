@@ -10,12 +10,15 @@ class XCAL_API Path : public MObject {
     property::PositionList points_;
 
    public:
-    Path(property::PositionList points)
-        : MObject(), points_(std::move(points)) {
+    template <typename... Args>
+        requires(std::is_constructible_v<property::PositionList, Args...>)
+    Path(Args&&... points) : MObject(), points_(std::forward<Args>(points)...) {
         register_properties(points_);
     }
     const property::PositionList& points() const { return points_; }
-    void set_points(const property::PositionList& points) { points_ = points; }
+    void set_points(const property::PositionList::data_t& points) {
+        points_ = points;
+    }
     virtual ~Path() override = default;
 };
 

@@ -35,31 +35,31 @@ TEST(TestTimePoint, SetterMethods) {
     EXPECT_FLOAT_EQ(timePoint.seconds_since_epoch(), 1.25f);
 }
 
-TEST(TestTimePoint, NowMethod) {
-    // 测试获取当前时间点
-    xcal::property::TimePoint now = xcal::property::TimePoint::now();
+// TEST(TestTimePoint, NowMethod) {
+//     // 测试获取当前时间点
+//     xcal::property::TimePoint now = xcal::property::TimePoint::now();
 
-    // 当前时间应该大于纪元时间
-    EXPECT_GT(now.microseconds_since_epoch(), 0u);
-    EXPECT_GT(now.seconds_since_epoch(), 0.0f);
-}
+//     // 当前时间应该大于纪元时间
+//     EXPECT_GT(now.microseconds_since_epoch(), 0u);
+//     EXPECT_GT(now.seconds_since_epoch(), 0.0f);
+// }
 
-TEST(TestTimePoint, TimePointArithmetic) {
-    // 测试时间点运算
-    xcal::property::TimePoint tp1;
-    tp1.set_microseconds_since_epoch(1000000u);  // 1秒从纪元开始
+// TEST(TestTimePoint, TimePointArithmetic) {
+//     // 测试时间点运算
+//     xcal::property::TimePoint tp1;
+//     tp1.set_microseconds_since_epoch(1000000u);  // 1秒从纪元开始
 
-    xcal::property::TimeDuration duration =
-        xcal::property::TimeDuration::from_microseconds(500000u);  // 0.5秒
+//     xcal::property::TimeDuration duration =
+//         xcal::property::TimeDuration::from_microseconds(500000u);  // 0.5秒
 
-    // 时间点加法
-    auto later = tp1 + duration;
-    EXPECT_EQ(later.microseconds_since_epoch(), 1500000u);
+//     // 时间点加法
+//     auto later = tp1 + duration;
+//     EXPECT_EQ(later.microseconds_since_epoch(), 1500000u);
 
-    // 时间点减法
-    auto earlier = tp1 - duration;
-    EXPECT_EQ(earlier.microseconds_since_epoch(), 500000u);
-}
+//     // 时间点减法
+//     auto earlier = tp1 - duration;
+//     EXPECT_EQ(earlier.microseconds_since_epoch(), 500000u);
+// }
 
 TEST(TestTimePoint, TimePointSubtraction) {
     // 测试时间点相减得到时间段

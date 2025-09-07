@@ -33,26 +33,26 @@ using bool_t = bool;
 #endif
 #if defined(XCAL_ENABLE_DYNAMIC_LIBRARY) || \
     defined(XCAL_CODEC_ENABLE_DYNAMIC_LIBRARY)
-    // 定义导出和导入宏
+// 定义导出和导入宏
 #    ifdef _WIN32
-    // Windows平台
+// Windows平台
 #        ifdef __GNUC__
-    // 使用GCC编译器
+// 使用GCC编译器
 #            define XCAL_EXPORT __attribute__((dllexport))
 #            define XCAL_IMPORT __attribute__((dllimport))
 #        else
-    // 使用MSVC或其他Windows编译器
+// 使用MSVC或其他Windows编译器
 #            define XCAL_EXPORT __declspec(dllexport)
 #            define XCAL_IMPORT __declspec(dllimport)
 #        endif
 #    else
-    // 非Windows平台
+// 非Windows平台
 #        if __GNUC__ >= 4
-    // 使用GCC 4及以上版本
+// 使用GCC 4及以上版本
 #            define XCAL_EXPORT __attribute__((visibility("default")))
 #            define XCAL_IMPORT
 #        else
-    // 其他编译器
+// 其他编译器
 #            define XCAL_EXPORT
 #            define XCAL_IMPORT
 #        endif
