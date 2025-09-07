@@ -1,5 +1,4 @@
 #pragma once
-#include <glbinding/gl/enum.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>
