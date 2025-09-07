@@ -18,6 +18,9 @@
 
 //
 #include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 #undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
@@ -47,33 +50,21 @@ void init_glbackend() {
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene) {
     _I("OpenGLRender created: " _SELF);
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    window_ = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr);
-    if (window_ == nullptr) {
-        glfwTerminate();
-        _D("Failed to create GLFW window");
-        throw std::runtime_error("Failed to create GLFW window");
-    }
-    glfwMakeContextCurrent(window_);
-    if (!enable_window_dark_titlebar(window_)) {
-        _D("Failed to enable dark titlebar");
-    }
-    init_glbackend();
-    _gl glEnable(_gl GL_DEPTH_TEST);
-    _gl glDepthFunc(_gl GL_LESS);
-    _gl glEnable(_gl GL_BLEND);
-    _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
-    glfwSetWindowUserPointer(window_, this);
-    glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
-    // _gl glLineWidth(32.0f);
+    setup_glfw();
+    setup_gl();
+    setup_imgui();
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
-
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    if (window_) {
+        glfwDestroyWindow(window_);
+        window_ = nullptr;
+    }
+    glfwTerminate();
+    _I("OpenGLRender destroyed: " _SELF);
 };
 void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     if (!window_) {
@@ -93,10 +84,17 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     // std::vector<char> pixels;
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        render_ui();
+
+        ImGui::Render();
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
         // pixels = read_pixels_char();
         // ofs.write(pixels.data(), pixels.size());
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(window_);
     }
     // ofs.close();
@@ -191,3 +189,41 @@ std::vector<char> xcal::render::opengl::OpenGLRender::read_pixels_char() const {
     std::cerr << "Read: " << width << "x" << height << " pixels\n";
     return pixels;
 }
+void xcal::render::opengl::OpenGLRender::setup_glfw() {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    window_ = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr);
+    if (window_ == nullptr) {
+        glfwTerminate();
+        _D("Failed to create GLFW window");
+        throw std::runtime_error("Failed to create GLFW window");
+    }
+    glfwMakeContextCurrent(window_);
+    if (!enable_window_dark_titlebar(window_)) {
+        _D("Failed to enable dark titlebar");
+    }
+    glfwSetWindowUserPointer(window_, this);
+};
+void xcal::render::opengl::OpenGLRender::setup_gl() {
+    init_glbackend();
+    _gl glEnable(_gl GL_DEPTH_TEST);
+    _gl glDepthFunc(_gl GL_LESS);
+    _gl glEnable(_gl GL_BLEND);
+    _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
+    glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
+};
+void xcal::render::opengl::OpenGLRender::setup_imgui() {
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window_, true);
+    ImGui_ImplOpenGL3_Init("#version 330 core");
+};
+void xcal::render::opengl::OpenGLRender::render_ui() {
+    ImGui::Begin("Hello, world!");
+    ImGui::Text("Hello, World!");
+    ImGui::End();
+};

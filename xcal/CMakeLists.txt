@@ -48,6 +48,7 @@ target_link_libraries(xcal PUBLIC
     xcmath::xcmath
     ${OPENGL_BACKEND_LIBS}
     glfw
+    imgui::imgui
     ffmpegcodec
 )
 

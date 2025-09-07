@@ -24,6 +24,10 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    private:
     void setup_scene();
+    void render_ui();
+    void setup_gl();
+    void setup_glfw();
+    void setup_imgui();
 
    public:
     void show(size_t width = 800, size_t height = 600);
