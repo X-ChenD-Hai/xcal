@@ -2,7 +2,7 @@
 
 namespace xcal::render::opengl::utils {
 template <class T, size_t _id>
-XCAL_API std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
+XCAL_API inline std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
 create_shader() {
     static_assert(false, "Not implemented");
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <unordered_map>
+#include <vector>
 #include <xcal/render/core/render.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
@@ -34,6 +35,7 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     const property::Color& background_color() const {
         return background_color_;
     };
+    std::vector<char> read_pixels_char() const;
 
    public:
     OpenGLRender(const OpenGLRender&) = delete;

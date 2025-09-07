@@ -1,3 +1,4 @@
+#include <fstream>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
@@ -5,6 +6,8 @@
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcmath/utils/show.hpp>
+
+#include "core/typedef.hpp"
 
 //
 #ifdef GL_BACKEND_GLBINDING
@@ -86,12 +89,17 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     }
     ::framebuffer_size_callback(window_, width, height);
     _I("show loop started");
+    // std::ofstream ofs("framebuffer.raw", std::ios::binary);
+    // std::vector<char> pixels;
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
+        // pixels = read_pixels_char();
+        // ofs.write(pixels.data(), pixels.size());
         glfwSwapBuffers(window_);
     }
+    // ofs.close();
     _I("show loop ended");
     _I("destroying objects");
     for (auto& obj : objects_) obj.second->destroy();
@@ -115,7 +123,6 @@ void xcal::render::opengl::OpenGLRender::render_frame() {
             obj_ptr->render();
         }
     }
-    // std::this_thread::sleep_for(std::chrono::milliseconds(300));
 };
 void xcal::render::opengl::OpenGLRender::set_scene(Scene* scene) {
     Render::set_scene(scene);
@@ -174,4 +181,13 @@ void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
 
     // _D("Viewport set to: " << viewport_x << ", " << viewport_y << ", "
     //                        << viewport_width << ", " << viewport_height);
+}
+std::vector<char> xcal::render::opengl::OpenGLRender::read_pixels_char() const {
+    _gl GLint width, height;
+    glfwGetFramebufferSize(window_, &width, &height);
+    std::vector<char> pixels(width * height * 4);  // RGBA
+    _gl glReadPixels(0, 0, width, height, _gl GL_RGBA, _gl GL_UNSIGNED_BYTE,
+                     pixels.data());
+    std::cerr << "Read: " << width << "x" << height << " pixels\n";
+    return pixels;
 }
