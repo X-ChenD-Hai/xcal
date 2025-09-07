@@ -1,0 +1,3 @@
+
+
+myprint("Hello, Lua!")
