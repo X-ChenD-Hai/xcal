@@ -31,7 +31,7 @@
             "displayName": "Release",
             "description": "编译类型: Release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
                 "BUILD_TESTING": true
             }
         },
@@ -41,7 +41,7 @@
                 "build",
                 "build-release"
             ],
-            "displayName": "Release",
+            "displayName": "Release without tests",
             "description": "编译类型: Release",
             "cacheVariables": {
                 "BUILD_TESTING": false
