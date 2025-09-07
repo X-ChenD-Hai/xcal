@@ -1,3 +1,13 @@
+/**
+ * @file mobject.hpp
+ * @author X_Chen D_Hai (illuminatestar@foxmail.com)
+ * @brief 基础图形对象类
+ * @version 0.1
+ * @date 2025-09-07
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #pragma once
 #include <xcal/public.h>
 
@@ -12,29 +22,46 @@
 #include "xcmath/mobject/vec.hpp"
 
 namespace xcal::mobject {
+
+/**
+ * @brief 基础图形对象类
+ *
+ * 继承自抽象图形对象基类，提供具体的图形对象属性和变换功能。
+ * 包含位置、颜色、缩放、旋转等基本图形属性。
+ */
 class XCAL_API MObject : public AbsMObject {
    public:
-    using vec4 = xcmath::vec4<float_t>;
-    using vec3 = xcmath::vec3<float_t>;
-    using mat4 = xcmath::mat4<float_t>;
-    using mat3 = xcmath::mat3<float_t>;
-    using mat2 = xcmath::mat3<float_t>;
+    using vec4 = xcmath::vec4<float_t>;  ///< 4维向量类型
+    using vec3 = xcmath::vec3<float_t>;  ///< 3维向量类型
+    using mat4 = xcmath::mat4<float_t>;  ///< 4x4矩阵类型
+    using mat3 = xcmath::mat3<float_t>;  ///< 3x3矩阵类型
+    using mat2 = xcmath::mat3<
+        float_t>;  ///< 2x2矩阵类型（注意：当前使用mat3，可能需要修正）
 
    private:
     virtual Type type_() const = 0;
 
    private:
-    property::Position pos_{0.0, 0.0};
-    property::Color stroke_color_{0.0, 0.0, 0.0, 1.0};
-    property::Color fill_color_{0.0, 0.0, 0.0, 1.0};
-    property::Scalar stroke_width_{1.0};
-    property::Scalar scale_x_{1.0};
-    property::Scalar scale_y_{1.0};
-    property::Scalar rotation_{0.0};
-    property::Scalar depth_{0.0};
+    property::Position pos_{0.0, 0.0};                  ///< 对象位置属性
+    property::Color stroke_color_{0.0, 0.0, 0.0, 1.0};  ///< 描边颜色属性
+    property::Color fill_color_{0.0, 0.0, 0.0, 1.0};    ///< 填充颜色属性
+    property::Scalar stroke_width_{1.0};                ///< 描边宽度属性
+    property::Scalar scale_x_{1.0};                     ///< X轴缩放属性
+    property::Scalar scale_y_{1.0};                     ///< Y轴缩放属性
+    property::Scalar rotation_{0.0};                    ///< 旋转角度属性
+    property::Scalar depth_{0.0};                       ///< 深度属性
 
    public:
+    /**
+     * @brief 默认构造函数
+     * @note 使用默认位置 {0, 0} 初始化
+     */
     MObject() : MObject({0, 0}) {};
+
+    /**
+     * @brief 带位置参数的构造函数
+     * @param pos 初始位置
+     */
     MObject(property::Position pos) : AbsMObject(), pos_(pos) {
         register_properties(pos_, stroke_color_, fill_color_, stroke_width_,
                             scale_x_, scale_y_, rotation_, depth_);

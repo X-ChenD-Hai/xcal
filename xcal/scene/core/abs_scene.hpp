@@ -1,3 +1,13 @@
+/**
+ * @file abs_scene.hpp
+ * @author X_Chen D_Hai (illuminatestar@foxmail.com)
+ * @brief 抽象场景模板类
+ * @version 0.1
+ * @date 2025-09-07
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #pragma once
 #include <xcal/public.h>
 
