@@ -12,7 +12,29 @@
             }
         },
         {
+            "name": "build-glbinding",
+            "hidden": true,
+            "cacheVariables": {
+                "RENDER_BACKEND": "glbinding"
+            }
+        },
+        {
+            "name": "build-glad",
+            "hidden": true,
+            "cacheVariables": {
+                "RENDER_BACKEND": "glad"
+            }
+        },
+        {
+            "name": "build-dynamic",
+            "hidden": true,
+            "cacheVariables": {
+                "BUILD_DYNAMIC_LIBRARY": true
+            }
+        },
+        {
             "name": "build-debug",
+            "hidden": true,
             "inherits": [
                 "build"
             ],
@@ -25,27 +47,89 @@
         },
         {
             "name": "build-release",
+            "hidden": true,
             "inherits": [
                 "build"
             ],
             "displayName": "Release",
             "description": "编译类型: Release",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
                 "BUILD_TESTING": true
             }
         },
         {
             "name": "release",
+            "hidden": true,
             "inherits": [
                 "build",
                 "build-release"
             ],
-            "displayName": "Release",
+            "displayName": "Release without tests",
             "description": "编译类型: Release",
             "cacheVariables": {
                 "BUILD_TESTING": false
             }
+        },
+        {
+            "name": "debug-glbinding-dynamic",
+            "inherits": [
+                "build-glbinding",
+                "build-dynamic",
+                "build-debug"
+            ]
+        },
+        {
+            "name": "release-glbinding-dynamic",
+            "inherits": [
+                "build-glbinding",
+                "build-dynamic",
+                "release"
+            ]
+        },
+        {
+            "name": "debug-glad-dynamic",
+            "inherits": [
+                "build-glad",
+                "build-dynamic",
+                "build-debug"
+            ]
+        },
+        {
+            "name": "release-glad-dynamic",
+            "inherits": [
+                "build-glad",
+                "build-dynamic",
+                "release"
+            ]
+        },
+        {
+            "name": "debug-glbinding-static",
+            "inherits": [
+                "build-glbinding",
+                "build-debug"
+            ]
+        },
+        {
+            "name": "release-glbinding-static",
+            "inherits": [
+                "build-glbinding",
+                "release"
+            ]
+        },
+        {
+            "name": "debug-glad-static",
+            "inherits": [
+                "build-glad",
+                "build-debug"
+            ]
+        },
+        {
+            "name": "release-glad-static",
+            "inherits": [
+                "build-glad",
+                "release"
+            ]
         }
     ],
     "packagePresets": []

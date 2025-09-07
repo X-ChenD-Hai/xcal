@@ -37,10 +37,26 @@ void xcal::camera::AbsCamera::update_view_matrix() const {
     position_.reset_changed();
     target_.reset_changed();
     up_.reset_changed();
+    view_or_projection_has_changed_ = true;
 }
-xcal::bool_t xcal::camera::AbsCamera::view_is_updated() const {
+xcal::bool_t xcal::camera::AbsCamera::view_should_update() const {
     return position_.is_changed() || target_.is_changed() || up_.is_changed();
 };
-xcal::bool_t xcal::camera::AbsCamera::is_updated() const {
-    return projection_is_updated() || view_is_updated();
+xcal::bool_t xcal::camera::AbsCamera::should_update() const {
+    return projection_should_update() || view_should_update() ||
+           view_or_projection_has_changed_;
 };
+const xcmath::mat<float_t, 4, 4>& xcal::camera::AbsCamera::pv_matrix() const {
+    if (view_or_projection_has_changed_) {
+        pv_matrix_cache_ = projection_matrix() ^ view_matrix();
+        view_or_projection_has_changed_ = false;
+    }
+    return pv_matrix_cache_;
+}
+void xcal::camera::AbsCamera::projection_has_changed() const {
+    view_or_projection_has_changed_ = true;
+}
+const xcmath::mat<float_t, 4, 4>& xcal::camera::AbsCamera::view_matrix() const {
+    update_view_matrix();
+    return view_matrix_cache_;
+}

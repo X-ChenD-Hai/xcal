@@ -9,8 +9,11 @@ template <typename __ItemType, Type __Type>
 class XCAL_API _PositionList : public MProperty {
     virtual Type type_() const override { return __Type; }
 
+   public:
+    using data_t = std::vector<__ItemType>;
+
    private:
-    Proxy<std::vector<__ItemType>> positions_{this, {}};
+    Proxy<data_t> positions_{this, {}};
     Proxy<bool_t> closed_{this, false};
 
    public:
@@ -25,10 +28,14 @@ class XCAL_API _PositionList : public MProperty {
     Proxy<bool_t> &closed() { return closed_; }
     const std::vector<__ItemType> &positions() const { return positions_; }
     std::vector<__ItemType> &positions() { return positions_; }
+    _PositionList &operator=(const data_t &list) {
+        positions_ = list;
+        return *this;
+    }
 };
 
-using PositionList = _PositionList<Position, Type::PositionList>;
+using PositionList = _PositionList<xcmath::vec<float_t, 2>, Type::PositionList>;
 using ThreeDPositionList =
-    _PositionList<ThreeDPosition, Type::ThreeDPositionList>;
+    _PositionList<xcmath::vec<float_t, 3>, Type::ThreeDPositionList>;
 
 }  // namespace xcal::property

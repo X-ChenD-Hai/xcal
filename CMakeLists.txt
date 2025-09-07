@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
-project(xcal VERSION 0.1.0 LANGUAGES C CXX)
+project(xcal VERSION 0.1.2 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # find_package(glad REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(FFMPEG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 option(BUILD_DYNAMIC_LIBRARY "Build dynamic library" ON)
 
 set(BUILD_TESTING OFF)
@@ -12,18 +14,34 @@ add_subdirectory(third_party/xcmath)
 add_subdirectory(third_party/xclogger)
 unset(BUILD_TESTING)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(XCAL_debug=1)
+    set(OPENGL_SHADER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res/render/opengl/shader")
+else()
+    set(OPENGL_SHADER_DIR "res/render/opengl/shader")
+endif()
+
 set(RENDER_BACKEND glad CACHE STRING "Choose the rendering backend: glbinding or glad")
 set_property(CACHE RENDER_BACKEND PROPERTY STRINGS glbinding glad)
 if(RENDER_BACKEND STREQUAL "glbinding")
     find_package(glbinding REQUIRED)
     set(OPENGL_BACKEND_LIBS glbinding::glbinding glbinding::glbinding-aux)
-    add_compile_definitions(GL_BACKEND_GLBINDING=1)
+    add_compile_definitions(GL_BACKEND_GLBINDING=1
+        XCAL_OPENGL_SHADER_DIR="${OPENGL_SHADER_DIR}/"
+    )
 elseif(RENDER_BACKEND STREQUAL "glad")
     find_package(glad REQUIRED)
     set(OPENGL_BACKEND_LIBS glad::glad)
-    add_compile_definitions(GL_BACKEND_GLAD=1)
+    add_compile_definitions(GL_BACKEND_GLAD=1
+        XCAL_OPENGL_SHADER_DIR="${OPENGL_SHADER_DIR}/"
+    )
 else()
     message(FATAL_ERROR "Invalid rendering backend: ${RENDER_BACKEND}")
+endif()
+
+option(XCAL_LOG_OUT_TO_STDERR "Log output to stderr" OFF)
+if(XCAL_LOG_OUT_TO_STDERR)
+    add_compile_definitions(XCAL_LOG_OUT_TO_STDERR=1)
 endif()
 
 add_subdirectory(xcal)

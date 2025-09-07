@@ -100,9 +100,7 @@ TEST(TestPerspectiveCamera, VPTransformWholeVectors_Strict) {
                                                    0.1f,          // near
                                                    100.0f);       // far
 
-    cam->position() = {0, 0, -5};
-    cam->target() = {0, 0, 0};
-    cam->up() = {0, 1, 0};
+    cam->set_position(0, 0, -5)->set_target(0, 0, 0)->set_up(0, 1, 0);
 
     const auto& V = cam->view_matrix();
     const auto& P = cam->projection_matrix();

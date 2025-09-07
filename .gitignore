@@ -12,3 +12,6 @@
 !CMakePresets.json
 !LICENSE
 !README.md
+!Doxyfile
+!.github
+!docs/doxygen-dark-theme.css

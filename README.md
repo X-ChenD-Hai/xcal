@@ -90,6 +90,14 @@ int main(int argc, char **argv) {
 }
 ```
 
+## 📖 文档
+
+详细的 API 文档已部署在 GitHub Pages 上：
+
+- **在线文档**: [https://x-chend-hai.github.io/xcal/](https://x-chend-hai.github.io/xcal/)
+
+文档包含完整的类参考、模块说明和使用示例，采用黑暗主题设计，提供更好的阅读体验。
+
 ## 📁 项目结构
 
 ```
@@ -178,7 +186,7 @@ float_t calculateDistance(const Position& p1, const Position& p2);
 
 ## 📄 许可证
 
-项目采用开源许可证，具体请查看 LICENSE 文件。
+项目采用开源许可证，具体请查看 [LICENSE](LICENSE) 文件。
 
 ## 📞 联系方式
 

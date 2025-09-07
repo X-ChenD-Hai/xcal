@@ -38,3 +38,9 @@ void xcal::render::opengl::GL::Buffer::get_buffer_data(
 void xcal::render::opengl::GL::Buffer::destroy() {
     if (is_valid()) _gl glDeleteBuffers(1, &vbo_);
 }
+void xcal::render::opengl::GL::Buffer::unbind() const {
+    _gl glBindBuffer(target_, 0);
+};
+void xcal::render::opengl::GL::Buffer::unbind(gl::GLenum target) {
+    _gl glBindBuffer(target, 0);
+}

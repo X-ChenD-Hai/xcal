@@ -21,7 +21,8 @@ class XCAL_API Circle : public MObject {
      * @param pos 圆心位置，默认为 (0.0, 0.0)
      * @param radius 半径值，默认为 1.0
      */
-    Circle(property::Position pos = {0.0, 0.0}, float_t radius = 1.0)
+    Circle(const property::Position::data_t& pos = {0.0, 0.0},
+           float_t radius = 1.0)
         : MObject(pos), radius_(radius) {
         register_properties(radius_);
     }
@@ -36,7 +37,10 @@ class XCAL_API Circle : public MObject {
      * @brief 设置半径值
      * @param radius 新的半径值
      */
-    void set_radius(float_t radius) { radius_ = radius; }
+    Circle* set_radius(float_t radius) {
+        radius_ = radius;
+        return this;
+    }
 
     /**
      * @brief 析构函数

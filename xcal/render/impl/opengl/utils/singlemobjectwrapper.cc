@@ -1,5 +1,7 @@
 #include <xcal/render/impl/opengl/utils/singlemobjectwrapper.hpp>
-#define XCAL_OUT_TO_STDERR
+
+#include "xcal/mobject/core/mobject_types.hpp"
+
 #define ROLE SingleMObjectWrapperImpl
 #define LABEL SingleMObjectWrapperImpl
 #include <xcal/utils/logmacrohelper.inc>
@@ -9,9 +11,9 @@ xcal::render::opengl::utils::SingleMObjectWrapperImpl::mat&
 xcal::render::opengl::utils::SingleMObjectWrapperImpl::model_matrix() const {
     if (model_matrix_should_update()) {
         update_model_matrix();
-        _D("Render SingleObject: " << this << " from mobject: " << mobject_
-                                   << " with update model: "
-                                   << model_matrox_cache_);
+        _D("Render SingleObject: "
+           << this << " from " << xcal::to_string(mobject_->type()) << ": "
+           << mobject_ << " with update model: " << model_matrox_cache_);
     }
     return model_matrox_cache_;
 }

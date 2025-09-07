@@ -1,3 +1,13 @@
+/**
+ * @file abs_mobject.hpp
+ * @author X_Chen D_Hai (illuminatestar@foxmail.com)
+ * @brief 抽象图形对象基类
+ * @version 0.1
+ * @date 2025-09-07
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #pragma once
 #include <xcal/public.h>
 
@@ -5,6 +15,12 @@
 #include <xcal/property/core/property.hpp>
 
 namespace xcal::mobject {
+
+/**
+ * @brief 图形对象命名空间
+ *
+ * 包含图形对象相关的类和功能，提供图形对象管理和属性系统。
+ */
 
 /**
  * @brief 抽象图形对象基类

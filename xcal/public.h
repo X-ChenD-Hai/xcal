@@ -31,33 +31,35 @@ using bool_t = bool;
 #ifndef _STD
 #    define _STD ::std::
 #endif
-#ifdef XCAL_ENABLE_DYNAMIC_LIBRARY
-    // 定义导出和导入宏
+#if defined(XCAL_ENABLE_DYNAMIC_LIBRARY) || \
+    defined(XCAL_CODEC_ENABLE_DYNAMIC_LIBRARY)
+// 定义导出和导入宏
 #    ifdef _WIN32
-    // Windows平台
+// Windows平台
 #        ifdef __GNUC__
-    // 使用GCC编译器
+// 使用GCC编译器
 #            define XCAL_EXPORT __attribute__((dllexport))
 #            define XCAL_IMPORT __attribute__((dllimport))
 #        else
-    // 使用MSVC或其他Windows编译器
+// 使用MSVC或其他Windows编译器
 #            define XCAL_EXPORT __declspec(dllexport)
 #            define XCAL_IMPORT __declspec(dllimport)
 #        endif
 #    else
-    // 非Windows平台
+// 非Windows平台
 #        if __GNUC__ >= 4
-    // 使用GCC 4及以上版本
+// 使用GCC 4及以上版本
 #            define XCAL_EXPORT __attribute__((visibility("default")))
 #            define XCAL_IMPORT
 #        else
-    // 其他编译器
+// 其他编译器
 #            define XCAL_EXPORT
 #            define XCAL_IMPORT
 #        endif
 #    endif
+#endif  // XCAL_ENABLE_DYNAMIC_LIBRARY
 
-// 根据是否正在构建库来决定使用导出还是导入宏
+#ifdef XCAL_ENABLE_DYNAMIC_LIBRARY
 #    ifdef XCAL_BUILD
 #        define XCAL_API XCAL_EXPORT
 #    else
@@ -65,4 +67,13 @@ using bool_t = bool;
 #    endif
 #else
 #    define XCAL_API
-#endif  // XCAL_ENABLE_DYNAMIC_LIBRARY
+#endif
+#ifdef XCAL_CODEC_ENABLE_DYNAMIC_LIBRARY
+#    ifdef XCAL_CODEC_BUILD
+#        define XCAL_CODEC_API XCAL_EXPORT
+#    else
+#        define XCAL_CODEC_API XCAL_IMPORT
+#    endif
+#else
+#    define XCAL_CODEC_API
+#endif

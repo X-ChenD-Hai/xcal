@@ -24,6 +24,10 @@ class XCAL_API TimePoint : public MProperty {
      */
     TimePoint() : MProperty() {}
 
+    TimePoint(const TimePoint&) = delete;
+    TimePoint(TimePoint&&) = delete;
+    TimePoint& operator=(const TimePoint&) = delete;
+    TimePoint& operator=(TimePoint&&) = delete;
     /**
      * @brief 从浮点数秒构造函数
      * @param seconds_since_epoch 从纪元开始的秒数（浮点数）
@@ -32,21 +36,21 @@ class XCAL_API TimePoint : public MProperty {
         set_seconds_since_epoch(seconds_since_epoch);
     }
 
-    /**
-     * @brief 获取当前时间点
-     * @return TimePoint 当前时间点
-     */
-    static TimePoint now() {
-        auto now = std::chrono::system_clock::now();
-        auto duration = now.time_since_epoch();
-        auto microseconds =
-            std::chrono::duration_cast<std::chrono::microseconds>(duration)
-                .count();
-        TimePoint timePoint;
-        timePoint.set_microseconds_since_epoch(
-            static_cast<size_t>(microseconds));
-        return timePoint;
-    }
+    // /**
+    //  * @brief 获取当前时间点
+    //  * @return TimePoint 当前时间点
+    //  */
+    // static TimePoint now() {
+    //     auto now = std::chrono::system_clock::now();
+    //     auto duration = now.time_since_epoch();
+    //     auto microseconds =
+    //         std::chrono::duration_cast<std::chrono::microseconds>(duration)
+    //             .count();
+    //     TimePoint timePoint;
+    //     timePoint.set_microseconds_since_epoch(
+    //         static_cast<size_t>(microseconds));
+    //     return timePoint;
+    // }
 
     /**
      * @brief 获取从纪元开始的微秒数
@@ -80,29 +84,29 @@ class XCAL_API TimePoint : public MProperty {
         microseconds_since_epoch_ = static_cast<size_t>(seconds * 1000000.0f);
     }
 
-    /**
-     * @brief 时间点加法运算（添加时间段）
-     * @param duration 要添加的时间段
-     * @return TimePoint 相加后的时间点
-     */
-    TimePoint operator+(const TimeDuration& duration) const {
-        TimePoint result;
-        result.set_microseconds_since_epoch(microseconds_since_epoch_ +
-                                            duration.microseconds());
-        return result;
-    }
+    // /**
+    //  * @brief 时间点加法运算（添加时间段）
+    //  * @param duration 要添加的时间段
+    //  * @return TimePoint 相加后的时间点
+    //  */
+    // TimePoint operator+(const TimeDuration& duration) const {
+    //     TimePoint result;
+    //     result.set_microseconds_since_epoch(microseconds_since_epoch_ +
+    //                                         duration.microseconds());
+    //     return result;
+    // }
 
-    /**
-     * @brief 时间点减法运算（减去时间段）
-     * @param duration 要减去的时间段
-     * @return TimePoint 相减后的时间点
-     */
-    TimePoint operator-(const TimeDuration& duration) const {
-        TimePoint result;
-        result.set_microseconds_since_epoch(microseconds_since_epoch_ -
-                                            duration.microseconds());
-        return result;
-    }
+    // /**
+    //  * @brief 时间点减法运算（减去时间段）
+    //  * @param duration 要减去的时间段
+    //  * @return TimePoint 相减后的时间点
+    //  */
+    // TimePoint operator-(const TimeDuration& duration) const {
+    //     TimePoint result;
+    //     result.set_microseconds_since_epoch(microseconds_since_epoch_ -
+    //                                         duration.microseconds());
+    //     return result;
+    // }
 
     /**
      * @brief 时间点减法运算（计算时间差）

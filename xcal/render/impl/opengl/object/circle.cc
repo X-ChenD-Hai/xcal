@@ -8,7 +8,6 @@
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
 
-#define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Circle
 #include <xcal/render/impl/opengl/utils/shaderinstence.hpp>
@@ -16,25 +15,27 @@
 #include <xcmath/utils/show.hpp>
 #define SHADER_ID 0
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Circle, SHADER_ID) {
-    return GL::ShaderProgram::from_file("res/line.vs", "res/line.fs");
+    return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
+                                        SHADER_FILE("line.fs"));
 }
 
 void xcal::render::opengl::object::Circle::create() {
     vao().bind();
+    vbo_ = GL::Buffer(_gl GL_ARRAY_BUFFER);
     vbo_.bind();
-
     const float_t radius = mobject_->radius();
-    _D("Create Circle: " << mobject_.mobject() << " with radius: " << radius);
+    _D("Create Circle: " << mobject_.mobject() << " with radius: " << radius
+                         << " and depth: " << mobject_->depth().value());
 
     // Generate vertices for circle using triangle fan
     // Center vertex first, then circumference points
     std::vector<_gl GLfloat> vertices;
     vertices.reserve((segments_ + 2) *
-                     6);  // (center + segments + duplicate first point) * 6
-                          // floats per vertex
+                     6);  // (center + segments + duplicate first
+                          // point) * 6 floats per vertex
 
     // Center vertex
-    vertices.insert(vertices.end(), {0.0f, 0.0f, 0.0f});
+    vertices.insert(vertices.end(), {0.0f, 0.0f, mobject_->depth().value()});
     vertices.insert(vertices.end(),
                     {mobject_->stroke_color().r(), mobject_->stroke_color().g(),
                      mobject_->stroke_color().b()});
@@ -44,7 +45,7 @@ void xcal::render::opengl::object::Circle::create() {
         float_t angle = 2.0f * xcmath::PI * i / segments_;
         float_t x = radius * cos(angle);
         float_t y = radius * sin(angle);
-        vertices.insert(vertices.end(), {x, y, 0.0f});
+        vertices.insert(vertices.end(), {x, y, mobject_->depth().value()});
         vertices.insert(vertices.end(), {mobject_->stroke_color().r(),
                                          mobject_->stroke_color().g(),
                                          mobject_->stroke_color().b()});
@@ -65,6 +66,7 @@ void xcal::render::opengl::object::Circle::create() {
                               (void*)(3 * sizeof(float)));  // offset
 
     shader_program_ = utils::ShaderInstance<Circle, SHADER_ID>::instance();
+    vao().unbind();
 };
 
 void xcal::render::opengl::object::Circle::destroy() {
@@ -79,6 +81,7 @@ void xcal::render::opengl::object::Circle::render() const {
     shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_TRIANGLE_FAN, 0,
                      segments_ + 2);  // +2 for center and duplicate first point
+    vao().unbind();
 };
 
 xcal::render::opengl::object::Circle::Circle(mobject::Circle* mobject)
@@ -89,7 +92,7 @@ xcal::render::opengl::object::Circle::Circle(mobject::Circle* mobject)
 XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Circle, Circle)
 void xcal::render::opengl::object::Circle::update_projection_view(
     const xcmath::mat4<float_t>& projection_view) {
-    _D("Update view projection for Line: " << this << " with view_projection: "
-                                           << projection_view);
+    _D("Update view projection for Circle: "
+       << this << " with view_projection: " << projection_view);
     shader_program_->uniform("projection_view", projection_view);
 }

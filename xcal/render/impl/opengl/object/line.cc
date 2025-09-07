@@ -9,7 +9,6 @@
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
 
-#define XCAL_OUT_TO_STDERR
 #define ROLE OpenGLObject
 #define LABEL Line
 #include <xcal/render/impl/opengl/utils/shaderinstence.hpp>
@@ -17,27 +16,30 @@
 #include <xcmath/utils/show.hpp>
 #define SHADER_ID 0
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
-    return GL::ShaderProgram::from_file("res/line.vs", "res/line.fs");
+    return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
+                                        SHADER_FILE("line.fs"));
 }
 
 void xcal::render::opengl::object::Line::create() {
     vao().bind();
+    vbo_ = GL::Buffer(_gl GL_ARRAY_BUFFER);
     vbo_.bind();
     const xcmath::vec2<float_t> direct = mobject_->direct().value() / 2;
-    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct);
+    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct
+                       << " and depth: " << mobject_->depth().value());
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
         direct.x(),
         direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
-        mobject_->stroke_color().b(),  //
+        mobject_->stroke_color().b(),
     };
     vbo_.buffer_data(vertices.data(), vertices.size() * sizeof(float),
                      _gl GL_STATIC_DRAW);
@@ -53,6 +55,7 @@ void xcal::render::opengl::object::Line::create() {
                               (void*)(3 * sizeof(float)));  // offset
 
     shader_program_ = utils::ShaderInstance<Line, SHADER_ID>::instance();
+    vao().unbind();
 };
 void xcal::render::opengl::object::Line::destroy() {
     _I("Destroy Line: " << this);
@@ -64,6 +67,7 @@ void xcal::render::opengl::object::Line::render() const {
     shader_program_->use();
     shader_program_->uniform("model", mobject_.model_matrix());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
+    vao().unbind();
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
     : mobject_(mobject), vbo_(_gl GL_ARRAY_BUFFER) {

@@ -12,7 +12,7 @@ xcal::render::opengl::GL::VertexArrayObject::~VertexArrayObject() {
 void xcal::render::opengl::GL::VertexArrayObject::bind() const {
     _gl glBindVertexArray(vao_);
 };
-void xcal::render::opengl::GL::VertexArrayObject::unbind() const {
+void xcal::render::opengl::GL::VertexArrayObject::unbind() {
     _gl glBindVertexArray(0);
 };
 

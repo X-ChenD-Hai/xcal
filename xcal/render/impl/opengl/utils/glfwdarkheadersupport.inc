@@ -34,7 +34,7 @@
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-XCAL_API bool enable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API inline bool enable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -97,7 +97,7 @@ XCAL_API bool enable_window_dark_titlebar(GLFWwindow* window) {
  * @param window GLFW 窗口指针
  * @return 成功返回 true，失败或平台不支持返回 false
  */
-XCAL_API bool disable_window_dark_titlebar(GLFWwindow* window) {
+XCAL_API inline bool disable_window_dark_titlebar(GLFWwindow* window) {
     if (!window) return false;
 
 #if defined(XC_PLATFORM_WINDOWS)
@@ -133,7 +133,7 @@ XCAL_API bool disable_window_dark_titlebar(GLFWwindow* window) {
 }
 
 // 平台检测辅助函数
-XCAL_API const char* get_platform_name() {
+XCAL_API inline const char* get_platform_name() {
 #if defined(XC_PLATFORM_WINDOWS)
     return "Windows";
 #elif defined(XC_PLATFORM_MAC)

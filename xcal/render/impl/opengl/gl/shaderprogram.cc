@@ -34,9 +34,6 @@ void xcal::render::opengl::GL::ShaderProgram::link() {
     _I("Program linked: " << program_);
 };
 void xcal::render::opengl::GL::ShaderProgram::use() const {
-    if (program_ == 0) {
-        throw std::runtime_error("program not created");
-    }
     _gl glUseProgram(program_);
 };
 ;
@@ -51,11 +48,13 @@ void xcal::render::opengl::GL::ShaderProgram::destroy() {
 xcal::render::opengl::GL::ShaderProgram::ShaderProgram() {};
 void xcal::render::opengl::GL::ShaderProgram::uniform(
     const char *name, const xcmath::mat<gl::GLfloat, 4, 4> &mat) const {
+    _gl glUseProgram(program_);
     _gl glUniformMatrix4fv(_gl glGetUniformLocation(program_, name), 1,
                            _gl GL_TRUE, &mat[0][0]);
 }
 void xcal::render::opengl::GL::ShaderProgram::uniform(
     const char *name, const xcmath::mat<gl::GLfloat, 3, 3> &mat) const {
+    _gl glUseProgram(program_);
     _gl glUniformMatrix3fv(_gl glGetUniformLocation(program_, name), 1,
                            _gl GL_TRUE, &mat[0][0]);
 }

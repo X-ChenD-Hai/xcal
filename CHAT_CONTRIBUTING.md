@@ -30,7 +30,8 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - **render**: 渲染引擎模块（OpenGL/GLFW）
 - **property**: 属性系统（位置、颜色、标量、时间、向量等）
 - **camera**: 相机系统（正交相机、透视相机）
-- **animation**: 动画系统模块（新增）
+- **animation**: 动画系统模块
+- **codec**: 视频编解码器模块（新增）
 
 ### 文件结构详解
 
@@ -41,6 +42,8 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `CONTRIBUTING.md` - 传统贡献指南
 - `CHAT_CONTRIBUTING.md` - AI 贡献者专用指南
 - `.gitignore` - Git 忽略文件配置
+- `Doxyfile` - Doxygen 配置文件，用于生成项目文档
+- `doxygen-dark-theme.css` - Doxygen 黑暗主题样式表
 
 #### 资源文件
 - `res/line.fs` - 线条片段着色器
@@ -94,14 +97,19 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 
 **render/ 渲染引擎**:
 - `core/abs_render.cc/.hpp` - 抽象渲染器基类实现
+- `core/abs_videocodec.hpp` - 抽象视频编解码器接口（新增）
 - `core/render.hpp` - 具体渲染器实现
+- `codec/` - 视频编解码器模块（新增）
+  - `ffmpegcodec.cc/.hpp` - FFmpeg 编解码器实现
 - `impl/opengl/` - OpenGL 渲染实现
   - `opengl_render.cc/.hpp` - OpenGL 渲染器
   - `core/typedef.hpp` - 类型定义
   - `gl/` - OpenGL 底层封装
     - `buffer.cc/.hpp` - 缓冲区管理
+    - `framebufferobject.cc/.hpp` - 帧缓冲区对象管理（新增）
     - `shader.cc/.hpp` - 着色器管理
     - `shaderprogram.cc/.hpp` - 着色器程序管理
+    - `texture.cc/.hpp` - 纹理管理（新增）
     - `vertexarrayobject.cc/.hpp` - 顶点数组对象管理
   - `object/` - 图形对象渲染
     - `circle.cc/.hpp` - 圆形对象渲染
@@ -118,6 +126,7 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 
 **utils/ 工具类**:
 - `logmacrohelper.inc` - 日志宏助手
+- `paths.cc/.hpp` - 路径处理工具（新增）
 
 #### third_party/ 第三方依赖
 **xclogger/ 日志库**:
@@ -139,6 +148,10 @@ xcal 是一个基于 C++23 的现代图形渲染引擎，专注于提供高性�
 - `properties/test_time_point.cc` - 时间点测试
 - `scene/test_scene.cc` - 场景管理测试
 - `camera/test_perspective_camera.cc` - 透视相机测试
+
+**视频测试**:
+- `video/avcode.cc` - 视频编解码器测试（新增）
+- `video/CMakeLists.txt` - 视频测试构建配置（新增）
 
 **集成测试**:
 - `opengl.cc` - OpenGL 渲染测试
@@ -204,6 +217,7 @@ AbsCamera (抽象相机基类)
   - Linux: Clang 19.1+
 - **C++标准**: C++23
 - **图形库**: OpenGL + GLFW
+- **视频编解码**: FFmpeg 库支持（新增）
 - **构建系统**: CMake 3.15+
 - **测试框架**: GTest
 - **日志系统**: xclogger (ZMQ 异步日志)
@@ -452,6 +466,30 @@ git push origin feature/ai-your-feature-name
 3. 运行代码格式化工具检查风格
 4. 确保所有测试通过
 
+## 📅 更新记录 - 2025-09-07
+
+### 新增内容
+- 添加了视频编解码器模块文档，包括 FFmpeg 编解码器实现
+- 更新了文件结构以包含视频编解码器和路径工具
+- 添加了视频测试文件说明
+- 完善了构建系统依赖说明，添加 FFmpeg 支持
+
+### 修正内容  
+- 更新了核心模块列表，添加了 codec 模块
+- 修正了渲染引擎文件结构描述，添加视频编解码器相关文件
+- 更新了工具类描述，添加路径处理工具
+- 修正了测试目录结构，添加视频测试
+
+### 示例更新
+- 添加了视频编解码器系统架构说明
+- 更新了关键技术栈，添加 FFmpeg 支持
+
+### 新增最佳实践
+- **视频编解码器设计**: 提供抽象视频编解码器接口，支持 FFmpeg 实现
+- **API 导出管理**: 使用 XCAL_CODEC_API 宏进行视频编解码器类的导出控制
+- **FFmpeg 集成**: 正确处理 FFmpeg 依赖和资源管理
+- **路径处理**: 使用统一的路径工具类进行文件路径操作
+
 ## 📅 更新记录 - 2025-09-04
 
 ### 新增内容
@@ -529,6 +567,7 @@ git push origin feature/ai-your-feature-name
 
 ## 📊 版本历史
 
+- **v1.6.0** (2025-09-07): 添加视频编解码器模块，更新构建依赖和文件结构
 - **v1.5.0** (2025-09-04): 添加动画系统模块，全面更新文件结构文档
 - **v1.4.0** (2025-09-02): 根据项目变更更新文件结构和模块文档
 - **v1.3.0** (2025-08-27): 添加 CTest 支持，完善测试运行机制
@@ -539,5 +578,5 @@ git push origin feature/ai-your-feature-name
 
 ---
 
-*最后更新: 2025-09-04*  
+*最后更新: 2025-09-07*  
 *AI 贡献者请在每次任务开始前读取本指南，并在任务完成后更新本指南*
