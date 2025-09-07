@@ -30,13 +30,13 @@ void xcal::render::opengl::object::Line::create() {
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
         direct.x(),
         direct.y(),
-        0,  //
+        mobject_->depth().value(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),

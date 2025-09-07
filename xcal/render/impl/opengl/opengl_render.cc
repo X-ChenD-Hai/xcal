@@ -1,4 +1,3 @@
-#include <cmath>
 #include <cstddef>
 #include <cstdio>
 #include <string>
@@ -31,7 +30,6 @@
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
 
-constexpr static float_t kDDepth = 1;
 #define CONST_MOBJECT_PTR(mobj) static_cast<const xcal::mobject::MObject*>(mobj)
 namespace xcal::render::opengl {
 struct UIState {
