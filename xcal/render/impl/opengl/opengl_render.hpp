@@ -10,13 +10,16 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
 namespace xcal::render::opengl {
+struct UIState;
 class XCAL_API OpenGLRender : public xcal::render::Render {
     friend void ::framebuffer_size_callback(GLFWwindow* window, int w, int h);
+    friend class UIState;
 
    private:
     float_t aspect_ = 1.0f;
     property::Color background_color_ = property::Color(0.0f, 0.0f, 0.0f, 1.0f);
     GLFWwindow* window_ = nullptr;
+    std::unique_ptr<UIState> ui_state_{nullptr};
     std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
 
    protected:
