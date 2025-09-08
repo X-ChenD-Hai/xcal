@@ -10,15 +10,17 @@
 #include "xcal/camera/core/abs_camera.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
+namespace xcal::render::opengl::ui {
+class UIRender;
+}
 namespace xcal::render::opengl {
-struct UIState;
 class XCAL_API OpenGLRender : public xcal::render::Render {
     friend void ::framebuffer_size_callback(GLFWwindow* window, int w, int h);
-    friend class UIState;
+    friend class ui::UIRender;
 
    private:
     GLFWwindow* window_{nullptr};
-    std::unique_ptr<UIState> ui_state_{nullptr};
+    std::unique_ptr<ui::UIRender> ui_render_{nullptr};
     std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
     const camera::AbsCamera* current_camera_{nullptr};
@@ -28,10 +30,8 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    private:
     void setup_scene();
-    void render_ui();
     void setup_gl();
     void setup_glfw();
-    void setup_imgui();
 
    public:
     void show(size_t width = 800, size_t height = 600);

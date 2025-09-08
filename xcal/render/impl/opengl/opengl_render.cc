@@ -1,19 +1,19 @@
 #include <cstddef>
 #include <cstdio>
 #include <memory>
-#include <string>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
 
+#include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/opengl_render.hpp>
+#include <xcal/render/impl/opengl/ui/uirender.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcmath/utils/show.hpp>
 
-#include "xcal/camera/core/abs_camera.hpp"
 
 //
 #ifdef GL_BACKEND_GLBINDING
@@ -24,81 +24,11 @@
 
 //
 #include <GLFW/glfw3.h>
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
 
 #undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
-
-#define CONST_MOBJECT_PTR(mobj) static_cast<const xcal::mobject::MObject*>(mobj)
-namespace xcal::render::opengl {
-struct UIState {
-    struct ObjectHandle {
-        using mobject_t = xcal::mobject::MObject;
-        bool_t changed = false;
-        mobject_t* obj;
-        std::string name;
-        std::string type;
-        float_t x, y;
-        float_t depth;
-        ObjectHandle(mobject_t* obj)
-            : obj(obj),
-              name(std::string(xcal::to_string(obj->type())) + ": " +
-                   std::to_string((size_t)obj)),
-              type(xcal::to_string(obj->type())),
-              x(CONST_MOBJECT_PTR(obj)->pos().x()),
-              y(CONST_MOBJECT_PTR(obj)->pos().y()),
-              depth(CONST_MOBJECT_PTR(obj)->depth()) {}
-    };
-
-    bool show = true;
-    std::vector<ObjectHandle> object_handles;
-    OpenGLRender* renderer = nullptr;
-    UIState(OpenGLRender* renderer) : renderer(renderer) {}
-    float_t tmp;
-    void flush() {
-        object_handles.clear();
-        if (renderer && renderer->scene()) {
-            for (auto& obj : renderer->scene()->mobjects()) {
-                object_handles.emplace_back(obj.get());
-            }
-        }
-    }
-    void render_obj(ObjectHandle& obj, int id) {
-        namespace I = ImGui;
-        I::PushID(id);
-        if (I::CollapsingHeader(obj.name.c_str())) {
-            I::Text("pos: ");
-            tmp = CONST_MOBJECT_PTR(obj.obj)->pos().x();
-            if (I::InputFloat("X", &tmp)) {
-                obj.obj->pos().x() = tmp;
-                _D("updating x of object: " << obj.obj << " to: " << tmp
-                                            << " change state: "
-                                            << obj.obj->pos().is_changed());
-            }
-            tmp = CONST_MOBJECT_PTR(obj.obj)->pos().y();
-            if (I::InputFloat("Y", &tmp)) obj.obj->pos().y() = tmp;
-            I::Text("depth: ");
-            tmp = CONST_MOBJECT_PTR(obj.obj)->depth();
-            if (I::InputFloat("Depth", &tmp)) obj.obj->depth() = tmp;
-        }
-        I::PopID();
-    }
-    void render() {
-        namespace I = ImGui;
-        if (!show) return;
-        I::Begin("Hello, world!", &show);
-        I::SetWindowFontScale(2);
-        for (size_t i = 0; i < object_handles.size(); ++i) {
-            render_obj(object_handles[i], (int)i);
-        }
-        I::End();
-    }
-};
-}  // namespace xcal::render::opengl
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
     static_cast<xcal::render::opengl::OpenGLRender*>(
@@ -120,21 +50,20 @@ void init_glbackend() {
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene),
-      ui_state_(std::make_unique<UIState>(this)),
+      ui_render_(std::make_unique<ui::UIRender>(this)),
       default_camera_(std::make_unique<xcal::camera::PerspectiveCamera>(
           45.0, 16 / 9.0, 0.1, 1000.0)),
       current_camera_(default_camera_.get()) {
     _I("OpenGLRender created: " _SELF);
     setup_glfw();
     setup_gl();
-    setup_imgui();
+    ui_render_->init();
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
+    ui_render_->deinit();
     objects_.clear();
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+
     if (window_) {
         glfwDestroyWindow(window_);
         window_ = nullptr;
@@ -156,17 +85,11 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        render_ui();
+        ui_render_->render();
 
-        ImGui::Render();
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
-        // pixels = read_pixels_char();
-        // ofs.write(pixels.data(), pixels.size());
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ui_render_->before_swap_buffers();
         glfwSwapBuffers(window_);
     }
     _I("show loop ended");
@@ -215,7 +138,7 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
         }
         objects_.insert({obj.get(), std::move(obj_ptr)});
     }
-    ui_state_->flush();
+    ui_render_->flush();
 };
 void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
     GLFWwindow* window, int w, int h) {
@@ -300,13 +223,3 @@ void xcal::render::opengl::OpenGLRender::setup_gl() {
     _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
     glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
 };
-void xcal::render::opengl::OpenGLRender::setup_imgui() {
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window_, true);
-    ImGui_ImplOpenGL3_Init("#version 330 core");
-};
-
-void xcal::render::opengl::OpenGLRender::render_ui() { ui_state_->render(); };
