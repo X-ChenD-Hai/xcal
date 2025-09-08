@@ -27,7 +27,7 @@ class UIRender {
     float_t tmp_;
 
    public:
-    UIRender(OpenGLRender* renderer) : renderer_(renderer) {}
+    UIRender(OpenGLRender* renderer);
     void init();
     void deinit();
     void flush();

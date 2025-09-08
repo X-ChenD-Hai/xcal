@@ -20,8 +20,13 @@ xcal::render::opengl::ui::UIRender::ObjectHandle::ObjectHandle(mobject_t* obj)
       type(xcal::to_string(obj->type())),
       x(_CONST_MPTR(obj)->pos().x()),
       y(_CONST_MPTR(obj)->pos().y()),
-      depth(_CONST_MPTR(obj)->depth()) {}
+      depth(_CONST_MPTR(obj)->depth()) {
+    _D("creating object handle for object: "
+       << obj << " with name: " << name << " type: " << type << " pos: " << x
+       << ", " << y << " depth: " << depth);
+}
 void xcal::render::opengl::ui::UIRender::flush() {
+    _D("flushing UIRender" _SELF);
     object_handles_.clear();
     if (renderer_ && renderer_->scene()) {
         for (auto& obj : renderer_->scene()->mobjects()) {
@@ -60,6 +65,7 @@ void xcal::render::opengl::ui::UIRender::render_ui() {
     I::End();
 }
 void xcal::render::opengl::ui::UIRender::init() {
+    _I("initializing UIRender" _SELF);
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -68,6 +74,7 @@ void xcal::render::opengl::ui::UIRender::init() {
     ImGui_ImplOpenGL3_Init("#version 330 core");
 };
 void xcal::render::opengl::ui::UIRender::deinit() {
+    _I("deinitializing UIRender" _SELF);
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -82,3 +89,7 @@ void xcal::render::opengl::ui::UIRender::render() {
 void xcal::render::opengl::ui::UIRender::before_swap_buffers() {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 };
+xcal::render::opengl::ui::UIRender::UIRender(OpenGLRender* renderer)
+    : renderer_(renderer) {
+    _I("constructing UIRender" _SELF);
+}
