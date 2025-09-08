@@ -103,56 +103,42 @@ class XCAL_API AbsAnimation {
      */
     float_t elapsed_time() const { return elapsed_time_; }
 
-    /**
-     * @brief 设置已过去的时间
-     * @param elapsed_time 要设置的已过去时间
-     * @note 会自动处理边界情况，确保时间在有效范围内
-     */
-    void set_elapsed_time(float_t elapsed_time) {
-        elapsed_time_ = elapsed_time;
-        if (elapsed_time_ < 0.0f) {
-            update_to(0.0f);
-        } else if (elapsed_time_ > duration_) {
-            update_to(duration_);
-        }
-    }
-
    public:
-    /**
-     * @brief 更新动画状态
-     * @param dt 时间增量，默认为 kEpsilon
-     * @note 纯虚函数，必须在子类中实现
-     */
-    virtual void update(float_t dt = kEpsilon) = 0;
+    // /**
+    //  * @brief 更新动画状态
+    //  * @param dt 时间增量，默认为 kEpsilon
+    //  * @note 纯虚函数，必须在子类中实现
+    //  */
+    // virtual void update(float_t dt = kEpsilon) = 0;
 
     /**
      * @brief 更新到指定时间点
      * @param time 要更新的时间点
      */
-    virtual void update_to(float_t time) {};
+    virtual void update_to(float_t time) = 0;
 
-    /**
-     * @brief 开始播放动画
-     * @note 纯虚函数，必须在子类中实现
-     */
-    virtual void start() = 0;
+    // /**
+    //  * @brief 开始播放动画
+    //  * @note 纯虚函数，必须在子类中实现
+    //  */
+    // virtual void start() = 0;
 
-    /**
-     * @brief 暂停动画
-     * @note 纯虚函数，必须在子类中实现
-     */
-    virtual void pause() = 0;
+    // /**
+    //  * @brief 暂停动画
+    //  * @note 纯虚函数，必须在子类中实现
+    //  */
+    // virtual void pause() {};
 
-    /**
-     * @brief 恢复播放动画
-     * @note 纯虚函数，必须在子类中实现
-     */
-    virtual void resume() = 0;
+    // /**
+    //  * @brief 恢复播放动画
+    //  * @note
+    //  */
+    // virtual void resume() {};
 
-    /**
-     * @brief 停止动画
-     * @note 纯虚函数，必须在子类中实现
-     */
-    virtual void stop() = 0;
+    // /**
+    //  * @brief 停止动画
+    //  * @note 纯虚函数，必须在子类中实现
+    //  */
+    // virtual void stop() = 0;
 };
 }  // namespace xcal::animation

@@ -1,6 +1,7 @@
 #include <xcal/public.h>
 
 #include <memory>
+#include <xcal/animation/core/timeline.hpp>
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/mobject/objects/circle.hpp>
@@ -12,6 +13,7 @@ int main(int argc, char **argv) {
     auto scene = std::make_unique<xcal::scene::Scene>();
     using namespace xcal::mobject;
     using namespace xcal::camera;
+    using namespace xcal::animation;
 
     // XCAL_INFO(XCAL, APP) << "cc pos: " << cc->pos().value();
     scene->add<Line>(3)->set_pos({0, 0})->set_stroke_color({1, 0, 0, 5});
@@ -20,11 +22,11 @@ int main(int argc, char **argv) {
     scene->add<Circle>()->set_radius(0.5f / 2)->set_stroke_color({0, 0.5, 0.5});
     scene->add<Line>(2)->set_stroke_color({0, 0, 1})->rotate(45);
     scene->add<Line>(2)->set_stroke_color({0, 1, 0})->rotate(90);
-    auto c = scene
-                 ->add(std::make_unique<PerspectiveCamera>(45.0, 16 / 9.0, 0.1,
-                                                           1000.0))
-                 ->set_position(0, 0, 3)
-                 ->set_target(0, 0, 0);
+    scene->add(std::make_unique<PerspectiveCamera>(45.0, 16 / 9.0, 0.1, 1000.0))
+        ->set_position(0, 0, 3)
+        ->set_target(0, 0, 0);
+    scene->add<Timeline>(1.f);
+
     auto render = xcal::render::opengl::OpenGLRender{scene.get()};
     render.default_camera()
         ->set_background_color(0.2, 0.2, 0.2, 1.0)

@@ -11,8 +11,11 @@
 #pragma once
 #include <xcal/public.h>
 
+#include <memory>
+#include <type_traits>
 #include <vector>
 #include <xcal/animation/core/abs_animation.hpp>
+#include <xcal/animation/core/timeline.hpp>
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/abs_mobject.hpp>
 
@@ -34,11 +37,29 @@ class XCAL_API AbsScene {
     std::vector<std::unique_ptr<camera::AbsCamera>> cameras_{};  ///< 相机列表
     std::vector<std::unique_ptr<animation::AbsAnimation>>
         animations_{};  ///< 动画列表
+    std::vector<std::unique_ptr<animation::Timeline>>
+        timelines_{};  ///< 时间线列表
 
    public:
     AbsScene() {};
     AbsScene(const AbsScene&) = delete;
     AbsScene& operator=(const AbsScene&) = delete;
+
+    /**
+     * @brief 添加时间线
+     *
+     * @tparam T 时间线类型，默认为 animation::Timeline
+     * @param duration 时间线持续时间
+     * @return animation::Timeline*
+     */
+    template <typename T = animation::Timeline, class... Args>
+        requires(std::derived_from<T, animation::Timeline>) &&
+                std::constructible_from<T, Args...>
+    T* add(Args&&... args) {
+        return timelines_
+            .emplace_back(std::make_unique<T>(std::forward<Args>(args)...))
+            .get();
+    }
     /**
      * @brief 添加智能指针对象
      * @param obj 要添加的对象智能指针
