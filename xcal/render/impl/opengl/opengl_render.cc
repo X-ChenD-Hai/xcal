@@ -98,7 +98,7 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     _I("objects destroyed ");
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
-    if (!scene()->cameras().empty()) {
+    if (current_camera_) {
         if (current_camera_->should_update()) {
             for (auto& obj : objects_) {
                 _D("updating object: " << obj.first
