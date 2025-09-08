@@ -21,13 +21,13 @@ class UIRender {
         ObjectHandle(mobject_t* obj);
     };
 
-    bool show = true;
-    std::vector<ObjectHandle> object_handles{};
-    OpenGLRender* renderer{nullptr};
-    float_t tmp;
+    bool show_ = true;
+    std::vector<ObjectHandle> object_handles_{};
+    OpenGLRender* renderer_{nullptr};
+    float_t tmp_;
 
    public:
-    UIRender(OpenGLRender* renderer) : renderer(renderer) {}
+    UIRender(OpenGLRender* renderer) : renderer_(renderer) {}
     void init();
     void deinit();
     void flush();

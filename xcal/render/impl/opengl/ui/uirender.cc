@@ -22,10 +22,10 @@ xcal::render::opengl::ui::UIRender::ObjectHandle::ObjectHandle(mobject_t* obj)
       y(_CONST_MPTR(obj)->pos().y()),
       depth(_CONST_MPTR(obj)->depth()) {}
 void xcal::render::opengl::ui::UIRender::flush() {
-    object_handles.clear();
-    if (renderer && renderer->scene()) {
-        for (auto& obj : renderer->scene()->mobjects()) {
-            object_handles.emplace_back(obj.get());
+    object_handles_.clear();
+    if (renderer_ && renderer_->scene()) {
+        for (auto& obj : renderer_->scene()->mobjects()) {
+            object_handles_.emplace_back(obj.get());
         }
     }
 }
@@ -34,28 +34,28 @@ void xcal::render::opengl::ui::UIRender::render_obj(ObjectHandle& obj, int id) {
     I::PushID(id);
     if (I::CollapsingHeader(obj.name.c_str())) {
         I::Text("pos: ");
-        tmp = _CONST_MPTR(obj.obj)->pos().x();
-        if (I::InputFloat("X", &tmp)) {
-            obj.obj->pos().x() = tmp;
-            _D("updating x of object: " << obj.obj << " to: " << tmp
+        tmp_ = _CONST_MPTR(obj.obj)->pos().x();
+        if (I::InputFloat("X", &tmp_)) {
+            obj.obj->pos().x() = tmp_;
+            _D("updating x of object: " << obj.obj << " to: " << tmp_
                                         << " change state: "
                                         << obj.obj->pos().is_changed());
         }
-        tmp = _CONST_MPTR(obj.obj)->pos().y();
-        if (I::InputFloat("Y", &tmp)) obj.obj->pos().y() = tmp;
+        tmp_ = _CONST_MPTR(obj.obj)->pos().y();
+        if (I::InputFloat("Y", &tmp_)) obj.obj->pos().y() = tmp_;
         I::Text("depth: ");
-        tmp = _CONST_MPTR(obj.obj)->depth();
-        if (I::InputFloat("Depth", &tmp)) obj.obj->depth() = tmp;
+        tmp_ = _CONST_MPTR(obj.obj)->depth();
+        if (I::InputFloat("Depth", &tmp_)) obj.obj->depth() = tmp_;
     }
     I::PopID();
 }
 void xcal::render::opengl::ui::UIRender::render_ui() {
     namespace I = ImGui;
-    if (!show) return;
-    I::Begin("Hello, world!", &show);
+    if (!show_) return;
+    I::Begin("Hello, world!", &show_);
     I::SetWindowFontScale(2);
-    for (size_t i = 0; i < object_handles.size(); ++i) {
-        render_obj(object_handles[i], (int)i);
+    for (size_t i = 0; i < object_handles_.size(); ++i) {
+        render_obj(object_handles_[i], (int)i);
     }
     I::End();
 }
@@ -64,7 +64,7 @@ void xcal::render::opengl::ui::UIRender::init() {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(renderer->window_, true);
+    ImGui_ImplGlfw_InitForOpenGL(renderer_->window_, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
 };
 void xcal::render::opengl::ui::UIRender::deinit() {
