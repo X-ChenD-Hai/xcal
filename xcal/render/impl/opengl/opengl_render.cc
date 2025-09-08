@@ -124,6 +124,7 @@ xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     setup_scene();
 }
 xcal::render::opengl::OpenGLRender::~OpenGLRender() {
+    objects_.clear();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -148,8 +149,6 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     }
     ::framebuffer_size_callback(window_, width, height);
     _I("show loop started");
-    // std::ofstream ofs("framebuffer.raw", std::ios::binary);
-    // std::vector<char> pixels;
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
         ImGui_ImplOpenGL3_NewFrame();
@@ -165,7 +164,6 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(window_);
     }
-    // ofs.close();
     _I("show loop ended");
     _I("destroying objects");
     for (auto& obj : objects_) obj.second->destroy();
