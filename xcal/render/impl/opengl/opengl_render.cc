@@ -1,16 +1,19 @@
 #include <cstddef>
 #include <cstdio>
+#include <memory>
 #include <string>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
 
+#include <xcal/camera/perspectivecamera.hpp>
+#include <xcal/mobject/core/mobject_types.hpp>
+#include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcmath/utils/show.hpp>
 
-#include "core/typedef.hpp"
-#include "xcal/mobject/core/mobject_types.hpp"
+#include "xcal/camera/core/abs_camera.hpp"
 
 //
 #ifdef GL_BACKEND_GLBINDING
@@ -116,7 +119,11 @@ void init_glbackend() {
 }
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
-    : xcal::render::Render(scene), ui_state_(std::make_unique<UIState>(this)) {
+    : xcal::render::Render(scene),
+      ui_state_(std::make_unique<UIState>(this)),
+      default_camera_(std::make_unique<xcal::camera::PerspectiveCamera>(
+          45.0, 16 / 9.0, 0.1, 1000.0)),
+      current_camera_(default_camera_.get()) {
     _I("OpenGLRender created: " _SELF);
     setup_glfw();
     setup_gl();
@@ -142,8 +149,6 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     }
     glfwSetWindowSize(window_, width, height);
     glfwMakeContextCurrent(window_);
-    _gl glClearColor(background_color_.r(), background_color_.g(),
-                     background_color_.b(), background_color_.a());
     for (auto& obj : objects_) {
         obj.second->create();
     }
@@ -171,13 +176,14 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
     if (!scene()->cameras().empty()) {
-        const auto& cam = scene()->cameras().front();
-        if (cam->should_update()) {
+        if (current_camera_->should_update()) {
             for (auto& obj : objects_) {
                 _D("updating object: " << obj.first
-                                       << " with camera: " << cam.get());
-                _D("pv_matrix: " << cam->pv_matrix());
-                obj.second->update_projection_view(cam->pv_matrix());
+                                       << " with camera: " << current_camera_);
+                _D("pvurcurrent_camera_atrix: "
+                   << current_camera_->pv_matrix());
+                obj.second->update_projection_view(
+                    current_camera_->pv_matrix());
             }
         }
     }
@@ -213,10 +219,21 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
 };
 void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
     GLFWwindow* window, int w, int h) {
-    // _D("framebuffer_size_callback: " << w << "x" << h);
+    // aspect_ = w / static_cast<float>(h);
+    if (default_camera_->type() == camera::CameraType::Perspective) {
+        auto* cam = static_cast<xcal::camera::PerspectiveCamera*>(
+            default_camera_.get());
+        cam->set_aspect(w / static_cast<float>(h));
+    }
 
+    // _D("framebuffer_size_callback: " << w << "x" << h);
     // 计算保持宽高比的视口尺寸
-    float target_aspect = aspect_;
+    float target_aspect =
+        (current_camera_->type() == camera::CameraType::Perspective)
+            ? ((const camera::PerspectiveCamera*)current_camera_)
+                  ->aspect()
+                  .value()
+            : w / static_cast<float>(h);
     int viewport_width = w;
     int viewport_height = h;
     int viewport_x = 0;
@@ -241,8 +258,10 @@ void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
 
     // 设置视口
     _gl glViewport(viewport_x, viewport_y, viewport_width, viewport_height);
-    _gl glClearColor(background_color_.r(), background_color_.g(),
-                     background_color_.b(), background_color_.a());
+    _gl glClearColor(current_camera_->background_color().r(),
+                     current_camera_->background_color().g(),
+                     current_camera_->background_color().b(),
+                     current_camera_->background_color().a());
 
     // _D("Viewport set to: " << viewport_x << ", " << viewport_y << ", "
     //                        << viewport_width << ", " << viewport_height);
