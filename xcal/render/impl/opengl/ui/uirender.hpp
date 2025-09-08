@@ -3,6 +3,7 @@
 
 #include <xcal/public.h>
 
+#include <chrono>
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 
@@ -33,8 +34,12 @@ class UIRender {
     OpenGLRender* renderer_{nullptr};
     float_t tmp_;
     xcmath::vec3<float_t> vec3f_tmp_;
+    double last_fps_;
+    std::chrono::high_resolution_clock::time_point last_time_point_;
+    std::chrono::high_resolution_clock::time_point last_update_time_point_;
 
    protected:
+    void update_fps();
     void render_obj(ObjectHandle& obj);
     void render_camera(CameraHandle& cam);
     bool render_vec3f_edit(const xcmath::vec3<float_t>& vec3f,

@@ -82,7 +82,8 @@ void xcal::render::opengl::ui::UIRender::render_ui() {
             I::PopID();
         }
     }
-
+    update_fps();
+    I::Text("fps: %.3f", 1.f / last_fps_);
     I::End();
 }
 void xcal::render::opengl::ui::UIRender::init() {
@@ -215,3 +216,15 @@ bool xcal::render::opengl::ui::UIRender::render_vec3f_edit(
     vec3f_tmp_ = tmp;
     return true;
 }
+void xcal::render::opengl::ui::UIRender::update_fps() {
+    if (std::chrono::duration_cast<std::chrono::duration<float>>(
+            std::chrono::high_resolution_clock::now() - last_update_time_point_)
+            .count() > 0.5f) {
+        last_fps_ =
+            std::chrono::duration_cast<std::chrono::duration<float>>(
+                std::chrono::high_resolution_clock::now() - last_time_point_)
+                .count();
+        last_update_time_point_ = std::chrono::high_resolution_clock::now();
+    }
+    last_time_point_ = std::chrono::high_resolution_clock::now();
+};
