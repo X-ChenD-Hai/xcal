@@ -230,3 +230,15 @@ class XCAL_API AbsCamera {
 };
 }  // namespace xcal::camera
 template class XCAL_API xcal::property::Vec<float_t, 3>;
+namespace xcal {
+XCAL_API inline const char* to_string(xcal::camera::CameraType type) {
+    switch (type) {
+        case xcal::camera::CameraType::Perspective:
+            return "Perspective";
+        case xcal::camera::CameraType::Orthogonal:
+            return "Orthogonal";
+        default:
+            return "Unknown";
+    }
+}
+}  // namespace xcal
