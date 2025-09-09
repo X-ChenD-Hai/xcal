@@ -4,8 +4,7 @@
 #define LABEL AbsCamera
 #include <xcal/utils/logmacrohelper.inc>
 void xcal::camera::AbsCamera::update_view_matrix() const {
-    if (!position_.is_changed() && !target_.is_changed() && !up_.is_changed())
-        return;
+    if (!view_should_update()) return;
 
     using vec3 = xcmath::vec<float_t, 3>;
     const vec3 eye = position_.value();
@@ -43,11 +42,19 @@ xcal::bool_t xcal::camera::AbsCamera::view_should_update() const {
     return position_.is_changed() || target_.is_changed() || up_.is_changed();
 };
 xcal::bool_t xcal::camera::AbsCamera::should_update() const {
+    if (projection_should_update() || view_should_update() ||
+        view_or_projection_has_changed_)
+        _D("should_update(): "
+           << (projection_should_update() ? "projection should update" : "")
+           << (view_should_update() ? "view should update" : "")
+           << (view_or_projection_has_changed_
+                   ? "view or projection has changed"
+                   : ""));
     return projection_should_update() || view_should_update() ||
            view_or_projection_has_changed_;
 };
 const xcmath::mat<float_t, 4, 4>& xcal::camera::AbsCamera::pv_matrix() const {
-    if (view_or_projection_has_changed_) {
+    if (should_update()) {
         pv_matrix_cache_ = projection_matrix() ^ view_matrix();
         view_or_projection_has_changed_ = false;
     }

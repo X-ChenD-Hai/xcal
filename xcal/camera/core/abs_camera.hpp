@@ -12,10 +12,20 @@
 #include <xcal/public.h>
 
 #include <xcal/camera/core/frame.hpp>
+#include <xcal/property/color.hpp>
 #include <xcal/property/vec.hpp>
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::camera {
+enum class CameraType {
+    Perspective,  ///< 透视相机
+    Orthogonal,   ///< 正交相机
+};
+#define XCAL_CAMERA_TYPE(tp)                                             \
+   private:                                                              \
+    virtual ::xcal::camera::CameraType type_() const noexcept override { \
+        return ::xcal::camera::CameraType::tp;                           \
+    }
 
 /**
  * @brief 相机系统命名空间
@@ -33,10 +43,13 @@ class XCAL_API AbsCamera {
     using vec = xcmath::vec<float_t, 3>;
 
    private:
+    virtual CameraType type_() const noexcept = 0;  ///< 相机类型
+   private:
     /* 视图参数 */
     property::Vec<float_t, 3> position_{0.f, 0.f, -1.f};  ///< 相机位置向量
     property::Vec<float_t, 3> target_{0.f, 0.f, 0.f};     ///< 相机目标点向量
-    property::Vec<float_t, 3> up_{0.f, 1.f, 0.f};         ///< 相机上方向向量
+    property::Vec<float_t, 3> up_{0.f, 1.f, 0.f};
+    property::Color background_color_{0.f, 0.f, 0.f, 1.f};  ///< 相机上方向向量
     mutable bool_t view_or_projection_has_changed_{
         true};  ///< 视图或投影矩阵是否已改变
     mutable xcmath::mat<float_t, 4, 4> view_matrix_cache_{
@@ -90,6 +103,23 @@ class XCAL_API AbsCamera {
     const property::Vec<float_t, 3>& up() const { return up_; }
 
     /**
+     * @brief 获取背景颜色（可修改）
+     *
+     * @return property::Color& 背景颜色引用
+     */
+    property::Color& background_color() { return background_color_; }
+
+    /**
+     * @brief 获取背景颜色（只读）
+     *
+     * @return const property::Color& 背景颜色常量引用
+     */
+    const property::Color& background_color() const {
+        return background_color_;
+    }
+
+    CameraType type() const { return type_(); }
+    /**
      * @brief 设置相机位置
      * @tparam Args 参数类型
      * @param args 位置坐标参数
@@ -125,6 +155,19 @@ class XCAL_API AbsCamera {
         requires(std::is_constructible_v<vec, Args...>)
     AbsCamera* set_up(Args&&... args) {
         up_ = vec{float_t(std::forward<Args>(args))...};
+        return this;
+    }
+    /**
+     * @brief 设置背景颜色
+     * @tparam Args 参数类型
+     * @param args 背景颜色参数
+     * @return AbsCamera* this指针，支持链式调用
+     */
+    template <typename... Args>
+        requires(std::is_constructible_v<property::Color::data_t, Args...>)
+    AbsCamera* set_background_color(Args&&... args) {
+        background_color_ =
+            property::Color::data_t{(float_t)std::forward<Args>(args)...};
         return this;
     }
 
@@ -187,3 +230,15 @@ class XCAL_API AbsCamera {
 };
 }  // namespace xcal::camera
 template class XCAL_API xcal::property::Vec<float_t, 3>;
+namespace xcal {
+XCAL_API inline const char* to_string(xcal::camera::CameraType type) {
+    switch (type) {
+        case xcal::camera::CameraType::Perspective:
+            return "Perspective";
+        case xcal::camera::CameraType::Orthogonal:
+            return "Orthogonal";
+        default:
+            return "Unknown";
+    }
+}
+}  // namespace xcal

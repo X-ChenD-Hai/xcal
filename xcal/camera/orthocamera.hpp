@@ -20,5 +20,7 @@ namespace xcal::camera {
  * 实现正交投影相机功能，继承自抽象相机基类。
  * 正交相机保持物体大小不变，无论距离远近。
  */
-class XCAL_API OrthoCamera : public AbsCamera {};
+class XCAL_API OrthoCamera : public AbsCamera {
+    XCAL_CAMERA_TYPE(Orthogonal)
+};
 }  // namespace xcal::camera

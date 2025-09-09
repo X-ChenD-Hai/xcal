@@ -26,6 +26,7 @@ namespace xcal::camera {
  * 透视相机模拟人眼视角，近大远小效果。
  */
 class XCAL_API PerspectiveCamera : public AbsCamera {
+    XCAL_CAMERA_TYPE(Perspective)
    private:
     /* 投影参数 */
     property::Scalar fov_;     ///< 视野角度（Field of View）
@@ -97,6 +98,54 @@ class XCAL_API PerspectiveCamera : public AbsCamera {
      * @return const property::Scalar& 远裁剪平面距离常量引用
      */
     const property::Scalar& far() const { return far_; }
+
+    /**
+     * @brief 设置视野角度
+     *
+     * @param fov 视野角度（弧度）
+     * @return PerspectiveCamera* this指针
+     */
+    PerspectiveCamera* set_fov(float fov) {
+        fov_ = fov;
+        projection_has_changed();
+        return this;
+    }
+
+    /**
+     * @brief 设置宽高比
+     *
+     * @param aspect 宽高比
+     * @return PerspectiveCamera* this指针
+     */
+    PerspectiveCamera* set_aspect(float aspect) {
+        aspect_ = aspect;
+        projection_has_changed();
+        return this;
+    }
+
+    /**
+     * @brief 设置近裁剪平面距离
+     *
+     * @param near 近裁剪平面距离
+     * @return PerspectiveCamera* this指针
+     */
+    PerspectiveCamera* set_near(float near) {
+        near_ = near;
+        projection_has_changed();
+        return this;
+    }
+
+    /**
+     * @brief 设置远裁剪平面距离
+     *
+     * @param far 远裁剪平面距离
+     * @return PerspectiveCamera* this指针
+     */
+    PerspectiveCamera* set_far(float far) {
+        far_ = far;
+        projection_has_changed();
+        return this;
+    }
 
     /**
      * @brief 获取投影矩阵

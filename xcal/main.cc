@@ -26,8 +26,10 @@ int main(int argc, char **argv) {
                  ->set_position(0, 0, 3)
                  ->set_target(0, 0, 0);
     auto render = xcal::render::opengl::OpenGLRender{scene.get()};
-    render.aspect() = 16 / 9.0;
-    render.background_color() = xcmath::vec4<float_t>{0.2, 0.2, 0.2, 1.0};
+    render.default_camera()
+        ->set_background_color(0.2, 0.2, 0.2, 1.0)
+        ->set_position(0, 0, 3);
+
     render.show(1200, 675);
     XCAL_INFO(XCAL, APP) << "app end";
     return 0;
