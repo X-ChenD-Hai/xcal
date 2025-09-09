@@ -39,6 +39,7 @@ jobs:
           doxygen Doxyfile
           mkdir -p ./_site
           cp -r ./docs/html/* ./_site
+          cp ./docs/doxygen-dark-theme.css ./_site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
