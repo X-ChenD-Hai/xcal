@@ -46,82 +46,37 @@ class XCAL_API AbsScene {
     AbsScene& operator=(const AbsScene&) = delete;
 
     /**
-     * @brief 添加时间线
+     * @brief 添加对象/相机/动画/时间线
      *
-     * @tparam T 时间线类型，默认为 animation::Timeline
-     * @param duration 时间线持续时间
-     * @return animation::Timeline*
+     * @tparam T 要添加的对象类型
+     * @param obj
+     * @return T*
      */
     template <typename T = animation::Timeline, class... Args>
-        requires(std::derived_from<T, animation::Timeline>) &&
-                std::constructible_from<T, Args...>
+        requires std::constructible_from<T, Args...>
     T* add(Args&&... args) {
-        return timelines_
-            .emplace_back(std::make_unique<T>(std::forward<Args>(args)...))
-            .get();
+        if constexpr (std::is_base_of_v<animation::Timeline, T>)
+            return (T*)timelines_.emplace_back(std::make_unique<T>(args...))
+                .get();
+        else if constexpr (std::is_base_of_v<animation::AbsAnimation, T>)
+            return (T*)animations_.emplace_back(std::make_unique<T>(args...))
+                .get();
+        else if constexpr (std::is_base_of_v<mobject::AbsMObject, T>)
+            return (T*)mobjects_.emplace_back(std::make_unique<T>(args...))
+                .get();
+        else if constexpr (std::is_base_of_v<camera::AbsCamera, T>)
+            return (T*)cameras_.emplace_back(std::make_unique<T>(args...))
+                .get();
+        else
+            static_assert(false, "unsupported type");
     }
     /**
-     * @brief 添加智能指针对象
-     * @param obj 要添加的对象智能指针
-     * @return typename ObjectPtr::element_type* 添加对象的原始指针
+     * @brief 添加对象/相机/动画/时间线
+     *
+     * @tparam T 要添加的对象类型
+     * @param obj
+     * @return T*
      */
-    virtual typename ObjectPtr::element_type* add(ObjectPtr obj) {
-        return mobjects_.emplace_back(std::move(obj)).get();
-    }
-
-    /**
-     * @brief 添加裸指针对象（转换为智能指针）
-     * @param obj 要添加的对象裸指针
-     * @return typename ObjectPtr::element_type* 添加对象的原始指针
-     */
-    virtual typename ObjectPtr::element_type* add(
-        typename ObjectPtr::element_type* obj) {
-        return mobjects_.emplace_back(obj).get();
-    }
-    /**
-     * @brief 添加对象（裸指针）
-     * @tparam T 对象类型（必须继承自 object_t）
-     * @param obj 要添加的对象（裸指针）
-     * @return T* 添加对象的原始指针
-     * @return T* 添加对象的原始指针
-     */
-    template <typename T>
-        requires std::is_base_of_v<object_t, T>
-    T* add(T* obj) {
-        return (T*)mobjects_.emplace_back((object_t*)obj).get();
-    }
-
-    /**
-     * @brief 添加对象（移动语义）
-     * @tparam T 对象类型（必须继承自 object_t）
-     * @param obj 要添加的对象（右值引用）
-     * @return T* 添加对象的原始指针
-     */
-    template <typename T>
-        requires std::is_base_of_v<object_t, T>
-    T* add(T&& obj) {
-        return (T*)mobjects_.emplace_back((object_t*)new T{std::move(obj)})
-            .get();
-    }
-
-    /**
-     * @brief 构造并添加对象
-     * @tparam T 要构造的对象类型
-     * @tparam Args 构造参数类型
-     * @param args 构造参数
-     * @return T* 构造并添加的对象的原始指针
-     * @note 要求 T 可构造且继承自 ObjectPtr::element_type
-     */
-    template <class T, typename... Args>
-        requires std::constructible_from<T, Args...> &&
-                 std::is_base_of_v<typename ObjectPtr::element_type, T>
-    T* add(Args&&... args) {
-        auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
-        T* result = ptr.get();
-        mobjects_.emplace_back(std::move(ptr));
-        return result;
-    }
-
     template <typename T>
     T* add(std::unique_ptr<T>&& obj) {
         if constexpr (std::is_base_of_v<object_t, T>)
@@ -130,6 +85,48 @@ class XCAL_API AbsScene {
             return (T*)cameras_.emplace_back(std::move(obj)).get();
         else if constexpr (std::is_base_of_v<animation::AbsAnimation, T>)
             return (T*)animations_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<animation::Timeline, T>)
+            return (T*)timelines_.emplace_back(std::move(obj)).get();
+        else
+            static_assert(false, "unsupported type");
+    }
+    /**
+     * @brief 添加对象/相机/动画/时间线
+     *
+     * @tparam T
+     * @param obj
+     * @return T*
+     */
+    template <typename T>
+    T* add(T* obj) {
+        if constexpr (std::is_base_of_v<object_t, T>)
+            return (T*)mobjects_.emplace_back(obj).get();
+        else if constexpr (std::is_base_of_v<camera::AbsCamera, T>)
+            return (T*)cameras_.emplace_back(obj).get();
+        else if constexpr (std::is_base_of_v<animation::AbsAnimation, T>)
+            return (T*)animations_.emplace_back(obj).get();
+        else if constexpr (std::is_base_of_v<animation::Timeline, T>)
+            return (T*)timelines_.emplace_back(obj).get();
+        else
+            static_assert(false, "unsupported type");
+    }
+    /**
+     * @brief 添加对象/相机/动画/时间线
+     *
+     * @tparam T 要添加的对象类型
+     * @param obj
+     * @return T*
+     */
+    template <typename T>
+    T* add(T&& obj) {
+        if constexpr (std::is_base_of_v<object_t, T>)
+            return (T*)mobjects_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<camera::AbsCamera, T>)
+            return (T*)cameras_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<animation::AbsAnimation, T>)
+            return (T*)animations_.emplace_back(std::move(obj)).get();
+        else if constexpr (std::is_base_of_v<animation::Timeline, T>)
+            return (T*)timelines_.emplace_back(std::move(obj)).get();
         else
             static_assert(false, "unsupported type");
     }
