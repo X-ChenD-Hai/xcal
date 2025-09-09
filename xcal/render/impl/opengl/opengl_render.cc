@@ -14,7 +14,6 @@
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcmath/utils/show.hpp>
 
-
 //
 #ifdef GL_BACKEND_GLBINDING
 #    include <glbinding-aux/ContextInfo.h>

@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     scene->add(std::make_unique<PerspectiveCamera>(45.0, 16 / 9.0, 0.1, 1000.0))
         ->set_position(0, 0, 3)
         ->set_target(0, 0, 0);
-    scene->add<Timeline>(1.f);
+    // scene->add<Timeline>(1.f);
 
     auto render = xcal::render::opengl::OpenGLRender{scene.get()};
     render.default_camera()

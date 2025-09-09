@@ -1,6 +1,7 @@
 #pragma once
 #include <xcal/public.h>
 
+#include <memory>
 #include <xcal/animation/core/abs_animation.hpp>
 
 namespace xcal::animation {
@@ -8,25 +9,24 @@ namespace xcal::animation {
 class XCAL_API Timeline {
    public:
    private:
-    std::vector<AnimationHandle> animations_{};
-    float_t duration_;
+    std::vector<std::unique_ptr<AnimationHandle>> animations_{};
 
    public:
-    explicit Timeline(float_t duration) : duration_(duration) {}
+    explicit Timeline() {}
 
    public:
     void add(AbsAnimation *animation, float_t start_time, float_t duration) {
         animations_.emplace_back(
-            AnimationHandle{animation, start_time, duration});
-        if (start_time + duration > duration_) {
-            duration_ = start_time + duration;
-        }
+            std::make_unique<AnimationHandle>(animation, start_time, duration));
+    }
+    std::vector<std::unique_ptr<AnimationHandle>> &animations() {
+        return animations_;
     }
 
    public:
-    Timeline(const Timeline &) = default;
+    Timeline(const Timeline &) = delete;
     Timeline(Timeline &&) = default;
-    Timeline &operator=(const Timeline &) = default;
+    Timeline &operator=(const Timeline &) = delete;
     Timeline &operator=(Timeline &&) = default;
 };
 }  // namespace xcal::animation

@@ -17,8 +17,8 @@
 namespace xcal::animation {
 class XCAL_API AnimationDriver {
    private:
-    AnimationHandle* handle_;
-    float_t frame_rate_;
+    const AnimationHandle* handle_;
+    const float_t frame_rate_;
     size_t current_frame_index_{0};
 
    public:
@@ -29,14 +29,21 @@ class XCAL_API AnimationDriver {
     ~AnimationDriver() = default;
 
    public:
-    bool finished() const {
-        return current_frame_index_ >= (handle_->duration / frame_rate_);
-    }
+    bool finished() const { return current_frame_index_ >= frame_count(); }
     bool playing() const { return !finished() && current_frame_index_; }
-    void update(float_t time) {
-        if (time < handle_->start_time || finished()) return;
-        ;
+    void next() {
+        if (finished()) return;
+        auto c = frame_count();
+        handle_->animation->update_to((float_t)(current_frame_index_++) /
+                                      (frame_count() - 1));
     }
+    size_t frame_count() const { return handle_->duration * frame_rate_; }
+    AbsAnimation* animation() const { return handle_->animation; }
+    float_t start_time() const { return handle_->start_time; }
+    float_t end_time() const { return handle_->start_time + handle_->duration; }
+    float_t duration() const { return handle_->duration; }
+    float_t frame_rate() const { return frame_rate_; }
+    size_t current_frame_index() const { return current_frame_index_; }
 
    public:
     AnimationDriver(const AnimationDriver&) = delete;

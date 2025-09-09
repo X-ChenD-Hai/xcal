@@ -20,7 +20,7 @@ class Scalar;
 }
 namespace xcal::animation {
 
-class XCAL_API ScalerInterpolation : AbsAnimation {
+class XCAL_API ScalerInterpolation : public AbsAnimation {
    private:
     property::Scalar* property_;
     float_t start_value_;
@@ -37,5 +37,18 @@ class XCAL_API ScalerInterpolation : AbsAnimation {
           start_value_(start_value),
           end_value_(end_value),
           interpolation_func_(std::move(interpolation_func)) {}
+    ~ScalerInterpolation() override = default;
+
+   public:
+    virtual void update_to(float_t time) override {
+        *property_ = start_value_ +
+                     ((end_value_ - start_value_) * interpolation_func_(time));
+    }
+
+   public:
+    ScalerInterpolation(const ScalerInterpolation&) = default;
+    ScalerInterpolation(ScalerInterpolation&&) = delete;
+    ScalerInterpolation& operator=(const ScalerInterpolation&) = default;
+    ScalerInterpolation& operator=(ScalerInterpolation&&) = delete;
 };
 }  // namespace xcal::animation
