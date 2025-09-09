@@ -14,8 +14,9 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
 namespace xcal::render::opengl::ui {
+class Context;
 class UIRender;
-}
+}  // namespace xcal::render::opengl::ui
 namespace xcal::render::opengl {
 class XCAL_API OpenGLRender : public xcal::render::Render {
     friend void ::framebuffer_size_callback(GLFWwindow* window, int w, int h);
@@ -23,7 +24,7 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    private:
     GLFWwindow* window_{nullptr};
-    std::unique_ptr<ui::UIRender> ui_render_{nullptr};
+    std::unique_ptr<ui::Context> ui_render_{nullptr};
     std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
     std::unique_ptr<animation::TimelineDriver> playing_timeline_{nullptr};
@@ -38,10 +39,8 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     void setup_gl();
     void setup_glfw();
 
-   protected:
-    bool_t play_timeline(animation::Timeline* timeline);
-
    public:
+    bool_t play_timeline(animation::Timeline* timeline);
     void show(size_t width = 800, size_t height = 600);
     void render_frame();
     virtual void set_scene(Scene* scene) override;

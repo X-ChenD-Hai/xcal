@@ -1,16 +1,17 @@
-#include <cstddef>
-#include <cstdio>
-#include <memory>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/public.h>
 
+#include <cstddef>
+#include <cstdio>
+#include <memory>
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/opengl_render.hpp>
-#include <xcal/render/impl/opengl/ui/uirender.hpp>
+#include <xcal/render/impl/opengl/ui/imguiglfw3opengl3backend.hpp>
+#include <xcal/render/impl/opengl/ui/listui.hpp>
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcmath/utils/show.hpp>
 
@@ -49,13 +50,15 @@ void init_glbackend() {
 
 xcal::render::opengl::OpenGLRender::OpenGLRender(Scene* scene)
     : xcal::render::Render(scene),
-      ui_render_(std::make_unique<ui::UIRender>(this)),
+      ui_render_(nullptr),
       default_camera_(std::make_unique<xcal::camera::PerspectiveCamera>(
           45.0, 16 / 9.0, 0.1, 1000.0)),
       current_camera_(default_camera_.get()) {
     _I("OpenGLRender created: " _SELF);
     setup_glfw();
     setup_gl();
+    ui_render_ = std::make_unique<ui::ListUi>(
+        std::make_unique<ui::ImGuiGlfw3OpenGL3Backend>(window_), this);
     ui_render_->init();
     setup_scene();
 }
@@ -84,7 +87,7 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
-        ui_render_->render();
+        ui_render_->render_();
 
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
