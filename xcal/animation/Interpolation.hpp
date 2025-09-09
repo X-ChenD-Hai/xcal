@@ -12,10 +12,8 @@
 #include <xcal/public.h>
 
 #include <xcal/animation/core/abs_animation.hpp>
-#include <xcal/animation/interpolation_functions.hpp>
+#include <xcal/animation/core/interpolation_functions.hpp>
 #include <xcal/property/scalar.hpp>
-
-#include "interpolation_functions.hpp"
 
 namespace xcal::property {
 class Scalar;
@@ -39,18 +37,5 @@ class XCAL_API ScalerInterpolation : AbsAnimation {
           start_value_(start_value),
           end_value_(end_value),
           interpolation_func_(std::move(interpolation_func)) {}
-    bool update(float_t time) {
-        if (property_ == nullptr || interpolation_func_ == nullptr ||
-            time < 0.0f)
-            return false;
-        *property_ = (end_value_ - start_value_) *
-                     (interpolation_func_(time / duration()));
-        return true;
-    }
-    /**
-     * @brief 更新到指定时间点
-     * @param time 要更新的时间点
-     */
-    virtual void update_to(float_t time) override { update(time); }
 };
 }  // namespace xcal::animation
