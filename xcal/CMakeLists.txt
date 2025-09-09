@@ -4,6 +4,15 @@ if(BUILD_DYNAMIC_LIBRARY)
         PUBLIC XCAL_ENABLE_DYNAMIC_LIBRARY
         PRIVATE XCAL_BUILD
     )
+    if(BUILD_EXAMPLES)
+        add_custom_command(
+            TARGET xcal POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:xcal>
+            ${CMAKE_BINARY_DIR}/examples
+            COMMENT "Copying xcal to examples directory"
+        )
+    endif()
 else()
     add_library(xcal STATIC)
 endif()

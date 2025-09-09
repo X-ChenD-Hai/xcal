@@ -56,6 +56,10 @@ if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif()
+option(BUILD_EXAMPLES "Build examples" OFF)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 # 代码格式化目标
 find_program(CLANG_FORMAT "clang-format")

@@ -1,6 +1,6 @@
 # 从参数中获取 clang-format 的路径
 $clangFormatPath = $args[0]
-$sourcePath      = $args[1]
+$sourcePath = $args[1]
 
 if (-not $clangFormatPath) {
     Write-Host "No clang-format path specified."
@@ -21,10 +21,11 @@ Write-Output "source path: $sourcePath"
 $searchDirs = @(
     Join-Path $sourcePath "xcal"
     Join-Path $sourcePath "tests"
+    Join-Path $sourcePath "examples"
 )
 
 # 匹配模式
-$patterns = @("*.h", "*.hpp", "*.cc", "*.cpp",“*.c”,"*.inc")
+$patterns = @("*.h", "*.hpp", "*.cc", "*.cpp", “*.c”, "*.inc")
 
 # 获取文件列表
 $files = Get-ChildItem -Path $searchDirs -Recurse -Include $patterns
@@ -32,7 +33,7 @@ $files = Get-ChildItem -Path $searchDirs -Recurse -Include $patterns
 # 格式化
 foreach ($f in $files) {
     $file = $f.FullName
-    $rel  = $file.Substring($sourcePath.Length + 1)
+    $rel = $file.Substring($sourcePath.Length + 1)
     Write-Host "Formatting $rel ..."
     & $clangFormatPath -i $file
 }
