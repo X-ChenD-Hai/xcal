@@ -97,6 +97,15 @@ void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
     _I("objects destroyed ");
 }
 void xcal::render::opengl::OpenGLRender::render_frame() {
+    if (playing_timeline_ && !playing_timeline_->finished()) {
+        if (auto n = std::chrono::high_resolution_clock::now();
+            n - last_time_point_ >
+            std::chrono::milliseconds(
+                size_t(1000 / playing_timeline_->frame_rate()))) {
+            playing_timeline_->next();
+            last_time_point_ = n;
+        }
+    }
     if (current_camera_) {
         if (current_camera_->should_update()) {
             for (auto& obj : objects_) {
@@ -222,3 +231,11 @@ void xcal::render::opengl::OpenGLRender::setup_gl() {
     _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
     glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
 };
+xcal::bool_t xcal::render::opengl::OpenGLRender::play_timeline(
+    animation::Timeline* timeline) {
+    if (playing_timeline_ && !playing_timeline_->finished()) return false;
+    _I("play_timeline: " << timeline);
+    playing_timeline_ = std::make_unique<animation::TimelineDriver>(timeline);
+    playing_timeline_->ready_to_play();
+    return true;
+}

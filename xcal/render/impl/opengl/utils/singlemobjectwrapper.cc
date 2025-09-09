@@ -11,9 +11,9 @@ xcal::render::opengl::utils::SingleMObjectWrapperImpl::mat&
 xcal::render::opengl::utils::SingleMObjectWrapperImpl::model_matrix() const {
     if (model_matrix_should_update()) {
         update_model_matrix();
-        _D("Render SingleObject: "
-           << this << " from " << xcal::to_string(mobject_->type()) << ": "
-           << mobject_ << " with update model: " << model_matrox_cache_);
+        // _D("Render SingleObject: "
+        //    << this << " from " << xcal::to_string(mobject_->type()) << ": "
+        //    << mobject_ << " with update model: " << model_matrox_cache_);
     }
     return model_matrox_cache_;
 }

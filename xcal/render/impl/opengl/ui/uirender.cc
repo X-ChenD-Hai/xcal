@@ -37,6 +37,12 @@ void xcal::render::opengl::ui::UIRender::flush() {
         for (auto& cam : renderer_->scene()->cameras()) {
             camera_handles_.emplace_back(cam.get());
         }
+        for (auto& light : renderer_->scene()->timelines()) {
+            timeline_handles_.emplace_back(light.get());
+        }
+        for (auto& anim : renderer_->scene()->animations()) {
+            animation_handles_.emplace_back(anim.get());
+        }
     }
 }
 void xcal::render::opengl::ui::UIRender::render_obj(ObjectHandle& obj) {
@@ -64,13 +70,13 @@ void xcal::render::opengl::ui::UIRender::render_ui() {
     I::Begin("XCAL UI", &show_);
     I::SetWindowFontScale(2);
     int id = 0;
-    if (I::CollapsingHeader("Objects"))
+    if (I::CollapsingHeader("Objects")) {
         for (int i = 0; i < object_handles_.size(); ++i) {
             I::PushID(++id);
             render_obj(object_handles_[i]);
             I::PopID();
         }
-
+    }
     if (I::CollapsingHeader("Cameras")) {
         I::PushID(++id);
         render_camera(default_camera_handles_);
@@ -79,6 +85,20 @@ void xcal::render::opengl::ui::UIRender::render_ui() {
         for (int i = 0; i < camera_handles_.size(); ++i) {
             I::PushID(++id);
             render_camera(camera_handles_[i]);
+            I::PopID();
+        }
+    }
+    if (I::CollapsingHeader("Timelines")) {
+        for (int i = 0; i < timeline_handles_.size(); ++i) {
+            I::PushID(++id);
+            render_timeline(timeline_handles_[i]);
+            I::PopID();
+        }
+    }
+    if (I::CollapsingHeader("Animations")) {
+        for (int i = 0; i < animation_handles_.size(); ++i) {
+            I::PushID(++id);
+            render_animation(animation_handles_[i]);
             I::PopID();
         }
     }
@@ -228,3 +248,22 @@ void xcal::render::opengl::ui::UIRender::update_fps() {
     }
     last_time_point_ = std::chrono::high_resolution_clock::now();
 };
+void xcal::render::opengl::ui::UIRender::render_animation(
+    AnimationHandle& anim) {
+    if (!anim.animation) return;
+    namespace I = ImGui;
+    if (I::CollapsingHeader(anim.name.c_str())) {
+        int id = 0;
+    }
+}
+void xcal::render::opengl::ui::UIRender::render_timeline(
+    TimelineHandle& timeline) {
+    if (!timeline.timeline) return;
+    namespace I = ImGui;
+    if (I::CollapsingHeader(timeline.name.c_str())) {
+    }
+    if (I::Button("Play")) {
+        _I("play timeline:" << timeline.timeline);
+        renderer_->play_timeline(timeline.timeline);
+    }
+}

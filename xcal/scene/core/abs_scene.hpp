@@ -139,6 +139,9 @@ class XCAL_API AbsScene {
     std::vector<std::unique_ptr<camera::AbsCamera>>& cameras() {
         return cameras_;
     }
+    std::vector<std::unique_ptr<animation::Timeline>>& timelines() {
+        return timelines_;
+    }
     std::vector<std::unique_ptr<animation::AbsAnimation>>& animations() {
         return animations_;
     }

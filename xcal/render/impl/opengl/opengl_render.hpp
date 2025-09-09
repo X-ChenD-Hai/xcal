@@ -1,13 +1,16 @@
 #pragma once
+#include <xcal/public.h>
+
 #include <cstddef>
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <xcal/animation/core/timeline.hpp>
+#include <xcal/animation/core/timelinedriver.hpp>
+#include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/render/core/render.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
-
-#include "xcal/camera/core/abs_camera.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
 namespace xcal::render::opengl::ui {
@@ -23,6 +26,8 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     std::unique_ptr<ui::UIRender> ui_render_{nullptr};
     std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
+    std::unique_ptr<animation::TimelineDriver> playing_timeline_{nullptr};
+    std::chrono::high_resolution_clock::time_point last_time_point_;
     const camera::AbsCamera* current_camera_{nullptr};
 
    protected:
@@ -32,6 +37,9 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     void setup_scene();
     void setup_gl();
     void setup_glfw();
+
+   protected:
+    bool_t play_timeline(animation::Timeline* timeline);
 
    public:
     void show(size_t width = 800, size_t height = 600);
