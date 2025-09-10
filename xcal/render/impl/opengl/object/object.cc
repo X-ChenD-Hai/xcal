@@ -4,6 +4,7 @@
 #include <xcal/render/impl/opengl/object/circle.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
+#include <xcal/render/impl/opengl/object/path.hpp>
 
 #define ROLE OpenGLRender
 #define LABEL Object

@@ -1,7 +1,11 @@
 #pragma once
+#include <concepts>
+#include <initializer_list>
 #include <vector>
 #include <xcal/property/core/property.hpp>
 #include <xcal/property/position.hpp>
+
+#include "xcal/public.h"
 
 namespace xcal::property {
 
@@ -17,13 +21,11 @@ class XCAL_API _PositionList : public MProperty {
     Proxy<bool_t> closed_{this, false};
 
    public:
-    _PositionList() : _PositionList({}) {};
-    template <typename... Args>
-        requires(std::is_constructible_v<__ItemType, Args...>)
-    _PositionList(const Args &...positions, bool closed = false) {
-        positions_ = {__ItemType(positions)...};
-        closed_ = closed;
-    }
+    _PositionList() : _PositionList(data_t(), false) {}
+    _PositionList(const data_t &list) : _PositionList(list, false) {}
+    _PositionList(const data_t &list, bool_t closed)
+        : positions_(this, list), closed_(this, closed) {}
+
     const Proxy<bool_t> &closed() const { return closed_; }
     Proxy<bool_t> &closed() { return closed_; }
     const std::vector<__ItemType> &positions() const { return positions_; }
@@ -31,6 +33,11 @@ class XCAL_API _PositionList : public MProperty {
     _PositionList &operator=(const data_t &list) {
         positions_ = list;
         return *this;
+    }
+    size_t count() const { return ((const data_t &)(positions_)).size(); }
+    __ItemType &operator[](size_t index) { return positions_[index]; }
+    const __ItemType &operator[](size_t index) const {
+        return positions_[index];
     }
 };
 

@@ -28,10 +28,6 @@ class XCAL_API Color : public MProperty {
      */
     Color() : MProperty() {}
 
-    Color(const Color &) = delete;
-    Color(Color &&) = delete;
-    Color &operator=(const Color &) = delete;
-    Color &operator=(Color &&) = delete;
     /**
      * @brief 构造函数
      * @param r 红色分量 (0.0-1.0)
@@ -136,6 +132,25 @@ class XCAL_API Color : public MProperty {
         data_ = other;
         return *this;
     }
+    /**
+     * @brief 获取颜色数据（可修改）
+     *
+     * @return data_t &
+     */
+    operator data_t &() { return data_; }
+
+    /**
+     * @brief 获取颜色数据（只读）
+     *
+     * @return const data_t &
+     */
+    operator const data_t &() const { return data_; }
+
+   public:
+    Color(const Color &) = delete;
+    Color(Color &&) = delete;
+    Color &operator=(const Color &) = delete;
+    Color &operator=(Color &&) = delete;
 };
 
 }  // namespace xcal::property

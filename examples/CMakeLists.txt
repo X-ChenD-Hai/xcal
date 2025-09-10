@@ -4,3 +4,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)
 link_libraries(xcal)
 
 add_executable(circle circle.cc)
+add_executable(path path.cc)

@@ -44,3 +44,9 @@ void xcal::render::opengl::GL::Buffer::unbind() const {
 void xcal::render::opengl::GL::Buffer::unbind(gl::GLenum target) {
     _gl glBindBuffer(target, 0);
 }
+void xcal::render::opengl::GL::Buffer::buffer_sub_data(const void *data,
+                                                       gl::GLuint offset,
+                                                       gl::GLuint size) {
+    bind();
+    _gl glBufferSubData(target_, offset, size, data);
+}

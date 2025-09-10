@@ -52,8 +52,7 @@ class XCAL_API AbsScene {
      * @param obj
      * @return T*
      */
-    template <typename T = animation::Timeline, class... Args>
-        requires std::constructible_from<T, Args...>
+    template <typename T, class... Args>
     T* add(Args&&... args) {
         if constexpr (std::is_base_of_v<animation::Timeline, T>)
             return (T*)timelines_.emplace_back(std::make_unique<T>(args...))

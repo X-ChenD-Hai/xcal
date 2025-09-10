@@ -10,7 +10,7 @@ class XCAL_API Polygone : public MObject {
     property::PositionList points_;
 
    public:
-    Polygone() : MObject(), points_({}) { register_properties(points_); }
+    Polygone() : MObject(), points_() { register_properties(points_); }
     template <typename... Args>
         requires std::constructible_from<property::PositionList, Args...>
     Polygone(Args&&... args)
