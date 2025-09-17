@@ -5,6 +5,7 @@
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcal/render/impl/opengl/object/path.hpp>
+#include <xcal/mobject/objects/axis.hpp>
 
 #define ROLE OpenGLRender
 #define LABEL Object
@@ -23,6 +24,10 @@ xcal::render::opengl::object::Object::~Object() {};
 xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
     xcal::mobject::MObject* mobject) {
     switch (mobject->type()) {
+        case xcal::mobject::Type::Axis:
+            return create<xcal::mobject::Axis>((xcal::mobject::Axis*)mobject);
+        case xcal::mobject::Type::Axis3D:
+            return create<xcal::mobject::Axis3D>((xcal::mobject::Axis3D*)mobject);
         case xcal::mobject::Type::Polygone:
             return create<xcal::mobject::Polygone>(
                 (xcal::mobject::Polygone*)mobject);

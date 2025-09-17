@@ -2,7 +2,17 @@
 
 #include <xcal/public.h>
 namespace xcal::mobject {
-enum class Type { Polygone, Circle, Line, Path, Rectangle, Ellipse, Unknown };
+enum class Type {
+    Polygone,
+    Axis,
+    Axis3D,
+    Circle,
+    Line,
+    Path,
+    Rectangle,
+    Ellipse,
+    Unknown
+};
 
 class MObject;
 class Polygone;
@@ -27,6 +37,10 @@ namespace xcal {
 XCAL_API inline const char* to_string(xcal::mobject::Type type) {
     using namespace xcal::mobject;
     switch (type) {
+        case Type::Axis:
+            return "Axis";
+        case Type::Axis3D:
+            return "Axis3D";
         case Type::Polygone:
             return "Polygone";
         case Type::Circle:
