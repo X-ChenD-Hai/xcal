@@ -97,12 +97,12 @@ void xcal::render::opengl::ui::ListUi::render_camera(CameraHandle& cam) {
         if (cam.camera->type() == xcal::camera::CameraType::Perspective) {
             I::Text("Perspective properties: ");
             I::Text("fov: ");
-            tmp_ = _CONST_PCPTR(cam.camera)->far();
+            tmp_ = _CONST_PCPTR(cam.camera)->fov();
             if (I::InputFloat("FOV", &tmp_)) {
-                _PCPTR(cam.camera)->far() = tmp_;
+                _PCPTR(cam.camera)->fov() = tmp_;
                 _D("updating fov of camera: "
                    << cam.camera << " to: " << tmp_ << " change state: "
-                   << _PCPTR(cam.camera)->far().is_changed());
+                   << _PCPTR(cam.camera)->fov().is_changed());
             }
             I::Text("near: ");
             tmp_ = _CONST_PCPTR(cam.camera)->near();
