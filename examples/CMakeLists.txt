@@ -5,3 +5,4 @@ link_libraries(xcal)
 
 add_executable(circle circle.cc)
 add_executable(path path.cc)
+add_executable(axis axis.cc)

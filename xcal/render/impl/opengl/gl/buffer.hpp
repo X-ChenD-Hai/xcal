@@ -1,6 +1,7 @@
 #pragma once
 #include <xcal/public.h>
 
+#include <array>
 #include <cstddef>
 #include <vector>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
@@ -48,8 +49,18 @@ class XCAL_API Buffer {
     void buffer_data(const std::vector<T> &data, gl::GLenum usage) {
         buffer_data(data.data(), data.size() * sizeof(T), usage);
     }
+    template <typename T, size_t N>
+    void buffer_data(const std::array<T, N> &data, gl::GLenum usage) {
+        buffer_data(data.data(), data.size() * sizeof(T), usage);
+    }
     template <typename T>
     void buffer_data(const std::vector<T> &data, gl::GLenum usage,
+                     size_t size) {
+        buffer_data(nullptr, size * sizeof(T), usage);
+        buffer_sub_data(data.data(), 0, data.size() * sizeof(T));
+    }
+    template <typename T, size_t N>
+    void buffer_data(const std::array<T, N> &data, gl::GLenum usage,
                      size_t size) {
         buffer_data(nullptr, size * sizeof(T), usage);
         buffer_sub_data(data.data(), 0, data.size() * sizeof(T));
