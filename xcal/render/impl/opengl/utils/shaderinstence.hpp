@@ -1,35 +1,23 @@
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
-
+#include <xcal/render/impl/opengl/utils/resourcedistributor.hpp>
 namespace xcal::render::opengl::utils {
-template <class T, size_t _id>
-XCAL_API inline std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
-create_shader() {
-    static_assert(false, "Not implemented");
-};
-template <class T, size_t _id>
-class XCAL_API ShaderInstance {
-   private:
-    static std::weak_ptr<xcal::render::opengl::GL::ShaderProgram> shader_;
-
-   public:
-    static std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> instance() {
-        if (shader_.expired()) {
-            auto tmp = create_shader<T, _id>();
-            shader_ = tmp;
-            return tmp;
-        }
-        return shader_.lock();
+template <typename Catgory, size_t Id>
+struct ResourceAllocator<xcal::render::opengl::GL::ShaderProgram, Catgory, Id> {
+    static std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> allocate() {
+        static_assert(false, "Not implemented");
     }
 };
 template <class T, size_t _id>
-std::weak_ptr<xcal::render::opengl::GL::ShaderProgram>
-    ShaderInstance<T, _id>::shader_{};
+using ShaderInstance =
+    StaticResourceDistributor<xcal::render::opengl::GL::ShaderProgram, T, _id>;
 }  // namespace xcal::render::opengl::utils
 
 #define XCAL_SHADER_INSTANCE(T, _id)                         \
     template <>                                              \
     std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> \
-    xcal::render::opengl::utils::create_shader<T, _id>()
+    xcal::render::opengl::utils::ResourceAllocator<          \
+        xcal::render::opengl::GL::ShaderProgram, T, _id>::allocate()
+
 #ifdef XCAL_debug
 #    define SHADER_FILE(name) (std::string(XCAL_OPENGL_SHADER_DIR) + name)
 #else
