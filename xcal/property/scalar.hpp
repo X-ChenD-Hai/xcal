@@ -1,17 +1,22 @@
 #pragma once
+#include <xcal/public.h>
+
 #include <xcal/property/core/property.hpp>
 
 namespace xcal::property {
 
 class XCAL_API Scalar : public MProperty {
     XCAL_PROPERTY_TYPE(Scalar)
+   public:
+    using data_t = float_t;
+
    private:
-    Proxy<float_t> value_{this, 0.0f};
+    Proxy<data_t> value_{this, 0.0f};
 
    public:
     Scalar() = default;
-    Scalar(float_t value) : value_(this, value) {}
-    const float_t &value() const { return value_; }
+    Scalar(data_t value) : value_(this, value) {}
+    const data_t &value() const { return value_; }
     operator const float_t &() const { return value_; }
 #define XCAL_SCALAR_OPERATOR(op)         \
     Scalar &operator op(float_t value) { \

@@ -1,12 +1,15 @@
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
 #include <xcal/mobject/mobject_all.hpp>
+#include <xcal/mobject/objects/axis.hpp>
+#include <xcal/render/impl/opengl/object/axis.hpp>
 #include <xcal/render/impl/opengl/object/circle.hpp>
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcal/render/impl/opengl/object/path.hpp>
-#include <xcal/render/impl/opengl/object/axis.hpp>
-#include <xcal/mobject/objects/axis.hpp>
+
+#include "xcal/mobject/core/abs_mobject.hpp"
+
 
 #define ROLE OpenGLRender
 #define LABEL Object
@@ -15,7 +18,7 @@ xcal::render::opengl::object::Object::Object() {
 
 };
 template <class T>
-    requires std::is_base_of_v<xcal::mobject::MObject, T>
+    requires std::is_base_of_v<xcal::mobject::AbsMObject, T>
 xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
     T* mobject) {
     _E("UnImplemented MObject type: " << T::META_INFO::type_name);
@@ -23,12 +26,13 @@ xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
 }
 xcal::render::opengl::object::Object::~Object() {};
 xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
-    xcal::mobject::MObject* mobject) {
+    xcal::mobject::AbsMObject* mobject) {
     switch (mobject->type()) {
         case xcal::mobject::Type::Axis:
             return create<xcal::mobject::Axis>((xcal::mobject::Axis*)mobject);
         case xcal::mobject::Type::Axis3D:
-            return create<xcal::mobject::Axis3D>((xcal::mobject::Axis3D*)mobject);
+            return create<xcal::mobject::Axis3D>(
+                (xcal::mobject::Axis3D*)mobject);
         case xcal::mobject::Type::Polygone:
             return create<xcal::mobject::Polygone>(
                 (xcal::mobject::Polygone*)mobject);

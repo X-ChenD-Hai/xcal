@@ -9,8 +9,12 @@
 #include <xcal/animation/core/timelinedriver.hpp>
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/render/core/render.hpp>
+#include <xcal/render/impl/opengl/core/rendercommand.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
+
+#include "xcal/mobject/core/abs_mobject.hpp"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
 namespace xcal::render::opengl::ui {
@@ -25,11 +29,12 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
    private:
     GLFWwindow* window_{nullptr};
     std::unique_ptr<ui::Context> ui_render_{nullptr};
-    std::unordered_map<mobject::MObject*, object::object_ptr> objects_;
+    std::unordered_map<mobject::AbsMObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
     std::unique_ptr<animation::TimelineDriver> playing_timeline_{nullptr};
     std::chrono::high_resolution_clock::time_point last_time_point_;
     const camera::AbsCamera* current_camera_{nullptr};
+    std::vector<xcal::render::opengl::GL::RenderCommand> render_commands_;
 
    protected:
     void framebuffer_size_callback(GLFWwindow* window, int w, int h);
@@ -53,9 +58,11 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     }
 
    public:
-    OpenGLRender(const OpenGLRender&) = delete;
-    OpenGLRender& operator=(const OpenGLRender&) = delete;
     OpenGLRender(Scene* scene);
     virtual ~OpenGLRender() override;
+
+   public:
+    OpenGLRender(const OpenGLRender&) = delete;
+    OpenGLRender& operator=(const OpenGLRender&) = delete;
 };
 }  // namespace xcal::render::opengl

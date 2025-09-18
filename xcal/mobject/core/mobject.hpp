@@ -142,12 +142,12 @@ class XCAL_API MObject : public AbsMObject {
 
     vec4 local_to_global(const vec4& local) const {
         if (rotation_ == 0.0 && scale_x_ == 1.0 && scale_y_ == 1.0)
-            return local + vec4(pos_.data().xy(), 0.0, 0.0);
+            return local + vec4(pos_.value().xy(), 0.0, 0.0);
         else if (scale_x_ == 1.0 && scale_y_ == 1.0) {
             return xcmath::translate(
                        xcmath::rotate(mat4::eye(), rotation_.value(),
                                       {0.0f, 0.0f, 1.0f}),
-                       vec3{pos_.data(), 0.0f}) ^
+                       vec3{pos_.value(), 0.0f}) ^
                    local;
         }
         return xcmath::translate(
@@ -155,24 +155,24 @@ class XCAL_API MObject : public AbsMObject {
                                                 {scale_x_.value(),
                                                  scale_y_.value(), 1.0f}),
                                   rotation_.value(), {0.0f, 0.0f, 1.0f}),
-                   vec3{pos_.data(), 0.0f}) ^
+                   vec3{pos_.value(), 0.0f}) ^
                local;
     }
     vec4 global_to_local(const vec4& global) const {
         if (rotation_ == 0.0 && scale_x_ == 1.0 && scale_y_ == 1.0) {
-            return global - vec4(pos_.data().xy(), 0.0, 0.0);
+            return global - vec4(pos_.value().xy(), 0.0, 0.0);
         }
         // Apply inverse transformations in reverse order
         if (scale_x_ == 1.0 && scale_y_ == 1.0) {
-            return xcmath::rotate(
-                       xcmath::translate(mat4::eye(), vec3{-pos_.data(), 0.0f}),
-                       -rotation_.value(), {0.0f, 0.0f, 1.0f}) ^
+            return xcmath::rotate(xcmath::translate(mat4::eye(),
+                                                    vec3{-pos_.value(), 0.0f}),
+                                  -rotation_.value(), {0.0f, 0.0f, 1.0f}) ^
                    global;
         }
         return xcmath::scale(
-                   xcmath::rotate(
-                       xcmath::translate(mat4::eye(), vec3{-pos_.data(), 0.0f}),
-                       -rotation_.value(), {0.0f, 0.0f, 1.0f}),
+                   xcmath::rotate(xcmath::translate(mat4::eye(),
+                                                    vec3{-pos_.value(), 0.0f}),
+                                  -rotation_.value(), {0.0f, 0.0f, 1.0f}),
                    {1.0f / scale_x_.value(), 1.0f / scale_y_.value(), 1.0f}) ^
                global;
     }

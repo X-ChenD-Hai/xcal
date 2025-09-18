@@ -7,6 +7,9 @@
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
 #include <xcmath/xcmath.hpp>
 
+#include "xcal/mobject/core/abs_mobject.hpp"
+
+
 namespace xcal::render::opengl {
 class OpenGLRender;
 }
@@ -35,10 +38,10 @@ class XCAL_API Object {
 using object_ptr = std::unique_ptr<Object>;
 
 template <class T>
-    requires std::is_base_of_v<mobject::MObject, T>
+    requires std::is_base_of_v<mobject::AbsMObject, T>
 xcal::render::opengl::object::object_ptr create(T* mobject);
 
-object_ptr create(mobject::MObject* mobject);
+object_ptr create(mobject::AbsMObject* mobject);
 }  // namespace xcal::render::opengl::object
 #define XCAL_OPENGL_REGIST_OBJECT(class_, type)                \
     template <>                                                \

@@ -5,9 +5,10 @@ namespace xcal::property {
 template <typename T, size_t N>
 class XCAL_API Vec : public MProperty {
     XCAL_PROPERTY_TYPE(Vec)
+   public:
+    using data_t = xcmath::vec<T, N>;
 
    private:
-    using data_t = xcmath::vec<T, N>;
     Proxy<data_t> value_{this, T{}};
 
    public:

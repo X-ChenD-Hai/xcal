@@ -26,17 +26,17 @@ void xcal::render::opengl::object::Line::create() {
     vbo_.bind();
     const xcmath::vec2<float_t> direct = mobject_->direct().value() / 2;
     _D("Create Line: " << mobject_.mobject() << " with direct: " << direct
-                       << " and depth: " << mobject_->depth().value());
+                       << " and depth: " << mobject_->pos().value().z());
     std::array<_gl GLfloat, 12> vertices = {
         -direct.x(),
         -direct.y(),
-        mobject_->depth().value(),  //
+        mobject_->pos().value().z(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),  //
         direct.x(),
         direct.y(),
-        mobject_->depth().value(),  //
+        mobject_->pos().value().z(),  //
         mobject_->stroke_color().r(),
         mobject_->stroke_color().g(),
         mobject_->stroke_color().b(),

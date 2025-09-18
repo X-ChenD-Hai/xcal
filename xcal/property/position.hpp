@@ -27,7 +27,7 @@ class XCAL_API Position : public MProperty {
     const float_t &y() const { return data_[1]; }
     float_t &x() { return data_[0]; }
     float_t &y() { return data_[1]; }
-    const data_t &data() const { return data_; }
+    const data_t &value() const { return data_; }
     data_t &value() { return data_; }
     Position &operator=(const data_t &v) {
         data_ = v;
