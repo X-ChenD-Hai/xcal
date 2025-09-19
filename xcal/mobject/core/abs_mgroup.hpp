@@ -6,11 +6,8 @@
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/property/core/property.hpp>
 #include <xcmath/mobject/declaration.hpp>
-template <class ...T>
-class A : public T... {
-
-};
-
+template <class... T>
+class A : public T... {};
 
 namespace xcal::mobject {
 class XCAL_API AbsMGroup {

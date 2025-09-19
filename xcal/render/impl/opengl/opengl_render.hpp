@@ -15,7 +15,6 @@
 
 #include "xcal/mobject/core/abs_mobject.hpp"
 
-
 void framebuffer_size_callback(GLFWwindow* window, int w, int h);
 namespace xcal::render::opengl::ui {
 class Context;

@@ -9,7 +9,6 @@
 
 #include "xcal/mobject/core/abs_mobject.hpp"
 
-
 namespace xcal::render::opengl {
 class OpenGLRender;
 }

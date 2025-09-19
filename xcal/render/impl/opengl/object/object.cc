@@ -10,7 +10,6 @@
 
 #include "xcal/mobject/core/abs_mobject.hpp"
 
-
 #define ROLE OpenGLRender
 #define LABEL Object
 #include <xcal/utils/logmacrohelper.inc>
