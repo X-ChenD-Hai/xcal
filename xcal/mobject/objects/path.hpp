@@ -1,9 +1,9 @@
 #pragma once
+#include <xcal/public.h>
+
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/property/position_list.hpp>
-
-#include "xcal/mobject/core/composedmobject.hpp"
-#include "xcal/public.h"
 
 namespace xcal::mobject {
 

@@ -1,8 +1,8 @@
 #pragma once
+#include <xcal/public.h>
+
 #include <xcal/property/core/property.hpp>
 #include <xcmath/mobject/vec.hpp>
-
-#include "xcal/public.h"
 
 namespace xcal::property {
 template <typename T, size_t N>

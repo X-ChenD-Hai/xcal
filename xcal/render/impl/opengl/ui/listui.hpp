@@ -10,10 +10,10 @@
  */
 #pragma once
 
+#include <xcal/public.h>
+
 #include <xcal/render/impl/opengl/ui/imguirender.hpp>
 #include <xcmath/xcmath.hpp>
-
-#include "xcal/public.h"
 
 namespace xcal::render::opengl::ui {
 class XCAL_API ListUi : public ImGuiUiRender {

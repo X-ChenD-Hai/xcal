@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
-
-#include "xcal/mobject/core/composedmobject.hpp"
 
 using namespace xcal::mobject;
 

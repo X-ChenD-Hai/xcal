@@ -1,6 +1,5 @@
-#include "xcal/mobject/objects/axis.hpp"
-
 #include <array>
+#include <xcal/mobject/objects/axis.hpp>
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 
 //
@@ -9,13 +8,12 @@
 #include <glbinding/gl/functions.h>
 #include <xcal/public.h>
 
+#include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/gl/shader.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
 #include <xcal/render/impl/opengl/object/axis.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
-
-#include "xcal/render/impl/opengl/core/typedef.hpp"
 
 #define ROLE OpenGLObject
 #define LABEL Axis

@@ -12,7 +12,7 @@
 
 #include <xcal/public.h>
 
-#include "xcal/mobject/core/abs_mobject.hpp"
+#include <xcal/mobject/core/abs_mobject.hpp>
 
 namespace xcal::animation {
 class Timeline;

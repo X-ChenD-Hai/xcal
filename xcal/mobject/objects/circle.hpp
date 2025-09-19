@@ -1,9 +1,9 @@
 #pragma once
-#include <xcal/mobject/core/mobject.hpp>
+#include <xcal/public.h>
 
-#include "xcal/mobject/core/composedmobject.hpp"
-#include "xcal/property/vec.hpp"
-#include "xcal/public.h"
+#include <xcal/mobject/core/composedmobject.hpp>
+#include <xcal/mobject/core/mobject.hpp>
+#include <xcal/property/vec.hpp>
 
 namespace xcal::mobject {
 

@@ -1,5 +1,6 @@
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 //
+#include <xcal/mobject/core/abs_mobject.hpp>
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/mobject/objects/axis.hpp>
 #include <xcal/render/impl/opengl/object/axis.hpp>
@@ -7,8 +8,6 @@
 #include <xcal/render/impl/opengl/object/line.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcal/render/impl/opengl/object/path.hpp>
-
-#include "xcal/mobject/core/abs_mobject.hpp"
 
 #define ROLE OpenGLRender
 #define LABEL Object

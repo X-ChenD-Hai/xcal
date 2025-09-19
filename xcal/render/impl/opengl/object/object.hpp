@@ -2,12 +2,11 @@
 #include <xcal/public.h>
 
 #include <memory>
+#include <xcal/mobject/core/abs_mobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
 #include <xcmath/xcmath.hpp>
-
-#include "xcal/mobject/core/abs_mobject.hpp"
 
 namespace xcal::render::opengl {
 class OpenGLRender;

@@ -3,11 +3,10 @@
 
 #include <vector>
 #include <xcal/mobject/core/abs_mobject.hpp>
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/property/core/property.hpp>
 #include <xcmath/mobject/declaration.hpp>
-
-#include "xcal/mobject/core/composedmobject.hpp"
 
 template <class... T>
 class A : public T... {};

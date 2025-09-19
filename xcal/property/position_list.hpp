@@ -1,11 +1,11 @@
 #pragma once
+#include <xcal/public.h>
+
 #include <concepts>
 #include <initializer_list>
 #include <vector>
 #include <xcal/property/core/property.hpp>
 #include <xcal/property/position.hpp>
-
-#include "xcal/public.h"
 
 namespace xcal::property {
 

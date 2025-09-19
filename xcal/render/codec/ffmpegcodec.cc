@@ -1,6 +1,6 @@
 #include "ffmpegcodec.hpp"
 
-#include "xcal/public.h"
+#include <xcal/public.h>
 
 extern "C" {
 #include <libavcodec/avcodec.h>

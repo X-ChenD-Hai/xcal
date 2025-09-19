@@ -1,6 +1,5 @@
+#include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/render/impl/opengl/utils/singlemobjectwrapper.hpp>
-
-#include "xcal/mobject/core/mobject_types.hpp"
 
 #define ROLE SingleMObjectWrapperImpl
 #define LABEL SingleMObjectWrapperImpl

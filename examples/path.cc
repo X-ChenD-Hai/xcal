@@ -3,8 +3,7 @@
 #include <xcal/mobject/objects/path.hpp>
 #include <xcal/render/impl/opengl/opengl_render.hpp>
 #include <xcal/scene/scene.hpp>
-
-#include "xcmath/mobject/function.hpp"
+#include <xcmath/mobject/function.hpp>
 
 int main() {
     auto scene = std::make_unique<xcal::scene::Scene>();

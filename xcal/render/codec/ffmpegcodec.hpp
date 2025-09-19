@@ -1,11 +1,11 @@
 #ifndef VIDEO_ENCODER_H
 #define VIDEO_ENCODER_H
 
+#include <xcal/public.h>
+
 #include <string>
 #include <vector>
 #include <xcal/render/core/abs_videocodec.hpp>
-
-#include "xcal/public.h"
 
 extern "C" {
 struct AVFormatContext;

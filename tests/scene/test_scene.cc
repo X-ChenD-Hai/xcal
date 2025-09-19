@@ -3,9 +3,8 @@
 #include <cmath>
 #include <xcal/mobject/objects/circle.hpp>
 #include <xcal/mobject/objects/rectangle.hpp>
+#include <xcal/property/vec.hpp>
 #include <xcal/scene/scene.hpp>
-
-#include "xcal/property/vec.hpp"
 
 /**
  * @brief 场景管理测试套件
