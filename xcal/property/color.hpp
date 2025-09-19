@@ -148,6 +148,7 @@ class XCAL_API Color : public MProperty {
     // NOLINTNEXTLINE(google-explicit-constructor)
     operator const data_t &() const { return data_; }
 
+    const data_t &value() const { return data_; }
    public:
     Color(const Color &) = delete;
     Color(Color &&) = delete;

@@ -45,7 +45,7 @@ void xcal::render::opengl::GL::ShaderProgram::destroy() {
     program_ = 0;
 };
 
-xcal::render::opengl::GL::ShaderProgram::ShaderProgram() {};
+xcal::render::opengl::GL::ShaderProgram::ShaderProgram() = default;
 void xcal::render::opengl::GL::ShaderProgram::uniform(
     const char *name, const xcmath::mat<gl::GLfloat, 4, 4> &mat) const {
     _gl glUseProgram(program_);
@@ -58,6 +58,16 @@ void xcal::render::opengl::GL::ShaderProgram::uniform(
     _gl glUniformMatrix3fv(_gl glGetUniformLocation(program_, name), 1,
                            _gl GL_TRUE, &mat[0][0]);
 }
+void xcal::render::opengl::GL::ShaderProgram::uniform(
+    const char *name, const xcmath::vec<gl::GLfloat, 3> &vec) const {
+    _gl glUseProgram(program_);
+    _gl glUniform3fv(_gl glGetUniformLocation(program_, name), 1, &vec[0]);
+}
+void xcal::render::opengl::GL::ShaderProgram::uniform(
+    const char *name, const xcmath::vec<gl::GLfloat, 4> &vec) const {
+    _gl glUseProgram(program_);
+    _gl glUniform4fv(_gl glGetUniformLocation(program_, name), 1, &vec[0]);
+};
 std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>
 xcal::render::opengl::GL::ShaderProgram::from_file(
     std::string_view vertex_file, std::string_view fragment_file) {

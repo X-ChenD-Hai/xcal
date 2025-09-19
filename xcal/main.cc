@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 
     // XCAL_INFO(XCAL, APP) << "cc pos: " << cc->pos().value();
     auto l1 =
-        scene->add<Line>(3)->set_pos({0, 0})->set_stroke_color({1, 0, 0, 5});
+        scene->add<Line>(3)->set_pos({0, 0})->set_stroke_color({1, 0, 0, 1});
     auto c1 = scene->add<Circle>();
     c1->set_radius(1.f / 2)
         ->set_stroke_color({0.5, 0, 0.5})
@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
         ->scale(0.5);
     auto c2 = scene->add<Circle>()->set_radius(0.5f / 2)->set_stroke_color(
         {0, 0.5, 0.5});
-    auto l2 = scene->add<Line>(2)->set_stroke_color({0, 0, 1})->rotate(45);
-    auto l3 = scene->add<Line>(2)->set_stroke_color({0, 1, 0})->rotate(90);
+    auto l2 = scene->add<Line>(2)->set_stroke_color(0, 0, 1)->rotate(45);
+    auto l3 = scene->add<Line>(2)->set_stroke_color(0, 1, 0)->rotate(90);
     scene->add<PerspectiveCamera>(45.0, 16 / 9.0, 0.1, 1000.0)
         ->set_position(0, 0, 3)
         ->set_target(0, 0, 0);

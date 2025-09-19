@@ -82,6 +82,10 @@ class StrokeableMObject {
         stroke_color_ = color;
         return static_cast<T*>(this);
     }
+    T* set_stroke_color(float_t r, float_t g, float_t b, float_t a = 1.0) {
+        stroke_color_ = property::Color::data_t{r, g, b, a};
+        return static_cast<T*>(this);
+    }
     const property::Color& stroke_color() const { return stroke_color_; }
     T* set_stroke_width(property::Scalar::data_t width) {
         stroke_width_ = width;

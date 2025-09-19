@@ -17,6 +17,7 @@ class XCAL_API Vec : public MProperty {
    public:
     template <typename... Args>
         requires std::constructible_from<data_t, Args...>
+    // NOLINTNEXTLINE
     Vec(Args&&... args) : value_{this, std::forward<Args>(args)...} {}
     Vec(const Vec&) = delete;
     Vec(Vec&&) = delete;
@@ -54,7 +55,9 @@ class XCAL_API Vec : public MProperty {
     {
         return ((data_t&)value_).z();
     }
+    // NOLINTNEXTLINE
     operator data_t&() { return value_; }
+    // NOLINTNEXTLINE
     operator const data_t&() const { return value_; }
 
     Vec& operator=(const data_t& v) {

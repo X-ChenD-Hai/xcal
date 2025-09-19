@@ -34,6 +34,10 @@ class XCAL_API ShaderProgram {
                  const xcmath::mat<gl::GLfloat, 4, 4> &mat) const;
     void uniform(const char *name,
                  const xcmath::mat<gl::GLfloat, 3, 3> &mat) const;
+    void uniform(const char *name,
+                 const xcmath::vec<gl::GLfloat, 3> &vec) const;
+    void uniform(const char *name,
+                 const xcmath::vec<gl::GLfloat, 4> &vec) const;
 
    public:
     static std::shared_ptr<ShaderProgram> from_file(
