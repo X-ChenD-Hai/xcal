@@ -20,7 +20,7 @@ class XCAL_API Scalar : public MProperty {
     // NOLINTNEXTLINE(google-explicit-constructor)
     operator const data_t &() const { return value_; }
 #define XCAL_SCALAR_OPERATOR(op)         \
-      /* NOLINTNEXTLINE */               \
+    /* NOLINTNEXTLINE */                 \
     Scalar &operator op(float_t value) { \
         value_ op value;                 \
         return *this;                    \

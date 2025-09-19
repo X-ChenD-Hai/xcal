@@ -1,10 +1,6 @@
-#include <glbinding/gl/enum.h>
-
 #include <cstddef>
 #include <vector>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
-
-#include "typedef.hpp"
 
 namespace xcal::render::opengl::GL {
 struct RenderCommand {

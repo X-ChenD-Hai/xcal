@@ -20,7 +20,8 @@ class XCAL_API Path
 
    public:
     Path() : Path(property::PositionList::data_t(), false) {}
-    Path(const property::PositionList::data_t& list) : Path(list, false) {}
+    explicit Path(const property::PositionList::data_t& list)
+        : Path(list, false) {}
     Path(const property::PositionList::data_t& list, bool_t closed)
         : points_(list, closed) {}
 
@@ -28,7 +29,7 @@ class XCAL_API Path
     void set_points(const property::PositionList::data_t& points) {
         points_ = points;
     }
-    virtual ~Path() override = default;
+    ~Path() override = default;
     Path(const Path&) = delete;
     Path(Path&&) = delete;
     Path& operator=(const Path&) = delete;

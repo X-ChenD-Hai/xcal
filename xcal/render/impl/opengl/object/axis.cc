@@ -3,9 +3,6 @@
 #include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
 
 //
-#include <glbinding/gl/boolean.h>
-#include <glbinding/gl/enum.h>
-#include <glbinding/gl/functions.h>
 #include <xcal/public.h>
 
 #include <xcal/render/impl/opengl/core/typedef.hpp>

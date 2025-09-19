@@ -1,7 +1,3 @@
-#include <glbinding/gl/boolean.h>
-#include <glbinding/gl/enum.h>
-#include <glbinding/gl/functions.h>
-
 #include <xcal/mobject/objects/path.hpp>
 #include <xcal/render/impl/opengl/gl/buffer.hpp>
 #include <xcal/render/impl/opengl/object/path.hpp>

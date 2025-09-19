@@ -27,7 +27,7 @@ class XCAL_API Rectangle
     property::Scalar& width() { return width_; }
     const property::Scalar& height() const { return height_; }
     property::Scalar& height() { return height_; }
-    virtual ~Rectangle() override = default;
+    ~Rectangle() override = default;
 };
 
 }  // namespace xcal::mobject

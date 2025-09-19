@@ -28,7 +28,7 @@ class XCAL_API Circle
      * @param radius 半径值，默认为 1.0
      */
     explicit Circle(const property::Vec<float_t, 3>& pos = {0.0, 0.0, 0.0},
-           float_t radius = 1.0)
+                    float_t radius = 1.0)
         : radius_(radius) {
         set_pos(pos);
         register_properties(radius_);
