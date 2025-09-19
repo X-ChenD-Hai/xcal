@@ -14,63 +14,72 @@
 #include <xcal/render/impl/opengl/utils/shaderinstence.hpp>
 #include <xcal/utils/logmacrohelper.inc>
 #include <xcmath/utils/show.hpp>
-#define SHADER_ID 0
+static constexpr auto SHADER_ID = 0;
+static constexpr auto BUFFER_ID = 0;
+
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
-    return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
-                                        SHADER_FILE("line.fs"));
+    return GL::ShaderProgram::from_file(SHADER_FILE("line1.vs"),
+                                        SHADER_FILE("line1.fs"));
+}
+XCAL_BUFFER_INSTANCE(xcal::render::opengl::object::Line, BUFFER_ID) {
+    auto buffer =
+        std::make_shared<xcal::render::opengl::GL::Buffer>(_gl GL_ARRAY_BUFFER);
+    buffer->bind();
+    buffer->buffer_data(
+        std::array<_gl GLfloat, 6>{
+            -0.5f, -0.5f,
+            -0.5f,  //
+            0.5f, 0.5f,
+            0.5f,  //
+        },
+        _gl GL_STATIC_DRAW);
+    buffer->unbind();
+    return buffer;
+}
+using vao_sp = std::shared_ptr<xcal::render::opengl::GL::VertexArrayObject>;
+using vbo_sp = std::shared_ptr<xcal::render::opengl::GL::Buffer>;
+using shader_sp = std::shared_ptr<xcal::render::opengl::GL::ShaderProgram>;
+struct StaticLine {
+    vao_sp vao;
+    vbo_sp vbo;
+    shader_sp shader_program;
+    StaticLine() {
+        using namespace xcal::render::opengl;
+        vao = utils::VertexArrayObjectInstance<object::Line, 0>::instance();
+        vao->bind();
+        vbo = utils::BufferInstance<object::Line, BUFFER_ID>::instance();
+        vbo->bind();
+        _gl glEnableVertexAttribArray(0);
+        _gl glVertexAttribPointer(0, 3, _gl GL_FLOAT, _gl GL_FALSE,
+                                  3 * sizeof(float),  // stride
+                                  (void*)nullptr);    // offset
+        shader_program =
+            utils::ShaderInstance<object::Line, SHADER_ID>::instance();
+    }
+};
+
+XCAL_DEFINE_STATIC_GLOBJECT(StaticLine, xcal::render::opengl::object::Line, 0) {
+    return std::make_shared<StaticLine>();
 }
 
 void xcal::render::opengl::object::Line::create() {
-    vao().bind();
-    vbo_ = GL::Buffer(_gl GL_ARRAY_BUFFER);
-    vbo_.bind();
-    const xcmath::vec3<float_t> direct = mobject_->direct().value() / 2;
-    _D("Create Line: " << mobject_.mobject() << " with direct: " << direct
-                       << " and depth: " << mobject_->pos().value().z());
-    std::array<_gl GLfloat, 12> vertices = {
-        -direct.x(),
-        -direct.y(),
-        direct.z(),  //
-        mobject_->stroke_color().r(),
-        mobject_->stroke_color().g(),
-        mobject_->stroke_color().b(),  //
-        direct.x(),
-        direct.y(),
-        direct.z(),  //
-        mobject_->stroke_color().r(),
-        mobject_->stroke_color().g(),
-        mobject_->stroke_color().b(),
-    };
-    vbo_.buffer_data(vertices.data(), vertices.size() * sizeof(float),
-                     _gl GL_STATIC_DRAW);
-    _gl glEnableVertexAttribArray(0);
-    _gl glVertexAttribPointer(0, 3, _gl GL_FLOAT, _gl GL_FALSE,
-                              6 * sizeof(float),            // stride
-                              (void*)(0 * sizeof(float)));  // offset
-
-    // 颜色属性：location 1，每个顶点 3 个 float，offset 3*float
-    _gl glEnableVertexAttribArray(1);
-    _gl glVertexAttribPointer(1, 3, _gl GL_FLOAT, _gl GL_FALSE,
-                              6 * sizeof(float),            // stride
-                              (void*)(3 * sizeof(float)));  // offset
-
-    shader_program_ = utils::ShaderInstance<Line, SHADER_ID>::instance();
-    vao().unbind();
+    static_line_ = XCAL_STATIC_GLOBJECT(StaticLine, Line, 0);
+    _I("Create Line: " << this << " with mobject: " << mobject_.mobject());
 };
 void xcal::render::opengl::object::Line::destroy() {
     _I("Destroy Line: " << this);
-    shader_program_.reset();
-    vbo_.destroy();
+    static_line_ = nullptr;
 };
 void xcal::render::opengl::object::Line::render() const {
-    vao().bind();
-    shader_program_->use();
-    shader_program_->uniform("model", mobject_.model_matrix());
+    static_line_->vao->bind();
+    static_line_->shader_program->use();
+    update_ubo_data();
+    _gl glBindBufferBase(_gl GL_UNIFORM_BUFFER, 0, ubo_.id());
     _gl glDrawArrays(_gl GL_LINES, 0, 2);
-    vao().unbind();
+    static_line_->vao->unbind();
 };
 xcal::render::opengl::object::Line::Line(mobject::Line* mobject)
-    : mobject_(mobject), vbo_(_gl GL_ARRAY_BUFFER) {
+    : mobject_(mobject), ubo_(_gl GL_UNIFORM_BUFFER) {
     _I("Create Line: " << this << " from mobject: " << mobject_.mobject());
 };
 
@@ -78,6 +87,22 @@ void xcal::render::opengl::object::Line::update_projection_view(
     const xcmath::mat4<float_t>& projection_view) {
     _D("Update view projection for Line: " << this << " with view_projection: "
                                            << projection_view);
-    shader_program_->uniform("projection_view", projection_view);
+    static_line_->shader_program->uniform("projection_view", projection_view);
 };
 XCAL_OPENGL_REGIST_OBJECT_IMPL(xcal::render::opengl::object::Line, Line)
+
+void xcal::render::opengl::object::Line::update_ubo_data() const {
+    if (mobject_->stroke_color().is_changed() ||
+        mobject_->direct().is_changed() ||
+        mobject_.model_matrix_should_update()) {
+        ubo_.bind();
+        ubo_data_.direction =
+            xcmath::vec4<float_t>{mobject_->direct().value(), 0.f};
+        ubo_data_.color = mobject_->stroke_color();
+        ubo_data_.model = mobject_.model_matrix().T();
+        ubo_.buffer_data(&ubo_data_, sizeof(ubo_data_), _gl GL_DYNAMIC_DRAW);
+        ubo_.unbind();
+        mobject_->stroke_color().reset_changed();
+        mobject_->direct().reset_changed();
+    }
+};

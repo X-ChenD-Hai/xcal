@@ -34,20 +34,23 @@ class DynamicResourceDistributor {
     static size_t last_size_;
 
    public:
-    static std::shared_ptr<T> instance(size_t id) {
+    static std::shared_ptr<T> instance(size_t id = 0) {
         auto resource = resources_[id].lock();
         if (!resource) {
             resource = ResourceAllocator<T, Catgory, Id>::allocate();
             resources_[id] = resource;
         }
         if (resources_.size() > last_size_ + CLEAR_THRESHOLD) {
-            resources_.erase(
-                std::remove_if(
-                    resources_.begin(), resources_.end(),
-                    [](const std::pair<size_t, std::weak_ptr<T>>& p) {
-                        return p.second.expired();
-                    }),
-                resources_.end());
+            std::vector<size_t> to_erase;
+            for (auto& pair : resources_) {
+                if (pair.second.expired()) {
+                    to_erase.push_back(pair.first);
+                }
+            }
+            for (auto id : to_erase) {
+                resources_.erase(id);
+            }
+            
             last_size_ = resources_.size();
         }
         return resource;
