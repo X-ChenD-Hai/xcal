@@ -25,7 +25,7 @@ void xcal::render::opengl::object::Circle::create() {
     vbo_.bind();
     const float_t radius = mobject_->radius();
     _D("Create Circle: " << mobject_.mobject() << " with radius: " << radius
-                         << " and depth: " << mobject_->depth().value());
+                         << " and depth: " << mobject_->pos().value().z());
 
     // Generate vertices for circle using triangle fan
     // Center vertex first, then circumference points
@@ -35,7 +35,7 @@ void xcal::render::opengl::object::Circle::create() {
                           // point) * 6 floats per vertex
 
     // Center vertex
-    vertices.insert(vertices.end(), {0.0f, 0.0f, mobject_->depth().value()});
+    vertices.insert(vertices.end(), {0.0f, 0.0f, mobject_->pos().value().z()});
     vertices.insert(vertices.end(),
                     {mobject_->stroke_color().r(), mobject_->stroke_color().g(),
                      mobject_->stroke_color().b()});
@@ -45,7 +45,7 @@ void xcal::render::opengl::object::Circle::create() {
         float_t angle = 2.0f * xcmath::PI * i / segments_;
         float_t x = radius * cos(angle);
         float_t y = radius * sin(angle);
-        vertices.insert(vertices.end(), {x, y, mobject_->depth().value()});
+        vertices.insert(vertices.end(), {x, y, mobject_->pos().value().z()});
         vertices.insert(vertices.end(), {mobject_->stroke_color().r(),
                                          mobject_->stroke_color().g(),
                                          mobject_->stroke_color().b()});

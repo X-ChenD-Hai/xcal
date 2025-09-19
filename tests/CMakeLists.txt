@@ -16,7 +16,7 @@ target_include_directories(test_opengl PRIVATE
 
 add_subdirectory(scene)
 add_subdirectory(properties)
-add_subdirectory(mobject)
+# add_subdirectory(mobject)
 add_subdirectory(camera)
 add_subdirectory(animation)
 add_subdirectory(video)

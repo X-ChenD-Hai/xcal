@@ -57,7 +57,7 @@ void xcal::render::opengl::ui::Context::flush() {
     animation_handles_.clear();
     if (renderer_ && renderer_->scene()) {
         for (auto& obj : renderer_->scene()->mobjects()) {
-            // object_handles_.emplace_back(obj.get());
+            object_handles_.emplace_back(obj.get());
         }
         for (auto& cam : renderer_->scene()->cameras()) {
             camera_handles_.emplace_back(cam.get());

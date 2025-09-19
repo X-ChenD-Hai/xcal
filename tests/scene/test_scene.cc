@@ -5,6 +5,8 @@
 #include <xcal/mobject/objects/rectangle.hpp>
 #include <xcal/scene/scene.hpp>
 
+#include "xcal/property/vec.hpp"
+
 /**
  * @brief 场景管理测试套件
  *
@@ -78,7 +80,7 @@ TEST(TestScene, AddMultipleObjects) {
 
     // 添加矩形对象
     auto rectPtr = scene.add<xcal::mobject::Rectangle>(
-        xcal::property::Position::data_t{3.0f, 3.0f}, 4.0f, 5.0f);
+        xcal::property::Vec<float_t, 3>::data_t{3.0f, 3.0f}, 4.0f, 5.0f);
 
     // 验证两个对象都添加成功
     EXPECT_EQ(scene.mobjects().size(), 2);

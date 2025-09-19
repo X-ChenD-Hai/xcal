@@ -31,13 +31,10 @@ int main(int argc, char **argv) {
     scene->add<PerspectiveCamera>(45.0, 16 / 9.0, 0.1, 1000.0)
         ->set_position(0, 0, 3)
         ->set_target(0, 0, 0);
-    auto a_sx = scene->add<ScalerInterpolation>(
-        &c1->scale_x(), 0, 2, interpolation_functions::linear);
-    auto a_r = scene->add<ScalerInterpolation>(&c1->rotation(), 0, 360,
-                                               interpolation_functions::linear);
-    auto timeline = scene->add<Timeline>();
-    timeline->add(a_sx, 0, 10);
-    timeline->add(a_r, 0, 10);
+    // auto a_r = scene->add<ScalerInterpolation>(&c1->rotation(), 0, 360,
+    //                                            interpolation_functions::linear);
+    // auto timeline = scene->add<Timeline>();
+    // timeline->add(a_r, 0, 10);
 
     auto render = xcal::render::opengl::OpenGLRender{scene.get()};
     render.default_camera()

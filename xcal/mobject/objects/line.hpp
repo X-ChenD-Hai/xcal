@@ -8,9 +8,8 @@
 
 namespace xcal::mobject {
 
-class XCAL_API Line
-    : public ComposedMObject<Line, StrokeableMObject, PositionableMObject,
-                             ScalableMObject, RotatableMObject> {
+class XCAL_API Line : public ComposedMObject<Line, BaseTransformableMobject,
+                                             StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Line)
    public:
     using vec = xcmath::vec<float_t, 2>;

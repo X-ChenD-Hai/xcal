@@ -15,7 +15,7 @@ class XCAL_API Circle : public Object {
 
    private:
     GL::Buffer vbo_;
-    utils::SingleMObjectWrapper<mobject::Circle> mobject_{nullptr};
+    utils::SingleComposedMObjectWrapper<mobject::Circle> mobject_{nullptr};
     std::shared_ptr<GL::ShaderProgram> shader_program_;
     int segments_{36};  // Number of segments to approximate circle
 

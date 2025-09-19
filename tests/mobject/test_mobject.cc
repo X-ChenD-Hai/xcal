@@ -2,13 +2,16 @@
 
 #include <xcal/mobject/core/mobject.hpp>
 
+#include "xcal/mobject/core/composedmobject.hpp"
+
 using namespace xcal::mobject;
 
-class TestMObject : public MObject {
+class TestMObject : public ComposedMObject<Line, BaseTransformableMobject,
+                                           StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Unknown);
 
    public:
-    using MObject::MObject;
+    using ComposedMObject::ComposedMObject;
 };
 
 // 允许使用 EXPECT_NEAR 比较 float

@@ -15,7 +15,7 @@ class XCAL_API Path : public Object {
     GL::Buffer stroke_vbo_;
     GL::Buffer fill_vbo_;
     GL::Buffer position_vbo_;
-    utils::SingleMObjectWrapper<mobject::Path> mobject_{nullptr};
+    utils::SingleComposedMObjectWrapper<mobject::Path> mobject_{nullptr};
     std::shared_ptr<GL::ShaderProgram> stroke_shader_program_;
     std::shared_ptr<GL::ShaderProgram> fill_shader_program_;
 

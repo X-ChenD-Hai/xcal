@@ -9,7 +9,6 @@
 #define ROLE OpenGL
 #define LABEL ListUi
 #include <xcal/utils/logmacrohelper.inc>
-
 #define _CONST_MPTR(mobj) static_cast<const xcal::mobject::MObject*>(mobj)
 #define _CONST_CPTR(mobj) static_cast<const xcal::camera::AbsCamera*>(mobj)
 #define _CONST_PCPTR(mobj) \
@@ -38,22 +37,28 @@ bool xcal::render::opengl::ui::ListUi::render_vec3f_edit(
     return true;
 }
 void xcal::render::opengl::ui::ListUi::render_obj(ObjectHandle& obj) {
-    namespace I = ImGui;
-    if (I::CollapsingHeader(obj.name.c_str())) {
-        I::Text("pos: ");
-        tmp_ = _CONST_MPTR(obj.obj)->pos().x();
-        if (I::InputFloat("X", &tmp_)) {
-            obj.obj->pos().x() = tmp_;
-            _D("updating x of object: " << obj.obj << " to: " << tmp_
-                                        << " change state: "
-                                        << obj.obj->pos().is_changed());
-        }
-        tmp_ = _CONST_MPTR(obj.obj)->pos().y();
-        if (I::InputFloat("Y", &tmp_)) obj.obj->pos().y() = tmp_;
-        I::Text("depth: ");
-        tmp_ = _CONST_MPTR(obj.obj)->depth();
-        if (I::InputFloat("Depth", &tmp_)) obj.obj->depth() = tmp_;
-    }
+    // namespace I = ImGui;
+    // if (I::CollapsingHeader(obj.name.c_str())) {
+    //     I::Text("pos: ");
+    //     tmp_ = _CONST_MPTR(obj.obj)->pos().x();
+    //     switch (obj.obj->type()) {
+    //         case xcal::mobject::Type::Circle:
+    //             static_cast<mobject::Circle*>(obj.obj)->pos();
+    //         default:
+    //             break;
+    //     }
+    //     if (I::InputFloat("X", &tmp_)) {
+    //         obj.obj->pos().x() = tmp_;
+    //         _D("updating x of object: " << obj.obj << " to: " << tmp_
+    //                                     << " change state: "
+    //                                     << obj.obj->pos().is_changed());
+    //     }
+    //     tmp_ = _CONST_MPTR(obj.obj)->pos().y();
+    //     if (I::InputFloat("Y", &tmp_)) obj.obj->pos().y() = tmp_;
+    //     I::Text("depth: ");
+    //     tmp_ = _CONST_MPTR(obj.obj)->depth();
+    //     if (I::InputFloat("Depth", &tmp_)) obj.obj->depth() = tmp_;
+    // }
 }
 void xcal::render::opengl::ui::ListUi::render_camera(CameraHandle& cam) {
     if (!cam.camera) return;

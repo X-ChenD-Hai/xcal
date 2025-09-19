@@ -1,21 +1,23 @@
 #pragma once
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/property/position_list.hpp>
 
 namespace xcal::mobject {
 
-class XCAL_API Polygone : public MObject {
+class XCAL_API Polygone
+    : public ComposedMObject<Polygone, BaseTransformableMobject,
+                             StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Polygone)
    private:
     property::PositionList points_;
 
    public:
-    Polygone() : MObject(), points_() { register_properties(points_); }
+    Polygone() : points_() { register_properties(points_); }
     template <typename... Args>
         requires std::constructible_from<property::PositionList, Args...>
     Polygone(Args&&... args)
-        : MObject(),
-          points_(std::make_unique<property::PositionList>(
+        : points_(std::make_unique<property::PositionList>(
               std::forward<Args>(args)...)) {
         register_properties(points_);
         points_.closed() = true;

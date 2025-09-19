@@ -1,11 +1,16 @@
 #pragma once
+#include <xcal/public.h>
+
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 
-#include "xcal/public.h"
+#include "xcal/property/vec.hpp"
 
 namespace xcal::mobject {
 
-class XCAL_API Rectangle : public MObject {
+class XCAL_API Rectangle
+    : public ComposedMObject<Rectangle, BaseTransformableMobject,
+                             StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Rectangle)
    private:
     property::Position pos_;
@@ -13,9 +18,10 @@ class XCAL_API Rectangle : public MObject {
     property::Scalar height_;
 
    public:
-    Rectangle(const property::Position::data_t& pos, float_t width,
+    Rectangle(const property::Vec<float, 3>::data_t& pos, float_t width,
               float_t height)
-        : MObject(pos), width_(width), height_(height) {
+        : width_(width), height_(height) {
+        set_pos(pos);
         register_properties(pos_, width_, height_);
     }
     const property::Scalar& width() const { return width_; }

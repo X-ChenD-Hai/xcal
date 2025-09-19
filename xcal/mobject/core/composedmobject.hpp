@@ -28,6 +28,10 @@ class PositionableMObject {
         pos_ = pos;
         return static_cast<T*>(this);
     }
+    T* translate(float_t x, float_t y = 0, float_t z = 0) {
+        pos_ = pos_.value() + property::Vec<float_t, 3>::data_t{x, y, z};
+        return static_cast<T*>(this);
+    }
     const property::Vec<float_t, 3>& pos() const { return pos_; }
 };
 template <typename T>
@@ -40,6 +44,15 @@ class ScalableMObject {
         return static_cast<T*>(this);
     }
     const property::Vec<float_t, 3>& scale() const { return scale_; }
+    T* scale(float_t x, float_t y, float_t z) {
+        scale_ = scale_.value() * property::Vec<float_t, 3>::data_t{x, y, z};
+        return static_cast<T*>(this);
+    }
+    T* scale(float_t s) {
+        scale_ = scale_.value() * s;
+        return static_cast<T*>(this);
+    }
+
     float_t scale_x() const { return scale_.value()[0]; }
     float_t scale_y() const { return scale_.value()[1]; }
     float_t scale_z() const { return scale_.value()[2]; }
@@ -87,8 +100,19 @@ class FillableMObject {
         fill_color_ = color;
         return static_cast<T*>(this);
     }
-    const property::Color::data_t& fill_color() const { return fill_color_; }
+    const property::Color& fill_color() const { return fill_color_; }
 };
+template <class T>
+class BaseTransformableMobject : public PositionableMObject<T>,
+                                 public ScalableMObject<T>,
+                                 public RotatableMObject<T> {
+   public:
+    BaseTransformableMobject()
+        : PositionableMObject<T>(),
+          ScalableMObject<T>(),
+          RotatableMObject<T>() {}
+};
+
 template <typename _Derived, template <class> typename... _PropertyMObjects>
 class XCAL_API ComposedMObject : public AbsMObject,
                                  public _PropertyMObjects<_Derived>... {

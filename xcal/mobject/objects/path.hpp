@@ -2,11 +2,14 @@
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/property/position_list.hpp>
 
+#include "xcal/mobject/core/composedmobject.hpp"
 #include "xcal/public.h"
 
 namespace xcal::mobject {
 
-class XCAL_API Path : public MObject {
+class XCAL_API Path
+    : public ComposedMObject<Path, BaseTransformableMobject, StrokeableMObject,
+                             FillableMObject> {
     XCAL_MOBJECT_TYPE(Path)
    public:
     using vec = xcmath::vec2<float_t>;

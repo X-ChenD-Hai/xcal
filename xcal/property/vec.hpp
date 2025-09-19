@@ -1,6 +1,9 @@
 #pragma once
 #include <xcal/property/core/property.hpp>
 #include <xcmath/mobject/vec.hpp>
+
+#include "xcal/public.h"
+
 namespace xcal::property {
 template <typename T, size_t N>
 class XCAL_API Vec : public MProperty {
@@ -21,6 +24,36 @@ class XCAL_API Vec : public MProperty {
     Vec& operator=(Vec&&) = delete;
     data_t& value() { return value_; }
     const data_t& value() const { return value_; }
+    float_t x() const
+        requires(N > 0)
+    {
+        return ((const data_t&)value_).x();
+    }
+    float_t y() const
+        requires(N > 1)
+    {
+        return ((const data_t&)value_).y();
+    }
+    float_t z() const
+        requires(N > 2)
+    {
+        return ((const data_t&)value_).z();
+    }
+    float_t& x()
+        requires(N > 0)
+    {
+        return ((data_t&)value_).x();
+    }
+    float_t& y()
+        requires(N > 1)
+    {
+        return ((data_t&)value_).y();
+    }
+    float_t& z()
+        requires(N > 2)
+    {
+        return ((data_t&)value_).z();
+    }
     operator data_t&() { return value_; }
     operator const data_t&() const { return value_; }
 

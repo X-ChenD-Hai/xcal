@@ -12,6 +12,8 @@
 
 #include <xcal/public.h>
 
+#include "xcal/mobject/core/abs_mobject.hpp"
+
 namespace xcal::animation {
 class Timeline;
 class AbsAnimation;
@@ -34,7 +36,7 @@ class XCAL_API Context {
 
    protected:
     struct XCAL_API ObjectHandle {
-        using mobject_t = xcal::mobject::MObject;
+        using mobject_t = xcal::mobject::AbsMObject;
         mobject_t* obj;
         std::string name;
         std::string type;

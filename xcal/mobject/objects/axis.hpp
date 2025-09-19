@@ -1,11 +1,13 @@
 #pragma once
 #include <xcal/public.h>
 
+#include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
 #include <xcal/property/scalar.hpp>
 
 namespace xcal::mobject {
-class XCAL_API Axis : public MObject {
+class XCAL_API Axis : public ComposedMObject<Axis, BaseTransformableMobject,
+                                             StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Axis)
     property::Scalar min_x_;
     property::Scalar max_x_;
@@ -31,7 +33,8 @@ class XCAL_API Axis : public MObject {
     float_t max_y() const { return max_y_.value(); }
     float_t y_tick_size() const { return y_tick_size_.value(); }
 };
-class XCAL_API Axis3D : public MObject {
+class XCAL_API Axis3D : public ComposedMObject<Axis3D, BaseTransformableMobject,
+                                               StrokeableMObject> {
     XCAL_MOBJECT_TYPE(Axis3D)
     property::Scalar min_x_;
     property::Scalar max_x_;

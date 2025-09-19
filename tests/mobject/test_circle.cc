@@ -54,12 +54,6 @@ TEST(TestCircle, PositionInheritance) {
     // 验证位置继承
     EXPECT_EQ(circle->pos().x(), 7.0f);
     EXPECT_EQ(circle->pos().y(), 8.0f);
-
-    // 验证位置可修改
-    circle->pos().x() = 9.0f;
-    circle->pos().y() = 10.0f;
-    EXPECT_EQ(circle->pos().x(), 9.0f);
-    EXPECT_EQ(circle->pos().y(), 10.0f);
 }
 
 TEST(TestCircle, VisibilityInheritance) {

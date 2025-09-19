@@ -6,11 +6,16 @@
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/property/core/property.hpp>
 #include <xcmath/mobject/declaration.hpp>
+
+#include "xcal/mobject/core/composedmobject.hpp"
+
 template <class... T>
 class A : public T... {};
 
 namespace xcal::mobject {
-class XCAL_API AbsMGroup {
+class XCAL_API AbsMGroup
+    : public ComposedMObject<AbsMGroup, PositionableMObject, ScalableMObject,
+                             RotatableMObject> {
    private:
     std::vector<AbsMObject_ptr> mobjects_{};
 
@@ -20,8 +25,6 @@ class XCAL_API AbsMGroup {
 
    public:
     AbsMGroup(const AbsMGroup &) = delete;
-    AbsMGroup(AbsMGroup &&) = default;
     AbsMGroup &operator=(const AbsMGroup &) = delete;
-    AbsMGroup &operator=(AbsMGroup &&) = default;
 };
 }  // namespace xcal::mobject
