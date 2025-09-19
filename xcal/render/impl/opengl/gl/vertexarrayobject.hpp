@@ -18,7 +18,7 @@ class XCAL_API VertexArrayObject {
    private:
     VertexArrayObject();
     ~VertexArrayObject();
-    VertexArrayObject(gl::GLuint vao) : vao_(vao) {}
+    explicit VertexArrayObject(gl::GLuint vao) : vao_(vao) {}
 
    public:
     void bind() const;

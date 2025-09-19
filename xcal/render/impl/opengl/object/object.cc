@@ -18,7 +18,7 @@ xcal::render::opengl::object::Object::Object() {
 template <class T>
     requires std::is_base_of_v<xcal::mobject::AbsMObject, T>
 xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
-    T* mobject) {
+    T* ) {
     _E("UnImplemented MObject type: " << T::META_INFO::type_name);
     return nullptr;
 }

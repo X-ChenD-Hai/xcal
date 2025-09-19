@@ -10,6 +10,25 @@ struct ResourceAllocator<xcal::render::opengl::GL::ShaderProgram, Catgory, Id> {
 template <class T, size_t _id>
 using ShaderInstance =
     StaticResourceDistributor<xcal::render::opengl::GL::ShaderProgram, T, _id>;
+
+template <typename Catgory, size_t Id>
+struct ResourceAllocator<xcal::render::opengl::GL::VertexArrayObject, Catgory, Id> {
+    static std::shared_ptr<xcal::render::opengl::GL::VertexArrayObject> allocate() {
+        return  std::make_shared<xcal::render::opengl::GL::VertexArrayObject>();;
+    }
+};
+template <class T, size_t _id>
+using VertexArrayObjectInstance = DynamicResourceDistributor<xcal::render::opengl::GL::VertexArrayObject, T, _id>;
+
+template <typename Catgory, size_t Id>
+struct ResourceAllocator<xcal::render::opengl::GL::Buffer, Catgory, Id> {
+    static std::shared_ptr<xcal::render::opengl::GL::Buffer> allocate() {
+        return  std::make_shared<xcal::render::opengl::GL::Buffer>();
+    }
+};
+template <class T, size_t _id>
+using BufferInstance = DynamicResourceDistributor<xcal::render::opengl::GL::Buffer, T, _id>;
+
 }  // namespace xcal::render::opengl::utils
 
 #define XCAL_SHADER_INSTANCE(T, _id)                         \
@@ -19,7 +38,7 @@ using ShaderInstance =
         xcal::render::opengl::GL::ShaderProgram, T, _id>::allocate()
 
 #ifdef XCAL_debug
-#    define SHADER_FILE(name) (std::string(XCAL_OPENGL_SHADER_DIR) + name)
+#    define SHADER_FILE(name) (std::string(XCAL_OPENGL_SHADER_DIR) + (name))
 #else
 #    include <xcal/utils/paths.hpp>
 #    define SHADER_FILE(name)                                                \
