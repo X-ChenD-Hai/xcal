@@ -20,10 +20,10 @@ class XCAL_API Axis3D : public Object {
 
    public:
     explicit Axis3D(mobject::Axis3D *mobject);
-    virtual void create() override;
-    virtual void destroy() override;
-    virtual void render() const override;
-    virtual void update_projection_view(
+    void create() override;
+    void destroy() override;
+    void render() const override;
+    void update_projection_view(
         const xcmath::mat4<float_t> &projection_view) override;
 
     Axis3D(const Axis3D &) = delete;

@@ -20,9 +20,9 @@ class XCAL_API Line : public Object {
 
    public:
     explicit Line(mobject::Line *mobject);
-    virtual void create() override;
-    virtual void destroy() override;
-    virtual void render() const override;
+    void create() override;
+    void destroy() override;
+    void render() const override;
     virtual void update_projection_view(
         const xcmath::mat4<float_t> &view_projection) override;
 

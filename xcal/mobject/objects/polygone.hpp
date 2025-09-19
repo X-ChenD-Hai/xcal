@@ -28,7 +28,7 @@ class XCAL_API Polygone
     void set_points(const property::PositionList::data_t& points) {
         points_ = points;
     }
-    virtual ~Polygone() override = default;
+    ~Polygone() override = default;
 };
 
 }  // namespace xcal::mobject

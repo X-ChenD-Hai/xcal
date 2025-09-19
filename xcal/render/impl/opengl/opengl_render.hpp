@@ -1,7 +1,6 @@
 #pragma once
 #include <xcal/public.h>
 
-#include <cstddef>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -44,9 +43,9 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    public:
     bool_t play_timeline(animation::Timeline* timeline);
-    void show(size_t width = 800, size_t height = 600);
+    void show(int width = 800, int height = 600);
     void render_frame();
-    virtual void set_scene(Scene* scene) override;
+    void set_scene(Scene* scene) override;
     std::vector<char> read_pixels_char() const;
     xcal::camera::AbsCamera* default_camera() const {
         return default_camera_.get();
@@ -56,8 +55,8 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     }
 
    public:
-    OpenGLRender(Scene* scene);
-    virtual ~OpenGLRender() override;
+    explicit OpenGLRender(Scene* scene);
+    ~OpenGLRender() override;
 
    public:
     OpenGLRender(const OpenGLRender&) = delete;

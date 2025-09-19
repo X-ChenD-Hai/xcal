@@ -73,7 +73,7 @@ xcal::render::opengl::OpenGLRender::~OpenGLRender() {
     glfwTerminate();
     _I("OpenGLRender destroyed: " _SELF);
 };
-void xcal::render::opengl::OpenGLRender::show(size_t width, size_t height) {
+void xcal::render::opengl::OpenGLRender::show(int width, int height) {
     if (!window_) {
         _E("GLFW window is not created");
         return;
@@ -151,13 +151,14 @@ void xcal::render::opengl::OpenGLRender::setup_scene() {
     }
     ui_render_->flush();
 };
-void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
-    GLFWwindow* window, int w, int h) {
+void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(GLFWwindow*,
+                                                                   int w,
+                                                                   int h) {
     // aspect_ = w / static_cast<float>(h);
     if (default_camera_->type() == camera::CameraType::Perspective) {
         auto* cam = static_cast<xcal::camera::PerspectiveCamera*>(
             default_camera_.get());
-        cam->set_aspect(w / static_cast<float>(h));
+        cam->set_aspect((float_t)w / static_cast<float>(h));
     }
 
     // _D("framebuffer_size_callback: " << w << "x" << h);
@@ -167,7 +168,7 @@ void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
             ? ((const camera::PerspectiveCamera*)current_camera_)
                   ->aspect()
                   .value()
-            : w / static_cast<float>(h);
+            : (float_t)w / static_cast<float>(h);
     int viewport_width = w;
     int viewport_height = h;
     int viewport_x = 0;
@@ -178,14 +179,14 @@ void xcal::render::opengl::OpenGLRender::framebuffer_size_callback(
 
     if (actual_aspect > target_aspect) {
         // 窗口太宽，上下加黑边
-        viewport_width = static_cast<int>(h * target_aspect);
+        viewport_width = static_cast<int>((float_t)h * target_aspect);
         viewport_height = h;
         viewport_x = (w - viewport_width) / 2;
         viewport_y = 0;
     } else {
         // 窗口太高，左右加黑边
         viewport_width = w;
-        viewport_height = static_cast<int>(w / target_aspect);
+        viewport_height = static_cast<int>((float_t)w / target_aspect);
         viewport_x = 0;
         viewport_y = (h - viewport_height) / 2;
     }

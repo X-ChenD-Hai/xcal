@@ -21,10 +21,10 @@ enum class CameraType {
     Perspective,  ///< 透视相机
     Orthogonal,   ///< 正交相机
 };
-#define XCAL_CAMERA_TYPE(tp)                                             \
-   private:                                                              \
-    virtual ::xcal::camera::CameraType type_() const noexcept override { \
-        return ::xcal::camera::CameraType::tp;                           \
+#define XCAL_CAMERA_TYPE(tp)                                     \
+   private:                                                      \
+    ::xcal::camera::CameraType type_() const noexcept override { \
+        return ::xcal::camera::CameraType::tp;                   \
     }
 
 /**

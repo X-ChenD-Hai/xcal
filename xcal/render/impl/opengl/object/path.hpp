@@ -21,9 +21,9 @@ class XCAL_API Path : public Object {
 
    public:
     explicit Path(mobject::Path *mobject);
-    virtual void create() override;
-    virtual void destroy() override;
-    virtual void render() const override;
+    void create() override;
+    void destroy() override;
+    void render() const override;
     virtual void update_projection_view(
         const xcmath::mat4<float_t> &projection_view) override;
 

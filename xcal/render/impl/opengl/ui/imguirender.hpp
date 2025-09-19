@@ -23,10 +23,10 @@ class XCAL_API ImGuiUiRender : public Context {
     std::unique_ptr<ImGuiBackend> backend_;
 
    public:
-    virtual void init() override;
-    virtual void deinit() override;
-    virtual void before_swap_buffers() override;
-    virtual void render() override;
+    void init() override;
+    void deinit() override;
+    void before_swap_buffers() override;
+    void render() override;
 
    public:
     virtual void render_ui() = 0;
@@ -35,7 +35,7 @@ class XCAL_API ImGuiUiRender : public Context {
     explicit ImGuiUiRender(std::unique_ptr<ImGuiBackend> backend,
                            OpenGLRender *renderer)
         : Context(renderer), backend_(std::move(backend)) {}
-    virtual ~ImGuiUiRender() override = default;
+    ~ImGuiUiRender() override = default;
 
    public:
     ImGuiUiRender(const ImGuiUiRender &) = delete;

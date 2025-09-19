@@ -22,10 +22,10 @@ class XCAL_API ImGuiGlfw3OpenGL3Backend : public ImGuiBackend {
 
    public:
     explicit ImGuiGlfw3OpenGL3Backend(GLFWwindow *window) : window_(window) {}
-    virtual void init() override;
-    virtual void deinit() override;
-    virtual void new_frame() override;
-    virtual void draw_data() override;
+    void init() override;
+    void deinit() override;
+    void new_frame() override;
+    void draw_data() override;
 
    public:
     ImGuiGlfw3OpenGL3Backend(const ImGuiGlfw3OpenGL3Backend &) = delete;

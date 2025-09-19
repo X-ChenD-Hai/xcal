@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #define XCAL_PROPERTY_TYPE(type) \
-    virtual Type type_() const override { return Type::type; }
+    Type type_() const override { return Type::type; }
 
 namespace xcal::property {
 

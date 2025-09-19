@@ -22,14 +22,14 @@ class Path;
 class Rectangle;
 class Ellipse;
 
-#define XCAL_MOBJECT_TYPE(type)                                \
-    virtual Type type_() const override { return Type::type; } \
-                                                               \
-   public:                                                     \
-    struct META_INFO {                                         \
-        static constexpr auto type_name = #type;               \
-    };                                                         \
-                                                               \
+#define XCAL_MOBJECT_TYPE(type)                        \
+    Type type_() const override { return Type::type; } \
+                                                       \
+   public:                                             \
+    struct META_INFO {                                 \
+        static constexpr auto type_name = #type;       \
+    };                                                 \
+                                                       \
    private:
 
 }  // namespace xcal::mobject

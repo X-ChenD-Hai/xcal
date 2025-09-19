@@ -35,7 +35,7 @@ class XCAL_API ScalerInterpolation : public AbsAnimation {
     ~ScalerInterpolation() override = default;
 
    public:
-    virtual void update_to(float_t time) override;
+    void update_to(float_t time) override;
 
    public:
     ScalerInterpolation(const ScalerInterpolation&) = default;

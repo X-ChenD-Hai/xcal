@@ -26,7 +26,7 @@ class XCAL_API Ellipse : public ComposedMObject<Line, BaseTransformableMobject,
     property::Scalar& radius_x() { return radius_x_; }
     const property::Scalar& radius_y() const { return radius_y_; }
     property::Scalar& radius_y() { return radius_y_; }
-    virtual ~Ellipse() override = default;
+    ~Ellipse() override = default;
 };
 
 }  // namespace xcal::mobject
