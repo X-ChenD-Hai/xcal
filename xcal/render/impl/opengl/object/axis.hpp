@@ -15,7 +15,7 @@ class XCAL_API Axis3D : public Object {
 
    private:
     GL::Buffer vbo_;
-    utils::SingleComposedMObjectWrapper<mobject::Axis3D> mobject_{nullptr};
+    utils::SingleMGroupWrapper<mobject::Axis3D> mobject_{nullptr};
     std::shared_ptr<GL::ShaderProgram> shader_program_;
 
    public:

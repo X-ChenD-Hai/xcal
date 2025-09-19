@@ -24,7 +24,8 @@ int main() {
     //                 ->set_stroke_color({0, 1, 0, 1})
     //                 ->set_fill_color({0, 1, 1, 0.1});
 
-    auto axis = scene->add(new Axis3D{})->set_stroke_color({1, 0, 0, 1});
+    auto axis =
+        scene->add(new Axis3D{})->x_axis()->set_stroke_color({1, 0, 0, 1});
 
     auto render = xcal::render::opengl::OpenGLRender{scene.get()};
     render.default_camera()

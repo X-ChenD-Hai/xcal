@@ -1,5 +1,5 @@
 #pragma once
-#include <xcal/mobject/core/mobject.hpp>
+#include <xcal/mobject/core/abs_mgroup.hpp>
 #include <xcal/mobject/mobject.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 #include <xcmath/xcmath.hpp>
@@ -42,7 +42,7 @@ class XCAL_API SingleComposedMObjectWrapper {
    public:
     using mat = xcmath::mat<float_t, 4, 4>;
 
-   private:
+   protected:
     T* mobject_{nullptr};
     mutable mat model_matrox_cache_ = mat::eye();
 
@@ -74,6 +74,20 @@ class XCAL_API SingleComposedMObjectWrapper {
     }
     T* mobject() const { return (T*)mobject_; }
     T* operator->() const { return (T*)mobject_; }  // operator ->()
+};
+template <class T>
+class XCAL_API SingleMGroupWrapper
+    : public SingleComposedMObjectWrapper<xcal::mobject::AbsMGroup> {
+   public:
+    using SingleComposedMObjectWrapper<xcal::mobject::AbsMGroup>::mat;
+    using SingleComposedMObjectWrapper<
+        xcal::mobject::AbsMGroup>::SingleComposedMObjectWrapper;
+    xcal::mobject::AbsMGroup* mobject() const {
+        return (xcal::mobject::AbsMGroup*)mobject_;
+    }
+    T* operator->() const {
+        return (T*)mobject_;  // operator ->()
+    }
 };
 
 }  // namespace xcal::render::opengl::utils

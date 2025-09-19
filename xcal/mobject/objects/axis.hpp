@@ -1,8 +1,10 @@
 #pragma once
 #include <xcal/public.h>
 
+#include <xcal/mobject/core/abs_mgroup.hpp>
 #include <xcal/mobject/core/composedmobject.hpp>
 #include <xcal/mobject/core/mobject.hpp>
+#include <xcal/mobject/objects/line.hpp>
 #include <xcal/property/scalar.hpp>
 
 namespace xcal::mobject {
@@ -33,8 +35,7 @@ class XCAL_API Axis : public ComposedMObject<Axis, BaseTransformableMobject,
     float_t max_y() const { return max_y_.value(); }
     float_t y_tick_size() const { return y_tick_size_.value(); }
 };
-class XCAL_API Axis3D : public ComposedMObject<Axis3D, BaseTransformableMobject,
-                                               StrokeableMObject> {
+class XCAL_API Axis3D : public AbsMGroup {
     XCAL_MOBJECT_TYPE(Axis3D)
     property::Scalar min_x_;
     property::Scalar max_x_;
@@ -50,7 +51,8 @@ class XCAL_API Axis3D : public ComposedMObject<Axis3D, BaseTransformableMobject,
     Axis3D(float_t min_x = -1, float_t max_x = 1, float_t x_tick_size = 1,
            float_t min_y = -1, float_t max_y = 1, float_t y_tick_size = 1,
            float_t min_z = -1, float_t max_z = 1, float_t z_tick_size = 1)
-        : min_x_(min_x),
+        : AbsMGroup(),
+          min_x_(min_x),
           max_x_(max_x),
           x_tick_size_(x_tick_size),
           min_y_(min_y),
@@ -58,7 +60,15 @@ class XCAL_API Axis3D : public ComposedMObject<Axis3D, BaseTransformableMobject,
           y_tick_size_(y_tick_size),
           min_z_(min_z),
           max_z_(max_z),
-          z_tick_size_(z_tick_size) {}
+          z_tick_size_(z_tick_size) {
+        mobjects_.emplace_back(new Line{{-1, 0, 0}, {1, 0, 0}});
+        mobjects_.emplace_back(new Line{{0, -1, 0}, {0, 1, 0}});
+        mobjects_.emplace_back(new Line{{0, 0, -1}, {0, 0, 1}});
+    }
+
+    Line* x_axis() const { return static_cast<Line*>(mobjects_[0].get()); }
+    Line* y_axis() const { return static_cast<Line*>(mobjects_[1].get()); }
+    Line* z_axis() const { return static_cast<Line*>(mobjects_[2].get()); }
 
     float_t min_x() const { return min_x_.value(); }
     float_t max_x() const { return max_x_.value(); }

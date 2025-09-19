@@ -14,14 +14,13 @@ class A : public T... {};
 
 namespace xcal::mobject {
 class XCAL_API AbsMGroup
-    : public ComposedMObject<AbsMGroup, PositionableMObject, ScalableMObject,
-                             RotatableMObject> {
-   private:
+    : public ComposedMObject<AbsMGroup, BaseTransformableMobject> {
+   protected:
     std::vector<AbsMObject_ptr> mobjects_{};
 
    public:
     const std::vector<AbsMObject_ptr> &mobjects() const { return mobjects_; }
-    virtual xcmath::mat4<float_t> group_transform_matrix() const = 0;
+    AbsMGroup() : ComposedMObject{} {}
 
    public:
     AbsMGroup(const AbsMGroup &) = delete;
