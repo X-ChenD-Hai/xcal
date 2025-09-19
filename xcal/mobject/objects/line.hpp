@@ -25,7 +25,7 @@ class XCAL_API Line : public ComposedMObject<Line, BaseTransformableMobject,
         : ComposedMObject{}, direct_(end - start) {
         set_pos({(start.x() + end.x()) / 2, (start.y() + end.y()) / 2, 0});
     }
-    Line(float_t length) : direct_(vec{length, 0.0f}) {}
+    explicit Line(float_t length) : direct_(vec{length, 0.0f}) {}
 
     const vec4 start() const {
         return vec4{pos().value() - (direct_.value() / 2.f), 1.0f};
@@ -37,7 +37,7 @@ class XCAL_API Line : public ComposedMObject<Line, BaseTransformableMobject,
     property::Vec<float_t, 3>& direct() { return direct_; }
     vec4 center() const { return vec4{pos().value(), 1.0f}; }
 
-    virtual ~Line() override = default;
+    ~Line() override = default;
 };
 
 }  // namespace xcal::mobject

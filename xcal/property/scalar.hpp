@@ -15,10 +15,12 @@ class XCAL_API Scalar : public MProperty {
 
    public:
     Scalar() = default;
-    Scalar(data_t value) : value_(this, value) {}
+    explicit Scalar(data_t value) : value_(this, value) {}
     const data_t &value() const { return value_; }
-    operator const float_t &() const { return value_; }
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator const data_t &() const { return value_; }
 #define XCAL_SCALAR_OPERATOR(op)         \
+      /* NOLINTNEXTLINE */               \
     Scalar &operator op(float_t value) { \
         value_ op value;                 \
         return *this;                    \

@@ -184,7 +184,7 @@ class XCAL_API TimePoint : public MProperty {
      * @param format_pattern 格式模式（TODO: 实现具体格式化逻辑）
      * @return std::string 格式化后的时间字符串
      */
-    std::string format(const std::string& format_pattern) const {
+    std::string format(const std::string&) const {
         // 占位实现，可以根据需要扩展具体的格式化逻辑
         return to_string();
     }

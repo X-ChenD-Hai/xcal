@@ -19,7 +19,7 @@ class XCAL_API Axis : public ComposedMObject<Axis, BaseTransformableMobject,
     property::Scalar y_tick_size_;
 
    public:
-    Axis(float_t min_x = -1, float_t max_x = 1, float_t x_tick_size = 1,
+    explicit Axis(float_t min_x = -1, float_t max_x = 1, float_t x_tick_size = 1,
          float_t min_y = -1, float_t max_y = 1, float_t y_tick_size = 1)
         : min_x_(min_x),
           max_x_(max_x),
@@ -48,7 +48,7 @@ class XCAL_API Axis3D : public AbsMGroup {
     property::Scalar z_tick_size_;
 
    public:
-    Axis3D(float_t min_x = -1, float_t max_x = 1, float_t x_tick_size = 1,
+    explicit Axis3D(float_t min_x = -1, float_t max_x = 1, float_t x_tick_size = 1,
            float_t min_y = -1, float_t max_y = 1, float_t y_tick_size = 1,
            float_t min_z = -1, float_t max_z = 1, float_t z_tick_size = 1)
         : AbsMGroup(),

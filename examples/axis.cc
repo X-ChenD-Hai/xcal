@@ -14,9 +14,9 @@ int main() {
     Path::data_t p(10);
 
     for (size_t i = 0; i < p.size(); ++i) {
-        auto d = xcmath::radians(i * 360.0 / p.size());
+        auto d = xcmath::radians((float_t)i * 360.0 / (float_t)p.size());
         p[i] = xcmath::vec2<float_t>{(float_t)cos(d), (float_t)sin(d)} *
-               ((i % 2) * 0.5f + 0.5f);
+               (float_t(i % 2) * 0.5f + 0.5f);
     }
 
     // auto path = scene->add<Path>(Path::data_t{p}, false)

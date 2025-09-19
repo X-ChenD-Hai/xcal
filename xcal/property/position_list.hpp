@@ -1,8 +1,6 @@
 #pragma once
 #include <xcal/public.h>
 
-#include <concepts>
-#include <initializer_list>
 #include <vector>
 #include <xcal/property/core/property.hpp>
 #include <xcal/property/position.hpp>
@@ -11,7 +9,7 @@ namespace xcal::property {
 
 template <typename __ItemType, Type __Type>
 class XCAL_API _PositionList : public MProperty {
-    virtual Type type_() const override { return __Type; }
+    Type type_() const override { return __Type; }
 
    public:
     using data_t = std::vector<__ItemType>;
@@ -22,7 +20,7 @@ class XCAL_API _PositionList : public MProperty {
 
    public:
     _PositionList() : _PositionList(data_t(), false) {}
-    _PositionList(const data_t &list) : _PositionList(list, false) {}
+    explicit _PositionList(const data_t &list) : _PositionList(list, false) {}
     _PositionList(const data_t &list, bool_t closed)
         : positions_(this, list), closed_(this, closed) {}
 

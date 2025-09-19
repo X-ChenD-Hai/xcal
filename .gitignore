@@ -16,3 +16,4 @@
 !Doxyfile
 !.github
 !docs/doxygen-dark-theme.css
+!.clang-tidy

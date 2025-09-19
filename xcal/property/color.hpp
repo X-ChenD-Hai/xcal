@@ -137,6 +137,7 @@ class XCAL_API Color : public MProperty {
      *
      * @return data_t &
      */
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator data_t &() { return data_; }
 
     /**
@@ -144,6 +145,7 @@ class XCAL_API Color : public MProperty {
      *
      * @return const data_t &
      */
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator const data_t &() const { return data_; }
 
    public:

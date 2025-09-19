@@ -27,7 +27,7 @@ class XCAL_API Circle
      * @param pos 圆心位置，默认为 (0.0, 0.0)
      * @param radius 半径值，默认为 1.0
      */
-    Circle(const property::Vec<float_t, 3>& pos = {0.0, 0.0, 0.0},
+    explicit Circle(const property::Vec<float_t, 3>& pos = {0.0, 0.0, 0.0},
            float_t radius = 1.0)
         : radius_(radius) {
         set_pos(pos);
@@ -52,7 +52,7 @@ class XCAL_API Circle
     /**
      * @brief 析构函数
      */
-    virtual ~Circle() override = default;
+    ~Circle() override = default;
 };
 
 }  // namespace xcal::mobject

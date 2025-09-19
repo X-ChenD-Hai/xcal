@@ -37,7 +37,7 @@ class XCAL_API MProperty {
        public:
         template <typename... Args>
             requires(std::is_constructible_v<T, Args...>)
-        Proxy(MProperty *self, Args &&...args)
+        explicit Proxy(MProperty *self, Args &&...args)
             : value_(std::forward<Args>(args)...) {
             proxy_to_self_[this] = self;
         }
@@ -79,10 +79,13 @@ class XCAL_API MProperty {
             on_changed();
             return *this;
         }
+
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator T &() {
             on_changed();
             return value_;
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator const T &() const { return value_; }
 
         template <typename... Args>
@@ -133,7 +136,7 @@ class XCAL_API MProperty {
     void set_changed() const { is_changed_ = true; }
     void reset_changed() const { is_changed_ = false; }
     Type type() const { return type_(); };
-    virtual ~MProperty() {};
+    virtual ~MProperty() = default;
 };
 template <typename T>
 std::unordered_map<void *, MProperty *> MProperty::Proxy<T>::proxy_to_self_{};
