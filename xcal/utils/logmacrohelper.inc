@@ -1,4 +1,5 @@
 #pragma once
+#undef OUT
 #ifdef XCAL_LOG_OUT_TO_STDERR
 constexpr static auto PRO_LEN =
     sizeof("D:\\31003\\Desktop\\code\\C++\\xc1\\xcal");

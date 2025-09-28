@@ -4,79 +4,54 @@
 
 #include <xcal/camera/core/fpscontroler.hpp>
 #include <xcal/mobject/core/abs_mobject.hpp>
+#include <xcal/render/core/renderbackend.hpp>
+#include <xcal/render/core/uicontext.hpp>
+#include <xcal/scene/scene.hpp>
 
 namespace xcal::render {
-
-class Scene;
-class RenderBackend {
-   public:
-    virtual void set_scene(Scene* scene) = 0;
-    virtual void new_frame() {};
-    virtual void render() {};
-    virtual void end_frame() {};
-    virtual ~RenderBackend() = default;
-};
-class UiContext {
-    template <typename ObjectPtr = mobject::AbsMObject_ptr>
-    friend class Reender;
-
-   private:
-    double last_fps_;
-    std::chrono::high_resolution_clock::time_point last_time_point_;
-    std::chrono::high_resolution_clock::time_point last_update_time_point_;
-
-   private:
-    void update_fps_() {
-        if (std::chrono::duration_cast<std::chrono::duration<float>>(
-                std::chrono::high_resolution_clock::now() -
-                last_update_time_point_)
-                .count() > 0.5f) {
-            last_fps_ =
-                std::chrono::duration_cast<std::chrono::duration<float>>(
-                    std::chrono::high_resolution_clock::now() -
-                    last_time_point_)
-                    .count();
-            last_update_time_point_ = std::chrono::high_resolution_clock::now();
-        }
-        last_time_point_ = std::chrono::high_resolution_clock::now();
-    }
-
-   public:
-    double fps() { return last_fps_; }
-
-   public:
-    virtual void set_backend(RenderBackend* backend) = 0;
-    virtual void set_scene(Scene* scene) = 0;
-    virtual void before_new_frame() {};
-    virtual void after_new_frame() {};
-    virtual void before_end_frame() {};
-    virtual void after_end_frame() {};
-};
+class RenderBackend;
+class UiContext;
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
-class Reender {
-   private:
-    Scene* scene;
-    RenderBackend* render_backend;
-    UiContext* ui_context;
+class Render {
+   protected:
+    using Scene = xcal::scene::Scene;
 
    private:
-   public:
-    Reender(Scene* scene, RenderBackend* render_backend, UiContext* ui_context)
-        : scene(scene), render_backend(render_backend), ui_context(ui_context) {
-        render_backend->set_scene(scene);
-        ui_context->set_backend(render_backend);
-        ui_context->set_scene(scene);
+    Scene* scene_;
+    RenderBackend* backend_;
+    UiContext* ui_context_;
+
+   protected:
+    void init() {
+        backend_->set_scene(scene_);
+        ui_context_->set_backend(backend_);
+        ui_context_->set_scene(scene_);
     }
+
+   public:
+    Render(Scene* scene, RenderBackend* render_backend, UiContext* ui_context)
+        : scene_(scene), backend_(render_backend), ui_context_(ui_context) {}
 
     virtual void render_frame() {
-        ui_context->update_fps_();
-        ui_context->before_new_frame();
-        render_backend->new_frame();
-        ui_context->after_new_frame();
-        render_backend->render();
-        ui_context->before_end_frame();
-        render_backend->end_frame();
-        ui_context->after_end_frame();
+        if (!backend_) return;
+        if (!ui_context_) {
+            backend_->new_frame();
+            backend_->render();
+            backend_->end_frame();
+            return;
+        }
+        ui_context_->update_fps_();
+        ui_context_->before_new_frame();
+        backend_->new_frame();
+        ui_context_->after_new_frame();
+        backend_->render();
+        ui_context_->before_end_frame();
+        backend_->end_frame();
+        ui_context_->after_end_frame();
     }
+
+    Scene* scene() const { return scene_; }
+    RenderBackend* backend() const { return backend_; }
+    UiContext* ui_context() const { return ui_context_; }
 };
 }  // namespace xcal::render

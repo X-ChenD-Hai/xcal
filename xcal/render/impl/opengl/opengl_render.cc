@@ -25,7 +25,6 @@
 //
 #include <GLFW/glfw3.h>
 
-#undef OUT  // undefine OUT macro to avoid conflict with xcal::OUT
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
