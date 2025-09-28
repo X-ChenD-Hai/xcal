@@ -15,7 +15,11 @@
 #include <xcal/property/color.hpp>
 #include <xcal/property/vec.hpp>
 #include <xcmath/xcmath.hpp>
-
+/**
+ * @brief 相机系统命名空间
+ *
+ * 包含相机相关的类和功能，提供视图和投影矩阵管理。
+ */
 namespace xcal::camera {
 enum class CameraType {
     Perspective,  ///< 透视相机
@@ -26,12 +30,6 @@ enum class CameraType {
     ::xcal::camera::CameraType type_() const noexcept override { \
         return ::xcal::camera::CameraType::tp;                   \
     }
-
-/**
- * @brief 相机系统命名空间
- *
- * 包含相机相关的类和功能，提供视图和投影矩阵管理。
- */
 
 /**
  * @brief 抽象相机基类
