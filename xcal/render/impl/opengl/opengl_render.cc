@@ -87,10 +87,14 @@ void xcal::render::opengl::OpenGLRender::show(int width, int height) {
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
-        begin_frame();
+        // begin_frame();
+        if (ui_render_) ui_render_->render_();
+
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
-        end_frame();
+        // end_frame();
+        if (ui_render_) ui_render_->before_swap_buffers();
+
         glfwSwapBuffers(window_);
     }
     _I("show loop ended");

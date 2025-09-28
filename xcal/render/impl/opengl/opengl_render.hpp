@@ -25,6 +25,7 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    private:
     GLFWwindow* window_{nullptr};
+    std::unique_ptr<Context> ui_render_{nullptr};
     std::unordered_map<mobject::AbsMObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
     std::unique_ptr<animation::TimelineDriver> playing_timeline_{nullptr};

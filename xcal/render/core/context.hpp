@@ -28,9 +28,13 @@ class Render;
 namespace xcal::mobject {
 class MObject;
 }
+namespace xcal::render::opengl {
+    class OpenGLRender;
+}
 namespace xcal::render {
 class XCAL_API Context {
     friend class xcal::render::Render;
+    friend class xcal::render::opengl::OpenGLRender;
 
    protected:
     struct XCAL_API ObjectHandle {
