@@ -13,6 +13,7 @@
 #include <xcal/public.h>
 
 #include <xcal/mobject/core/abs_mobject.hpp>
+#include <xcal/camera/core/fpscontroler.hpp>
 
 namespace xcal::animation {
 class Timeline;
@@ -27,12 +28,9 @@ class Render;
 namespace xcal::mobject {
 class MObject;
 }
-namespace xcal::render::opengl {
-class OpenGLRender;
-}
-namespace xcal::render::opengl::ui {
+namespace xcal::render {
 class XCAL_API Context {
-    friend class xcal::render::opengl::OpenGLRender;
+    friend class xcal::render::Render;
 
    protected:
     struct XCAL_API ObjectHandle {
@@ -71,8 +69,9 @@ class XCAL_API Context {
     std::vector<CameraHandle> camera_handles_{};
     std::vector<AnimationHandle> animation_handles_{};
     std::vector<TimelineHandle> timeline_handles_{};
+    camera::FpsCameraControler fps_camera_controler_{nullptr};
     CameraHandle default_camera_handles_{nullptr, "default"};
-    OpenGLRender* renderer_{nullptr};
+    Render* renderer_{nullptr};
     double last_fps_;
     std::chrono::high_resolution_clock::time_point last_time_point_;
     std::chrono::high_resolution_clock::time_point last_update_time_point_;
@@ -82,7 +81,7 @@ class XCAL_API Context {
     void update_fps_();
 
    public:
-    Context(OpenGLRender* renderer);
+    Context(Render* renderer);
     virtual ~Context() = default;
 
    public:
@@ -95,8 +94,11 @@ class XCAL_API Context {
     std::vector<TimelineHandle>& timeline_handles() {
         return timeline_handles_;
     }
+    camera::FpsCameraControler& fps_camera_controler() {
+        return fps_camera_controler_;
+    }
     CameraHandle& default_camera_handle() { return default_camera_handles_; }
-    OpenGLRender* renderer() const { return renderer_; }
+    Render* renderer() const { return renderer_; }
     float_t fps() const { return last_fps_; }
 
    public:

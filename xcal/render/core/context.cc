@@ -1,13 +1,13 @@
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/mobject.hpp>
-#include <xcal/render/impl/opengl/opengl_render.hpp>
-#include <xcal/render/impl/opengl/ui/context.hpp>
+#include <xcal/render/core/render.hpp>
+#include <xcal/render/core/context.hpp>
 
 #define ROLE UIRender
 #define LABEL Context
 #include <xcal/utils/logmacrohelper.inc>
 
-xcal::render::opengl::ui::Context::ObjectHandle::ObjectHandle(mobject_t* obj)
+xcal::render::Context::ObjectHandle::ObjectHandle(mobject_t* obj)
     : obj(obj),
       name(std::string(xcal::to_string(obj->type())) + ": " +
            std::to_string((size_t)obj)),
@@ -15,14 +15,14 @@ xcal::render::opengl::ui::Context::ObjectHandle::ObjectHandle(mobject_t* obj)
     _D("creating object handle for object: " << obj << " with name: " << name
                                              << " type: " << type);
 }
-xcal::render::opengl::ui::Context::CameraHandle::CameraHandle(camera_t* camera)
+xcal::render::Context::CameraHandle::CameraHandle(camera_t* camera)
     : camera(camera),
       name(std::string(xcal::to_string(camera->type())) + ": " +
            std::to_string((size_t)camera)) {
     _D("creating camera handle for camera: " << camera);
 }
 
-xcal::render::opengl::ui::Context::CameraHandle::CameraHandle(
+xcal::render::Context::CameraHandle::CameraHandle(
     camera_t* camera, const std::string& name)
     : camera(camera),
       name(std::string(xcal::to_string(camera->type())) + ": " +
@@ -30,7 +30,7 @@ xcal::render::opengl::ui::Context::CameraHandle::CameraHandle(
     _D("creating camera handle for camera: " << camera);
 }
 
-void xcal::render::opengl::ui::Context::update_fps_() {
+void xcal::render::Context::update_fps_() {
     if (std::chrono::duration_cast<std::chrono::duration<float>>(
             std::chrono::high_resolution_clock::now() - last_update_time_point_)
             .count() > 0.5f) {
@@ -42,14 +42,15 @@ void xcal::render::opengl::ui::Context::update_fps_() {
     }
     last_time_point_ = std::chrono::high_resolution_clock::now();
 }
-void xcal::render::opengl::ui::Context::render_() {
+void xcal::render::Context::render_() {
     update_fps_();
     render();
 }
-xcal::render::opengl::ui::Context::Context(OpenGLRender* renderer)
+xcal::render::Context::Context(Render* renderer)
     : renderer_(renderer),
-      default_camera_handles_(renderer->default_camera(), "default") {}
-void xcal::render::opengl::ui::Context::flush() {
+      default_camera_handles_(renderer->default_camera(), "default"),
+      fps_camera_controler_(renderer->default_camera()) {}
+void xcal::render::Context::flush() {
     _D("flushing UIRender" _SELF);
     object_handles_.clear();
     camera_handles_.clear();

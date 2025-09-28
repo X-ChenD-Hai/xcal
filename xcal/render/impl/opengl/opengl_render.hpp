@@ -25,7 +25,6 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    private:
     GLFWwindow* window_{nullptr};
-    std::unique_ptr<ui::Context> ui_render_{nullptr};
     std::unordered_map<mobject::AbsMObject*, object::object_ptr> objects_;
     std::unique_ptr<camera::AbsCamera> default_camera_{nullptr};
     std::unique_ptr<animation::TimelineDriver> playing_timeline_{nullptr};
@@ -42,15 +41,15 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     void setup_glfw();
 
    public:
-    bool_t play_timeline(animation::Timeline* timeline);
+    bool_t play_timeline(animation::Timeline* timeline) override;
     void show(int width = 800, int height = 600);
     void render_frame();
     void set_scene(Scene* scene) override;
     std::vector<char> read_pixels_char() const;
-    xcal::camera::AbsCamera* default_camera() const {
+    xcal::camera::AbsCamera* default_camera() const override {
         return default_camera_.get();
     }
-    const xcal::camera::AbsCamera* current_camera() const {
+    const xcal::camera::AbsCamera* current_camera() const override {
         return current_camera_;
     }
 

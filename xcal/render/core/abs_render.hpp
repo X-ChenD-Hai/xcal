@@ -1,6 +1,7 @@
 #pragma once
 #include <xcal/property/time_duration.hpp>
 #include <xcal/property/time_point.hpp>
+#include <xcal/render/core/context.hpp>
 #include <xcal/scene/scene.hpp>
 
 namespace xcal::render {
@@ -11,13 +12,28 @@ class XCAL_API AbsRender {
 
    private:
     Scene *scene_ = nullptr;
+    std::unique_ptr<Context> ui_render_{nullptr};
 
    public:
-    virtual void set_scene(Scene *scene);
     Scene *scene() const { return scene_; }
+    void begin_frame() {
+        if (ui_render_) ui_render_->render_();
+    }
+    void end_frame() {
+        if (ui_render_) ui_render_->before_swap_buffers();
+    }
+    virtual void set_scene(Scene *scene);
+    virtual bool_t play_timeline(animation::Timeline *timeline) = 0;
+    virtual xcal::camera::AbsCamera *default_camera() const = 0;
+    virtual const xcal::camera::AbsCamera *current_camera() const = 0;
 
    public:
     explicit AbsRender(scene::AbsScene<ObjectPtr> *scene) : scene_(scene) {}
-    virtual ~AbsRender() = default;
+    AbsRender(scene::AbsScene<ObjectPtr> *scene, std::unique_ptrContext > ui)
+        : scene_(scene), ui_render_(ui) {}
+
+    virtual ~AbsRender() {
+
+    };
 };
 }  // namespace xcal::render

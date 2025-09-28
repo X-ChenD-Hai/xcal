@@ -13,12 +13,12 @@
 #include <xcal/public.h>
 
 #include <memory>
-#include <xcal/render/impl/opengl/ui/context.hpp>
+#include <xcal/render/core/context.hpp>
 #include <xcal/render/impl/opengl/ui/imguibackend.hpp>
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::render::opengl::ui {
-class XCAL_API ImGuiUiRender : public Context {
+class XCAL_API ImGuiUiRender : public render::Context {
    private:
     std::unique_ptr<ImGuiBackend> backend_;
 
@@ -33,7 +33,7 @@ class XCAL_API ImGuiUiRender : public Context {
 
    public:
     explicit ImGuiUiRender(std::unique_ptr<ImGuiBackend> backend,
-                           OpenGLRender *renderer)
+                           Render *renderer)
         : Context(renderer), backend_(std::move(backend)) {}
     ~ImGuiUiRender() override = default;
 

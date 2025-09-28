@@ -87,11 +87,10 @@ void xcal::render::opengl::OpenGLRender::show(int width, int height) {
     _I("show loop started");
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
-        ui_render_->render_();
-
+        begin_frame();
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();
-        ui_render_->before_swap_buffers();
+        end_frame();
         glfwSwapBuffers(window_);
     }
     _I("show loop ended");
@@ -226,6 +225,21 @@ void xcal::render::opengl::OpenGLRender::setup_glfw() {
         _D("Failed to enable dark titlebar");
     }
     glfwSetWindowUserPointer(window_, this);
+    glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
+    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode,
+                                   int action, int mods) {
+        auto& render = *static_cast<xcal::render::opengl::OpenGLRender*>(
+            glfwGetWindowUserPointer(window));
+        if (key == GLFW_KEY_A) {
+            if (action == GLFW_PRESS) {
+                _D("A key pressed");
+            } else if (action == GLFW_RELEASE) {
+                _D("A key released");
+            } else if (action == GLFW_REPEAT) {
+                _D("A key repeated");
+            }
+        }
+    });
 };
 void xcal::render::opengl::OpenGLRender::setup_gl() {
     init_glbackend();
@@ -233,7 +247,6 @@ void xcal::render::opengl::OpenGLRender::setup_gl() {
     _gl glDepthFunc(_gl GL_LESS);
     _gl glEnable(_gl GL_BLEND);
     _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
-    glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
 };
 xcal::bool_t xcal::render::opengl::OpenGLRender::play_timeline(
     animation::Timeline* timeline) {

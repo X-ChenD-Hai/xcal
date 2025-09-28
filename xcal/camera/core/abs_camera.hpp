@@ -24,6 +24,7 @@ namespace xcal::camera {
 enum class CameraType {
     Perspective,  ///< 透视相机
     Orthogonal,   ///< 正交相机
+    FPS,          //< 第一人称相机
 };
 #define XCAL_CAMERA_TYPE(tp)                                     \
    private:                                                      \
@@ -139,7 +140,10 @@ class XCAL_API AbsCamera {
     template <typename... Args>
         requires(std::is_constructible_v<vec, Args...>)
     AbsCamera* set_target(Args&&... args) {
-        target_ = vec{float_t(std::forward<Args>(args))...};
+        if constexpr ((std::is_convertible_v<Args, float_t> && ...))
+            target_ = vec{float_t(std::forward<Args>(args))...};
+        else
+            target_ = vec{std::forward<Args>(args)...};
         return this;
     }
 
