@@ -50,7 +50,7 @@ class DynamicResourceDistributor {
             for (auto id : to_erase) {
                 resources_.erase(id);
             }
-            
+
             last_size_ = resources_.size();
         }
         return resource;

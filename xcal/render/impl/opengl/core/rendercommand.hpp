@@ -1,8 +1,18 @@
+/**
+ * @file rendercommand.hpp
+ * @author X_Chen D_Hai (illuminatestar@foxmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2025-09-28
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+#pragma once
 #include <cstddef>
 #include <vector>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/utils/resourcedistributor.hpp>
-
 
 namespace xcal::render::opengl::GL {
 class GLObject {

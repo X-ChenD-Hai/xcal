@@ -3,5 +3,3 @@
 
 //
 #include <xcal/public.h>
-
-

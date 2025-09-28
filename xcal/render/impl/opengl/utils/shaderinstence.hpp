@@ -41,14 +41,14 @@ using BufferInstance =
     template <>                                     \
     std::shared_ptr<T>                              \
     xcal::render::opengl::utils::ResourceAllocator<T, Catgory, Id>::allocate()
-#define XCAL_STATIC_GLOBJECT(T, Catgory, Id)                            \
+#define XCAL_STATIC_GLOBJECT(T, Catgory, Id)                              \
     (::xcal::render::opengl::utils::StaticResourceDistributor<T, Catgory, \
-                                                            Id>::instance())
+                                                              Id>::instance())
 
-#define XCAL_BUFFER_INSTANCE(T, _id)                         \
-    template <>                                              \
+#define XCAL_BUFFER_INSTANCE(T, _id)                  \
+    template <>                                       \
     std::shared_ptr<xcal::render::opengl::GL::Buffer> \
-    xcal::render::opengl::utils::ResourceAllocator<          \
+    xcal::render::opengl::utils::ResourceAllocator<   \
         xcal::render::opengl::GL::Buffer, T, _id>::allocate()
 #define XCAL_SHADER_INSTANCE(T, _id)                         \
     template <>                                              \

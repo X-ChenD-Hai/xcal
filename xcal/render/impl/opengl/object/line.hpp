@@ -14,7 +14,7 @@ class XCAL_API Line : public Object {
     using mat = xcmath::mat<float_t, 4, 4>;
 
    private:
-   mutable struct {
+    mutable struct {
         xcmath::vec4<float_t> direction;
         xcmath::vec4<float_t> color;
         xcmath::mat4<float_t> model;
