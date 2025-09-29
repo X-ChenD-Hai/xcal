@@ -7,10 +7,14 @@
 #include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
 #include <xcal/utils/logmacrohelper.inc>
 
-xcal::render::GLFWRender::GLFWRender(Scene* scene,
-                                     RenderBackend* render_backend,
-                                     UiContext* ui_context)
-    : Render(scene, render_backend, ui_context) {
+#include "glfwrender.hpp"
+
+xcal::render::GLFWRender::GLFWRender(Render* render) : GLFWRender() {
+    render_ = render;
+    render_->init(glfwGetProcAddress);
+}
+
+xcal::render::GLFWRender::GLFWRender() : window_{nullptr}, render_(nullptr) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -26,25 +30,17 @@ xcal::render::GLFWRender::GLFWRender(Scene* scene,
         _D("Failed to enable dark titlebar");
     }
     glfwSetWindowUserPointer(window_, this);
-    glfwSetFramebufferSizeCallback(window_,
-                                   [](GLFWwindow* window, int w, int h) {
-
-                                   });
-    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode,
-                                   int action, int mods) {
-        if (key == GLFW_KEY_A) {
-            if (action == GLFW_PRESS) {
-                _D("A key pressed");
-            } else if (action == GLFW_RELEASE) {
-                _D("A key released");
-            } else if (action == GLFW_REPEAT) {
-                _D("A key repeated");
-            }
-        }
-    });
-    init();
+    glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
+    glfwSetKeyCallback(window_, key_callback);
 }
 
+xcal::render::GLFWRender::~GLFWRender() {
+    if (window_) {
+        glfwDestroyWindow(window_);
+        window_ = nullptr;
+    }
+    glfwTerminate();
+}
 void xcal::render::GLFWRender::show(int width, int height) {
     if (!window_) {
         _E("GLFW window is not created");
@@ -52,4 +48,36 @@ void xcal::render::GLFWRender::show(int width, int height) {
     }
     glfwSetWindowSize(window_, width, height);
     glfwMakeContextCurrent(window_);
+
+    _I("show loop started");
+    render_->before_render(width, height);
+    while (!glfwWindowShouldClose(window_)) {
+        glfwPollEvents();
+        render_->render_frame();
+        glfwSwapBuffers(window_);
+    }
+    render_->after_render();
+    _I("show loop ended");
+}
+void xcal::render::GLFWRender::framebuffer_size_callback(GLFWwindow* window,
+                                                         int w, int h) {
+    static_cast<GLFWRender*>(glfwGetWindowUserPointer(window))
+        ->render_->frame_resize(w, h);
+}
+void xcal::render::GLFWRender::key_callback(GLFWwindow* window, int key,
+                                            int scancode, int action,
+                                            int mods) {
+    if (key == GLFW_KEY_A) {
+        if (action == GLFW_PRESS) {
+            _D("A key pressed");
+        } else if (action == GLFW_RELEASE) {
+            _D("A key released");
+        } else if (action == GLFW_REPEAT) {
+            _D("A key repeated");
+        }
+    }
+}
+void xcal::render::GLFWRender::set_render(Render* render) {
+    render_ = render;
+    render_->init(glfwGetProcAddress);
 }

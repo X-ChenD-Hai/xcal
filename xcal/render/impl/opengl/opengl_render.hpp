@@ -44,7 +44,7 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
    public:
     bool_t play_timeline(animation::Timeline* timeline) override;
     void show(int width = 800, int height = 600);
-    void render_frame();
+    void render_frame() override;
     void set_scene(Scene* scene) override;
     std::vector<char> read_pixels_char() const;
     xcal::camera::AbsCamera* default_camera() const override {
@@ -55,10 +55,12 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     }
 
    public:
-    explicit OpenGLRender(Scene* scene);
-    ~OpenGLRender() override;
-
+   explicit OpenGLRender(Scene* scene);
+   ~OpenGLRender() override;
+   
    public:
+   OpenGLRender(OpenGLRender&&) = delete;
+   OpenGLRender& operator=(OpenGLRender&&) = delete;
     OpenGLRender(const OpenGLRender&) = delete;
     OpenGLRender& operator=(const OpenGLRender&) = delete;
 };

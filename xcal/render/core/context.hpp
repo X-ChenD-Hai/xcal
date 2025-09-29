@@ -42,19 +42,19 @@ class XCAL_API Context {
         mobject_t* obj;
         std::string name;
         std::string type;
-        ObjectHandle(mobject_t* obj);
+        explicit ObjectHandle(mobject_t* obj);
     };
     struct XCAL_API CameraHandle {
         using camera_t = xcal::camera::AbsCamera;
         camera_t* camera;
         std::string name;
-        CameraHandle(camera_t* camera);
+        explicit CameraHandle(camera_t* camera);
         CameraHandle(camera_t* camera, const std::string& name);
     };
     struct XCAL_API TimelineHandle {
         animation::Timeline* timeline;
         std::string name;
-        TimelineHandle(animation::Timeline* timeline)
+        explicit TimelineHandle(animation::Timeline* timeline)
             : timeline(timeline),
               name(std::string("timeline:") +
                    std::to_string((size_t)timeline)) {}
@@ -62,7 +62,7 @@ class XCAL_API Context {
     struct XCAL_API AnimationHandle {
         animation::AbsAnimation* animation;
         std::string name;
-        AnimationHandle(animation::AbsAnimation* animation)
+        explicit AnimationHandle(animation::AbsAnimation* animation)
             : animation(animation),
               name(std::string("animation:") +
                    std::to_string((size_t)animation)) {}
@@ -85,7 +85,7 @@ class XCAL_API Context {
     void update_fps_();
 
    public:
-    Context(Render* renderer);
+    explicit Context(Render* renderer);
     virtual ~Context() = default;
 
    public:
@@ -103,7 +103,7 @@ class XCAL_API Context {
     }
     CameraHandle& default_camera_handle() { return default_camera_handles_; }
     Render* renderer() const { return renderer_; }
-    float_t fps() const { return last_fps_; }
+    double fps() const { return last_fps_; }
 
    public:
     virtual void init() = 0;

@@ -8,12 +8,16 @@
 #include <xcal/render/impl/opengl/gl/vertexarrayobject.hpp>
 #include <xcmath/xcmath.hpp>
 
+namespace xcal::render {
+class OpenGLRender;
+}
 namespace xcal::render::opengl {
 class OpenGLRender;
 }
 namespace xcal::render::opengl::object {
 class XCAL_API Object {
     friend class xcal::render::opengl::OpenGLRender;
+    friend class xcal::render::OpenGLRender;
 
    private:
     GL::VertexArrayObject vao_;

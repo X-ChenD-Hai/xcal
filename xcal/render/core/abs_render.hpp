@@ -7,6 +7,7 @@ namespace xcal::render::opengl {
 class OpenGLRender;
 }
 namespace xcal::render {
+using GetProcAddress = void (*(*)(const char *))();
 template <typename ObjectPtr = mobject::AbsMObject_ptr>
 class XCAL_API AbsRender {
     friend class xcal::render::opengl::OpenGLRender;
@@ -15,30 +16,26 @@ class XCAL_API AbsRender {
     using Scene = scene::AbsScene<ObjectPtr>;
 
    private:
-    Scene *scene_ = nullptr;
-    std::unique_ptr<Context> ui_render_{nullptr};
+    Scene *scene_{nullptr};
 
    public:
     Scene *scene() const { return scene_; }
-    // void begin_frame() {
-    //     if (ui_render_) ui_render_->render_();
-    // }
-    // void end_frame() {
-    //     if (ui_render_) ui_render_->before_swap_buffers();
-    // }
-    virtual void set_scene(Scene *scene);
+
+   public:
+    virtual void set_scene(Scene *scene) = 0;
     virtual bool_t play_timeline(animation::Timeline *timeline) = 0;
+    virtual void init(GetProcAddress get_proc_address) {};
+    virtual void render_frame() = 0;
+    virtual void before_render(int width, int height) {};
+    virtual void after_render() {};
+    virtual void frame_resize(int width, int height) {};
+
     virtual xcal::camera::AbsCamera *default_camera() const = 0;
     virtual const xcal::camera::AbsCamera *current_camera() const = 0;
 
    public:
     explicit AbsRender(scene::AbsScene<ObjectPtr> *scene) : scene_(scene) {}
-    // AbsRender(scene::AbsScene<ObjectPtr> *scene, std::unique_ptr<Context > ui)
-    //     : scene_(scene), ui_render_(ui) {}
-
-    virtual ~AbsRender() {
-
-    };
+    virtual ~AbsRender() {}
 
    public:
     AbsRender(const AbsRender &) = delete;
