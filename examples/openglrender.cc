@@ -4,7 +4,6 @@
 #include <xcal/scene/scene.hpp>
 #include <xcmath/mobject/function.hpp>
 
-
 int main() {
     auto scene = std::make_unique<xcal::scene::Scene>();
     using namespace xcal::mobject;

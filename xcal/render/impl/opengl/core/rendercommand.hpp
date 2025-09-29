@@ -1,12 +1,12 @@
 /**
  * @file rendercommand.hpp
  * @author X_Chen D_Hai (illuminatestar@foxmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2025-09-28
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 #pragma once
 #include <cstddef>

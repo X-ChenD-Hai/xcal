@@ -1,7 +1,7 @@
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/mobject.hpp>
-#include <xcal/render/core/render.hpp>
 #include <xcal/render/core/context.hpp>
+#include <xcal/render/core/render.hpp>
 
 #define ROLE UIRender
 #define LABEL Context
@@ -22,8 +22,8 @@ xcal::render::Context::CameraHandle::CameraHandle(camera_t* camera)
     _D("creating camera handle for camera: " << camera);
 }
 
-xcal::render::Context::CameraHandle::CameraHandle(
-    camera_t* camera, const std::string& name)
+xcal::render::Context::CameraHandle::CameraHandle(camera_t* camera,
+                                                  const std::string& name)
     : camera(camera),
       name(std::string(xcal::to_string(camera->type())) + ": " +
            std::to_string((size_t)camera)) {

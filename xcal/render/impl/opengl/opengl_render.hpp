@@ -55,12 +55,12 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
     }
 
    public:
-   explicit OpenGLRender(Scene* scene);
-   ~OpenGLRender() override;
-   
+    explicit OpenGLRender(Scene* scene);
+    ~OpenGLRender() override;
+
    public:
-   OpenGLRender(OpenGLRender&&) = delete;
-   OpenGLRender& operator=(OpenGLRender&&) = delete;
+    OpenGLRender(OpenGLRender&&) = delete;
+    OpenGLRender& operator=(OpenGLRender&&) = delete;
     OpenGLRender(const OpenGLRender&) = delete;
     OpenGLRender& operator=(const OpenGLRender&) = delete;
 };

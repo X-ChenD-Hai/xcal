@@ -12,8 +12,8 @@
 
 #include <xcal/public.h>
 
-#include <xcal/mobject/core/abs_mobject.hpp>
 #include <xcal/camera/core/fpscontroler.hpp>
+#include <xcal/mobject/core/abs_mobject.hpp>
 
 namespace xcal::animation {
 class Timeline;
@@ -29,7 +29,7 @@ namespace xcal::mobject {
 class MObject;
 }
 namespace xcal::render::opengl {
-    class OpenGLRender;
+class OpenGLRender;
 }
 namespace xcal::render {
 class XCAL_API Context {
@@ -117,4 +117,4 @@ class XCAL_API Context {
     Context& operator=(const Context&) = delete;
     Context& operator=(Context&&) = delete;
 };
-}  // namespace xcal::render::opengl::ui
+}  // namespace xcal::render
