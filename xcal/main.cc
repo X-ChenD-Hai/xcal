@@ -6,7 +6,8 @@
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/mobject/objects/circle.hpp>
-#include <xcal/render/impl/opengl/opengl_render.hpp>
+#include <xcal/render/impl/opengl/glfwrender.hpp>
+#include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcmath/utils/show.hpp>
 
 int main(int argc, char **argv) {
@@ -36,12 +37,12 @@ int main(int argc, char **argv) {
     // auto timeline = scene->add<Timeline>();
     // timeline->add(a_r, 0, 10);
 
-    auto render = xcal::render::opengl::OpenGLRender{scene.get()};
+    auto render = xcal::render::OpenGLRender{scene.get()};
     render.default_camera()
         ->set_background_color(0.2, 0.2, 0.2, 1.0)
         ->set_position(0, 0, 3);
 
-    render.show(1200, 675);
+    xcal::render::GLFWRender(&render).show(1200, 675);
     XCAL_INFO(XCAL, APP) << "app end";
     return 0;
 }

@@ -2,7 +2,8 @@
 #include <cstddef>
 #include <xcal/mobject/objects/axis.hpp>
 #include <xcal/mobject/objects/path.hpp>
-#include <xcal/render/impl/opengl/opengl_render.hpp>
+#include <xcal/render/impl/opengl/glfwrender.hpp>
+#include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcal/scene/scene.hpp>
 #include <xcmath/mobject/function.hpp>
 
@@ -26,11 +27,11 @@ int main() {
     auto axis =
         scene->add(new Axis3D{})->x_axis()->set_stroke_color({1, 0, 0, 1});
 
-    auto render = xcal::render::opengl::OpenGLRender{scene.get()};
+    auto render = xcal::render::OpenGLRender{scene.get()};
     render.default_camera()
         ->set_background_color(0.2, 0.2, 0.2, 1.0)
         ->set_position(-3, 3, 3);
 
-    render.show(1200, 675);
+    xcal::render::GLFWRender(&render).show(1200, 675);
     return 0;
 }

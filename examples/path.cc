@@ -1,7 +1,8 @@
 #include <cmath>
 #include <cstddef>
 #include <xcal/mobject/objects/path.hpp>
-#include <xcal/render/impl/opengl/opengl_render.hpp>
+#include <xcal/render/impl/opengl/glfwrender.hpp>
+#include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcal/scene/scene.hpp>
 #include <xcmath/mobject/function.hpp>
 
@@ -22,11 +23,11 @@ int main() {
                     ->set_stroke_color({0, 1, 0, 1})
                     ->set_fill_color({0, 1, 1, 0.1});
 
-    auto render = xcal::render::opengl::OpenGLRender{scene.get()};
+    auto render = xcal::render::OpenGLRender{scene.get()};
     render.default_camera()
         ->set_background_color(0.2, 0.2, 0.2, 1.0)
         ->set_position(0, 0, 3);
 
-    render.show(1200, 675);
+    xcal::render::GLFWRender(&render).show(1200, 675);
     return 0;
 }
