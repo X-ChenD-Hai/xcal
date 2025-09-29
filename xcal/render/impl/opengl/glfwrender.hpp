@@ -6,10 +6,10 @@ class XCAL_API GLFWRender {
    private:
     GLFWwindow* window_{nullptr};
     Render* render_{nullptr};
+    std::unique_ptr<Context> ui_render_{nullptr};
 
    public:
     explicit GLFWRender(Render* render);
-    GLFWRender();
     ~GLFWRender();
 
    public:
@@ -22,9 +22,9 @@ class XCAL_API GLFWRender {
                              int action, int mods);
 
    public:
-    GLFWRender(const GLFWRender&) = default;
+    GLFWRender(const GLFWRender&) = delete;
     GLFWRender(GLFWRender&&) = delete;
-    GLFWRender& operator=(const GLFWRender&) = default;
+    GLFWRender& operator=(const GLFWRender&) = delete;
     GLFWRender& operator=(GLFWRender&&) = delete;
 };
 }  // namespace xcal::render

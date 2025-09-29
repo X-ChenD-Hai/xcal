@@ -19,7 +19,8 @@ class Context;
 class UIRender;
 }  // namespace xcal::render::opengl::ui
 namespace xcal::render::opengl {
-class XCAL_API OpenGLRender : public xcal::render::Render {
+class XCAL_API [[deprecated("use xcal::render::OpenGLRender")]] OpenGLRender
+    : public xcal::render::Render {
     friend void ::framebuffer_size_callback(GLFWwindow* window, int w, int h);
     friend class ui::UIRender;
 

@@ -81,7 +81,6 @@ class XCAL_API Context {
     std::chrono::high_resolution_clock::time_point last_update_time_point_;
 
    private:
-    void render_();
     void update_fps_();
 
    public:
@@ -104,6 +103,7 @@ class XCAL_API Context {
     CameraHandle& default_camera_handle() { return default_camera_handles_; }
     Render* renderer() const { return renderer_; }
     double fps() const { return last_fps_; }
+    void render_frame();
 
    public:
     virtual void init() = 0;

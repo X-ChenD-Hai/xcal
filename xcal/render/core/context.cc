@@ -42,7 +42,7 @@ void xcal::render::Context::update_fps_() {
     }
     last_time_point_ = std::chrono::high_resolution_clock::now();
 }
-void xcal::render::Context::render_() {
+void xcal::render::Context::render_frame() {
     update_fps_();
     render();
 }

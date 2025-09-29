@@ -25,6 +25,7 @@ class XCAL_API AbsRender {
     virtual void set_scene(Scene *scene) = 0;
     virtual bool_t play_timeline(animation::Timeline *timeline) = 0;
     virtual void init(GetProcAddress get_proc_address) {};
+    virtual void deinit() {};
     virtual void render_frame() = 0;
     virtual void before_render(int width, int height) {};
     virtual void after_render() {};

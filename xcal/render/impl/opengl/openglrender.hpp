@@ -30,6 +30,7 @@ class XCAL_API OpenGLRender : public xcal::render::Render {
 
    public:
     void init(GetProcAddress get_proc_address) override;
+    void deinit() override { objects_.clear(); };
     void before_render(int width, int height) override;
     void after_render() override;
     void render_frame() override;

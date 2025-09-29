@@ -24,7 +24,7 @@ class XCAL_API ListUi : public ImGuiUiRender {
 
    public:
     using ImGuiUiRender::ImGuiUiRender;
-    void render_ui();
+    void render_ui() override;
 
    private:
     bool render_vec3f_edit(const xcmath::vec3<float_t>& vec3f,

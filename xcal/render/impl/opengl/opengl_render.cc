@@ -87,7 +87,7 @@ void xcal::render::opengl::OpenGLRender::show(int width, int height) {
     while (!glfwWindowShouldClose(window_)) {
         glfwPollEvents();
         // begin_frame();
-        if (ui_render_) ui_render_->render_();
+        if (ui_render_) ui_render_->render_frame();
 
         _gl glClear(_gl GL_COLOR_BUFFER_BIT | _gl GL_DEPTH_BUFFER_BIT);
         render_frame();

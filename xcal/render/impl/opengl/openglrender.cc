@@ -80,7 +80,7 @@ void xcal::render::OpenGLRender::init(GetProcAddress get_proc_address) {
     _gl glEnable(_gl GL_BLEND);
     _gl glBlendFunc(_gl GL_SRC_ALPHA, _gl GL_ONE_MINUS_SRC_ALPHA);
 }
-xcal::render::OpenGLRender::~OpenGLRender() { objects_.clear(); }
+xcal::render::OpenGLRender::~OpenGLRender() { deinit(); }
 void xcal::render::OpenGLRender::frame_resize(int w, int h) {
     // aspect_ = w / static_cast<float>(h);
     if (default_camera_->type() == camera::CameraType::Perspective) {
