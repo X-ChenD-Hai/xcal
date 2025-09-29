@@ -84,14 +84,9 @@ class FpsCameraControler {
         if (!camera_ || (dyaw == 0.0f && dpitch == 0.0f)) return;
         yaw_ += dyaw;
         pitch_ += dpitch;
-        XCAL_DEBUG(FpsCameraControler, FpsCameraControler)
-            << std::format("yaw: {}, pitch: {}", yaw_, pitch_);
-
         yaw_ = std::fmod(yaw_, 360.0f);
         if (yaw_ < 0.0f) yaw_ += 360.0f;
         pitch_ = std::clamp(pitch_, -89.0f, 89.0f);
-        std::cerr << std::format("yaw: {}, pitch: {}", yaw_, pitch_)
-                  << std::endl;
         auto yaw = xcmath::radians(yaw_);
         auto pitch = xcmath::radians(pitch_);
         xcmath::vec3<float_t> forward{

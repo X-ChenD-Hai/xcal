@@ -136,7 +136,7 @@ void xcal::render::GLFWRender::cursor_pos_callback(GLFWwindow* window,
                           ypos - self->last_mouse_y_));
         self->ui_render_->fps_camera_controler().rotate(
             float_t(xpos - self->last_mouse_x_) * ROTATE_SPEED,
-            float_t(ypos - self->last_mouse_y_) * ROTATE_SPEED);
+            -float_t(ypos - self->last_mouse_y_) * ROTATE_SPEED);
         self->last_mouse_x_ = xpos;
         self->last_mouse_y_ = ypos;
     }
