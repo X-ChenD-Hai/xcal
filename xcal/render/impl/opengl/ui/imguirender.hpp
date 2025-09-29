@@ -27,6 +27,8 @@ class XCAL_API ImGuiUiRender : public render::Context {
     void deinit() override;
     void before_swap_buffers() override;
     void render() override;
+    bool_t want_capture_mouse() const override;
+    bool_t want_capture_keyboard() const override;
 
    public:
     virtual void render_ui() = 0;

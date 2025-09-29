@@ -12,7 +12,7 @@ void xcal::render::opengl::ui::ImGuiUiRender::init() {
     ImGuiIO &io = ImGui::GetIO();
     ImGui::StyleColorsDark();
     backend_->init();
-};
+}
 void xcal::render::opengl::ui::ImGuiUiRender::deinit() {
     _I("deinitializing ImGuiUiRender" _SELF);
     backend_->deinit();
@@ -26,4 +26,12 @@ void xcal::render::opengl::ui::ImGuiUiRender::render() {
 }
 void xcal::render::opengl::ui::ImGuiUiRender::before_swap_buffers() {
     backend_->draw_data();
+}
+xcal::bool_t xcal::render::opengl::ui::ImGuiUiRender::want_capture_mouse()
+    const {
+    return ImGui::GetIO().WantCaptureMouse;
+}
+xcal::bool_t xcal::render::opengl::ui::ImGuiUiRender::want_capture_keyboard()
+    const {
+    return ImGui::GetIO().WantCaptureKeyboard;
 }

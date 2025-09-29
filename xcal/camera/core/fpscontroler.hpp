@@ -15,8 +15,8 @@ namespace xcal::camera {
 
 class FpsCameraControler {
    public:
-    enum class Direction {
-        FORWARD,
+    enum class Direction : uint8_t {
+        FORWARD = 1,
         BACKWARD,
         LEFT,
         RIGHT,
@@ -25,18 +25,18 @@ class FpsCameraControler {
     };
 
    private:
-    AbsCamera* camera_;
+    AbsCamera* camera_{nullptr};
 
-    float_t yaw_;
-    float_t pitch_;
+    float_t yaw_{270.0f};
+    float_t pitch_{0.0f};
 
    public:
-    FpsCameraControler(AbsCamera* camera) : camera_(camera) {}
+    explicit FpsCameraControler(AbsCamera* camera) : camera_(camera) {}
 
    public:
     void set_camera(AbsCamera* camera) {
         camera_ = camera;
-        yaw_ = 0.0f;
+        yaw_ = 90.0f;
         pitch_ = 0.0f;
     }
     xcmath::vec3<float_t> forward() const {
@@ -52,43 +52,46 @@ class FpsCameraControler {
 
     void move(Direction direction, float_t distance) {
         if (!camera_ || distance == 0.0f) return;
+        xcmath::vec3<float_t> shift{0.0f, 0.0f, 0.0f};
         switch (direction) {
             case Direction::FORWARD:
-                camera_->position() =
-                    camera_->position().value() + forward() * distance;
+                shift = +forward() * distance;
                 break;
             case Direction::BACKWARD:
-                camera_->position() =
-                    camera_->position().value() - forward() * distance;
+                shift = -forward() * distance;
                 break;
             case Direction::LEFT:
-                camera_->position() =
-                    camera_->position().value() - right() * distance;
+                shift = -right() * distance;
                 break;
             case Direction::RIGHT:
-                camera_->position() =
-                    camera_->position().value() + right() * distance;
+                shift = +right() * distance;
                 break;
             case Direction::UP:
-                camera_->position() =
-                    camera_->position().value() + up() * distance;
+                shift = +up() * distance;
                 break;
             case Direction::DOWN:
-                camera_->position() =
-                    camera_->position().value() - up() * distance;
+                shift = -up() * distance;
                 break;
             default:
+                return;
                 break;
         }
+        camera_->set_position(camera_->position().value() + shift);
+        camera_->set_target(camera_->target().value() + shift);
     }
 
     void rotate(float_t dyaw, float_t dpitch) {
         if (!camera_ || (dyaw == 0.0f && dpitch == 0.0f)) return;
         yaw_ += dyaw;
         pitch_ += dpitch;
+        XCAL_DEBUG(FpsCameraControler, FpsCameraControler)
+            << std::format("yaw: {}, pitch: {}", yaw_, pitch_);
+
         yaw_ = std::fmod(yaw_, 360.0f);
         if (yaw_ < 0.0f) yaw_ += 360.0f;
         pitch_ = std::clamp(pitch_, -89.0f, 89.0f);
+        std::cerr << std::format("yaw: {}, pitch: {}", yaw_, pitch_)
+                  << std::endl;
         auto yaw = xcmath::radians(yaw_);
         auto pitch = xcmath::radians(pitch_);
         xcmath::vec3<float_t> forward{

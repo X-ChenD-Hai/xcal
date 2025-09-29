@@ -110,6 +110,8 @@ class XCAL_API Context {
     virtual void deinit() = 0;
     virtual void before_swap_buffers() = 0;
     virtual void render() = 0;
+    virtual bool_t want_capture_mouse() const { return false; };
+    virtual bool_t want_capture_keyboard() const { return false; };
 
    public:
     Context(const Context&) = delete;

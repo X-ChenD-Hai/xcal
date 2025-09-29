@@ -127,7 +127,10 @@ class XCAL_API AbsCamera {
     template <typename... Args>
         requires(std::is_constructible_v<vec, Args...>)
     AbsCamera* set_position(Args&&... args) {
-        position_ = vec{float_t(std::forward<Args>(args))...};
+        if constexpr ((std::is_convertible_v<Args, float_t> && ...))
+            position_ = vec{float_t(std::forward<Args>(args))...};
+        else
+            position_ = vec{std::forward<Args>(args)...};
         return this;
     }
 
