@@ -1,7 +1,7 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/examples)
-link_libraries(xcal)
+link_libraries(xcal opengl xcal_imgui xcal_glfw)
 
 add_executable(circle circle.cc)
 add_executable(path path.cc)

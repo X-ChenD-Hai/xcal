@@ -1,7 +1,7 @@
 #include <cmath>
+#include <codec/ffmpeg/ffmpegcodec.hpp>
 #include <iostream>
 #include <vector>
-#include <xcal/render/codec/ffmpegcodec.hpp>
 
 using namespace xcal::render::codec;
 // 生成简单的颜色渐变测试帧

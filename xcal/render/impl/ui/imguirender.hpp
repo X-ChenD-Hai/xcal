@@ -13,12 +13,12 @@
 #include <xcal/public.h>
 
 #include <memory>
-#include <xcal/render/core/context.hpp>
 #include <xcal/render/impl/ui/imguibackend.hpp>
+#include <xcal/render/ui/context.hpp>
 #include <xcmath/xcmath.hpp>
 
 namespace xcal::render::ui {
-class XCAL_API ImGuiUiRender : public render::Context {
+class XCAL_API ImGuiUiRender : public render::ui::Context {
    private:
     std::unique_ptr<ImGuiBackend> backend_;
 

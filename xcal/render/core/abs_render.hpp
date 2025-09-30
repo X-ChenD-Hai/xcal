@@ -1,7 +1,7 @@
 #pragma once
 #include <xcal/property/time_duration.hpp>
 #include <xcal/property/time_point.hpp>
-#include <xcal/render/core/context.hpp>
+#include <xcal/render/ui/context.hpp>
 #include <xcal/scene/scene.hpp>
 namespace xcal::render::opengl {
 class OpenGLRender;

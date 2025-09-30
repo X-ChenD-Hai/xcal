@@ -1,0 +1,53 @@
+#include <utils/openglapiloadhelper.inc>
+//
+#include <object/axis.hpp>
+#include <object/circle.hpp>
+#include <object/line.hpp>
+#include <object/object.hpp>
+#include <object/path.hpp>
+#include <xcal/mobject/core/abs_mobject.hpp>
+#include <xcal/mobject/mobject_all.hpp>
+#include <xcal/mobject/objects/axis.hpp>
+
+#define ROLE OpenGLRender
+#define LABEL Object
+#include <xcal/utils/logmacrohelper.inc>
+xcal::render::opengl::object::Object::Object() {
+
+};
+template <class T>
+    requires std::is_base_of_v<xcal::mobject::AbsMObject, T>
+xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
+    T*) {
+    _E("UnImplemented MObject type: " << T::META_INFO::type_name);
+    return nullptr;
+}
+xcal::render::opengl::object::Object::~Object() {};
+xcal::render::opengl::object::object_ptr xcal::render::opengl::object::create(
+    xcal::mobject::AbsMObject* mobject) {
+    switch (mobject->type()) {
+        case xcal::mobject::Type::Axis:
+            return create<xcal::mobject::Axis>((xcal::mobject::Axis*)mobject);
+        case xcal::mobject::Type::Axis3D:
+            return create<xcal::mobject::Axis3D>(
+                (xcal::mobject::Axis3D*)mobject);
+        case xcal::mobject::Type::Polygone:
+            return create<xcal::mobject::Polygone>(
+                (xcal::mobject::Polygone*)mobject);
+        case xcal::mobject::Type::Circle:
+            return create<xcal::mobject::Circle>(
+                (xcal::mobject::Circle*)mobject);
+        case xcal::mobject::Type::Line:
+            return create<xcal::mobject::Line>((xcal::mobject::Line*)mobject);
+        case xcal::mobject::Type::Path:
+            return create<xcal::mobject::Path>((xcal::mobject::Path*)mobject);
+        case xcal::mobject::Type::Rectangle:
+            return create<xcal::mobject::Rectangle>(
+                (xcal::mobject::Rectangle*)mobject);
+        case xcal::mobject::Type::Ellipse:
+            return create<xcal::mobject::Ellipse>(
+                (xcal::mobject::Ellipse*)mobject);
+        default:
+            return nullptr;
+    }
+}

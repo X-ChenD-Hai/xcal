@@ -41,8 +41,7 @@ xcal::render::GLFWRender::GLFWRender(Render* render)
     render_ = render;
     render_->init(glfwGetProcAddress);
     ui_render_ = std::make_unique<ui::ListUi>(
-        std::make_unique<ui::ImGuiGlfw3OpenGL3Backend>(window_),
-        render_);
+        std::make_unique<ui::ImGuiGlfw3OpenGL3Backend>(window_), render_);
     ui_render_->init();
 }
 

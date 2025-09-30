@@ -31,7 +31,7 @@ class MObject;
 namespace xcal::render::opengl {
 class OpenGLRender;
 }
-namespace xcal::render {
+namespace xcal::render::ui {
 class XCAL_API Context {
     friend class xcal::render::Render;
     friend class xcal::render::opengl::OpenGLRender;
@@ -119,4 +119,4 @@ class XCAL_API Context {
     Context& operator=(const Context&) = delete;
     Context& operator=(Context&&) = delete;
 };
-}  // namespace xcal::render
+}  // namespace xcal::render::ui

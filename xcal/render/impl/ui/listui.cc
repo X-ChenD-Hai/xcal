@@ -2,8 +2,8 @@
 
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/core/mobject.hpp>
-#include <xcal/render/impl/ui/listui.hpp>
 #include <xcal/render/core/render.hpp>
+#include <xcal/render/impl/ui/listui.hpp>
 #include <xcmath/utils/show.hpp>
 
 #define ROLE OpenGL
@@ -135,8 +135,7 @@ void xcal::render::ui::ListUi::render_animation(AnimationHandle& anim) {
         int id = 0;
     }
 }
-void xcal::render::ui::ListUi::render_timeline(
-    TimelineHandle& timeline) {
+void xcal::render::ui::ListUi::render_timeline(TimelineHandle& timeline) {
     if (!timeline.timeline) return;
     namespace I = ImGui;
     if (I::CollapsingHeader(timeline.name.c_str())) {

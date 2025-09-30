@@ -86,4 +86,4 @@ class DynamicResourceDistributor {
         return resource;
     }
 };
-}  // namespace xcal::render::opengl::utils
+}  // namespace xcal::render::utils

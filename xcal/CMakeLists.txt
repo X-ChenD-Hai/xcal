@@ -1,49 +1,8 @@
-if(BUILD_DYNAMIC_LIBRARY)
-    add_library(xcal SHARED)
-    target_compile_definitions(xcal
-        PUBLIC XCAL_ENABLE_DYNAMIC_LIBRARY
-        PRIVATE XCAL_BUILD
-    )
-    if(BUILD_EXAMPLES)
-        add_custom_command(
-            TARGET xcal POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:xcal>
-            ${CMAKE_BINARY_DIR}/examples
-            COMMENT "Copying xcal to examples directory"
-        )
-    endif()
-else()
-    add_library(xcal STATIC)
-endif()
-if(BUILD_VIDEOCODEC)
-    add_library(ffmpegcodec SHARED ${CMAKE_CURRENT_SOURCE_DIR}/render/codec/ffmpegcodec.cc)
-    target_compile_definitions(ffmpegcodec
-        PRIVATE XCAL_CODEC_BUILD
-        PUBLIC XCAL_CODEC_ENABLE_DYNAMIC_LIBRARY
-    )
-    target_include_directories(ffmpegcodec
-        PRIVATE
-        ${FFMPEG_INCLUDE_DIRS}
-        PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-        $<INSTALL_INTERFACE:include>
-    )
-    target_link_directories(ffmpegcodec PRIVATE
-        ${FFMPEG_LIBRARY_DIRS}
-    )
-    target_link_libraries(ffmpegcodec
-        PRIVATE
-        ${FFMPEG_LIBRARIES}
-        PUBLIC
-        xclogger::zmq_support
-    )
-    target_link_libraries(xcal PUBLIC ffmpegcodec)
-endif()
+
+xcal_add_library(xcal XCAL)
 file(GLOB_RECURSE SOURCES *.cc)
 list(REMOVE_ITEM SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/render/codec/ffmpegcodec.cc
 )
 
 target_sources(xcal PRIVATE ${SOURCES})
@@ -52,10 +11,11 @@ target_include_directories(xcal PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(xcal PUBLIC
+target_link_libraries(xcal
+    PUBLIC
     xclogger::zmq_support
-    # glad::glad
     xcmath::xcmath
+    PRIVATE
     ${OPENGL_BACKEND_LIBS}
     glfw
     imgui::imgui

@@ -6,7 +6,7 @@ class XCAL_API GLFWRender {
    private:
     GLFWwindow* window_{nullptr};
     Render* render_{nullptr};
-    std::unique_ptr<Context> ui_render_{nullptr};
+    std::unique_ptr<ui::Context> ui_render_{nullptr};
     double last_mouse_x_{0.0};
     double last_mouse_y_{0.0};
     bool mouse_move_flag_{false};

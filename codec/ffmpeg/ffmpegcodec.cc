@@ -9,8 +9,8 @@ extern "C" {
 #include <libavutil/opt.h>
 #include <libswscale/swscale.h>
 }
+#include <ffmpegcodec.hpp>
 #include <iostream>
-#include <xcal/render/codec/ffmpegcodec.hpp>
 
 xcal::render::codec::FfmpegCodec::FfmpegCodec(const std::string& filename,
                                               int width, int height,

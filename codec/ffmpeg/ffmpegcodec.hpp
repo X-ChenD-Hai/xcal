@@ -1,7 +1,7 @@
 #ifndef VIDEO_ENCODER_H
 #define VIDEO_ENCODER_H
 
-#include <xcal/public.h>
+#include XCAL_FFMPEG_CONFIG_HEADER
 
 #include <string>
 #include <vector>
@@ -18,7 +18,7 @@ struct AVPacket;
 }
 namespace xcal::render::codec {
 
-class XCAL_CODEC_API FfmpegCodec : public AbsVideoCodec {
+class XCAL_FFMPEG_API FfmpegCodec : public AbsVideoCodec {
    public:
     FfmpegCodec(const std::string& filename, int width, int height,
                 int frame_rate);

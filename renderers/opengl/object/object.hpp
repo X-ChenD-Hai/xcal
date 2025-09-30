@@ -1,0 +1,60 @@
+#pragma once
+#include XCAL_OPENGL_RENDERER_CONFIG_HEADER
+
+#include <core/typedef.hpp>
+#include <gl/vertexarrayobject.hpp>
+#include <memory>
+#include <xcal/mobject/core/abs_mobject.hpp>
+#include <xcal/mobject/core/mobject.hpp>
+#include <xcmath/xcmath.hpp>
+
+namespace xcal::render {
+class OpenGLRender;
+}
+namespace xcal::render::opengl {
+class OpenGLRender;
+}
+namespace xcal::render::opengl::object {
+class XCAL_OPENGL_RENDERER_API Object {
+    friend class xcal::render::opengl::OpenGLRender;
+    friend class xcal::render::OpenGLRender;
+
+   private:
+    GL::VertexArrayObject vao_;
+
+   protected:
+    virtual void create() = 0;
+    virtual void destroy() = 0;
+    virtual void render() const = 0;
+    virtual void update_projection_view(
+        const xcmath::mat4<float_t>& projection_view) = 0;
+
+    GL::VertexArrayObject& vao() { return vao_; }
+    const GL::VertexArrayObject& vao() const { return vao_; }
+
+   public:
+    Object();
+    virtual ~Object();
+};
+
+using object_ptr = std::unique_ptr<Object>;
+
+template <class T>
+    requires std::is_base_of_v<mobject::AbsMObject, T>
+xcal::render::opengl::object::object_ptr create(T* mobject);
+
+object_ptr create(mobject::AbsMObject* mobject);
+}  // namespace xcal::render::opengl::object
+#define XCAL_OPENGL_REGIST_OBJECT(class_, type)                \
+    template <>                                                \
+    xcal::render::opengl::object::object_ptr                   \
+    xcal::render::opengl::object::create<xcal::mobject::type>( \
+        xcal::mobject::type * mobj)
+
+#define XCAL_OPENGL_REGIST_OBJECT_IMPL(class_, type)           \
+    template <>                                                \
+    xcal::render::opengl::object::object_ptr                   \
+    xcal::render::opengl::object::create<xcal::mobject::type>( \
+        xcal::mobject::type * mobj) {                          \
+        return std::make_unique<class_>(mobj);                 \
+    }

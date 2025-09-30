@@ -1,0 +1,33 @@
+#pragma once
+#include XCAL_OPENGL_RENDERER_CONFIG_HEADER
+
+#include <gl/buffer.hpp>
+#include <object/object.hpp>
+#include <utils/singlemobjectwrapper.hpp>
+#include <xcal/mobject/objects/circle.hpp>
+#include <xcmath/mobject/mat.hpp>
+#include <xcmath/xcmath.hpp>
+
+namespace xcal::render::opengl::object {
+class XCAL_OPENGL_RENDERER_API Circle : public Object {
+   public:
+    using mat = xcmath::mat<float_t, 4, 4>;
+
+   private:
+    GL::Buffer vbo_;
+    utils::SingleComposedMObjectWrapper<mobject::Circle> mobject_{nullptr};
+    std::shared_ptr<GL::ShaderProgram> shader_program_;
+    int segments_{36};  // Number of segments to approximate circle
+
+   public:
+    explicit Circle(mobject::Circle *mobject);
+    void create() override;
+    void destroy() override;
+    void render() const override;
+    virtual void update_projection_view(
+        const xcmath::mat4<float_t> &projection_view) override;
+
+    Circle(const Circle &) = delete;
+};
+}  // namespace xcal::render::opengl::object
+XCAL_OPENGL_REGIST_OBJECT(xcal::render::opengl::object::Circle, Circle);

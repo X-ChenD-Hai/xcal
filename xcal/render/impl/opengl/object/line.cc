@@ -47,11 +47,9 @@ struct StaticLine {
     StaticLine() {
         using namespace xcal::render::opengl;
         namespace utils = xcal::render::utils;
-        vao = utils::VertexArrayObjectInstance<object::Line,
-                                                             0>::instance();
+        vao = utils::VertexArrayObjectInstance<object::Line, 0>::instance();
         vao->bind();
-        vbo =
-            utils::BufferInstance<object::Line, BUFFER_ID>::instance();
+        vbo = utils::BufferInstance<object::Line, BUFFER_ID>::instance();
         vbo->bind();
         _gl glEnableVertexAttribArray(0);
         _gl glVertexAttribPointer(0, 3, _gl GL_FLOAT, _gl GL_FALSE,

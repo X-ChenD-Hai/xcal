@@ -17,3 +17,7 @@
 !.github
 !docs/doxygen-dark-theme.css
 !.clang-tidy
+!frontends/
+!renderers/
+!codec/
+!app/

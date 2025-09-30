@@ -1,0 +1,48 @@
+/**
+ * @file imguirender.hpp
+ * @author X_Chen D_Hai (illuminatestar@foxmail.com)
+ * @brief
+ * @version 0.1
+ * @date 2025-09-10
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+#pragma once
+
+#include XCAL_IMGUI_CONFIG_HEADER
+
+#include <imguibackend.hpp>
+#include <memory>
+#include <xcal/render/ui/context.hpp>
+#include <xcmath/xcmath.hpp>
+
+namespace xcal::render::ui {
+class XCAL_IMGUI_API ImGuiUiRender : public render::ui::Context {
+   private:
+    std::unique_ptr<ImGuiBackend> backend_;
+
+   public:
+    void init() override;
+    void deinit() override;
+    void before_swap_buffers() override;
+    void render() override;
+    bool_t want_capture_mouse() const override;
+    bool_t want_capture_keyboard() const override;
+
+   public:
+    virtual void render_ui() = 0;
+
+   public:
+    explicit ImGuiUiRender(std::unique_ptr<ImGuiBackend> backend,
+                           Render *renderer)
+        : Context(renderer), backend_(std::move(backend)) {}
+    ~ImGuiUiRender() override = default;
+
+   public:
+    ImGuiUiRender(const ImGuiUiRender &) = delete;
+    ImGuiUiRender(ImGuiUiRender &&) = delete;
+    ImGuiUiRender &operator=(const ImGuiUiRender &) = delete;
+    ImGuiUiRender &operator=(ImGuiUiRender &&) = delete;
+};
+}  // namespace xcal::render::ui

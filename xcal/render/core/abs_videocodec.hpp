@@ -2,7 +2,7 @@
 
 #include <vector>
 namespace xcal::render::codec {
-class XCAL_CODEC_API AbsVideoCodec {
+class XCAL_API AbsVideoCodec {
    private:
     std::string filename_;
     int width_ = 0;

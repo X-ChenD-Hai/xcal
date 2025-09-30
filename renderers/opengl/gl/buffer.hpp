@@ -1,0 +1,76 @@
+#pragma once
+#include XCAL_OPENGL_RENDERER_CONFIG_HEADER
+
+#include <array>
+#include <core/typedef.hpp>
+#include <cstddef>
+#include <vector>
+namespace xcal::render::opengl::GL {
+
+class XCAL_OPENGL_RENDERER_API Buffer {
+    friend class Object;
+
+   private:
+    gl::GLuint vbo_ = 0;
+    gl::GLuint size_ = 0;
+    gl::GLenum target_{};
+
+   private:
+   public:
+    Buffer(const Buffer &) = delete;
+    Buffer(Buffer &&o) { swap(o); }
+
+    Buffer &operator=(const Buffer &) = delete;
+    Buffer &operator=(Buffer &&o) {
+        swap(o);
+        return *this;
+    }
+    Buffer(gl::GLenum target);
+    ~Buffer();
+
+   public:
+    bool is_valid() const { return vbo_ != 0; };
+    void bind_as(gl::GLenum target) const;
+    void bind() const;
+    void unbind() const;
+    static void unbind(gl::GLenum target);
+    void get_buffer_data(std::vector<char> &data) const;
+    void get_buffer_data(std::vector<char> &data, gl::GLenum target) const;
+
+   public:
+    gl::GLuint id() const { return vbo_; }
+    void swap(Buffer &o) {
+        std::swap(vbo_, o.vbo_);
+        std::swap(size_, o.size_);
+        std::swap(target_, o.target_);
+    }
+    void buffer_data(const void *data, gl::GLuint size, gl::GLenum usage);
+    template <typename T>
+    void buffer_data(const std::vector<T> &data, gl::GLenum usage) {
+        buffer_data(data.data(), data.size() * sizeof(T), usage);
+    }
+    template <typename T, size_t N>
+    void buffer_data(const std::array<T, N> &data, gl::GLenum usage) {
+        buffer_data(data.data(), data.size() * sizeof(T), usage);
+    }
+    template <typename T>
+    void buffer_data(const std::vector<T> &data, gl::GLenum usage,
+                     size_t size) {
+        buffer_data(nullptr, size * sizeof(T), usage);
+        buffer_sub_data(data.data(), 0, data.size() * sizeof(T));
+    }
+    template <typename T, size_t N>
+    void buffer_data(const std::array<T, N> &data, gl::GLenum usage,
+                     size_t size) {
+        buffer_data(nullptr, size * sizeof(T), usage);
+        buffer_sub_data(data.data(), 0, data.size() * sizeof(T));
+    }
+    void buffer_sub_data(const void *data, gl::GLuint offset, gl::GLuint size);
+    template <typename T>
+    void buffer_sub_data(const std::vector<T> &data, gl::GLuint offset) {
+        buffer_sub_data(data.data(), offset, data.size() * sizeof(T));
+    }
+
+    void destroy();
+};
+}  // namespace xcal::render::opengl::GL
