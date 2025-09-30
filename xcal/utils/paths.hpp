@@ -10,21 +10,21 @@
  */
 #pragma once
 #include <string>
-
+#include XCAL_CONFIG_HEADER
 namespace xcal::utils::paths {
 /**
  * @brief Get the current working directory.
  *
  */
-extern const std::string CURRENT_WORKING_DIRECTORY;
+XCAL_API extern const std::string CURRENT_WORKING_DIRECTORY;
 /**
  * @brief Get the path of the executable.
  *
  */
-extern const std::string EXECUTABLE_PATH;
+XCAL_API extern const std::string EXECUTABLE_PATH;
 /**
  * @brief Get the directory of the executable.
  *
  */
-extern const std::string EXECUTABLE_DIR;
+XCAL_API extern const std::string EXECUTABLE_DIR;
 }  // namespace xcal::utils::paths

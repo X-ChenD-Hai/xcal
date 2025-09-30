@@ -6,5 +6,5 @@ target_link_libraries(xcal_glfw
     PUBLIC xcal
     PRIVATE glfw
     PRIVATE xcal_imgui
-    PRIVATE opengl
+    PRIVATE xcal_opengl
 )

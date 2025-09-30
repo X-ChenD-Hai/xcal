@@ -15,15 +15,5 @@ target_link_libraries(xcal
     PUBLIC
     xclogger::zmq_support
     xcmath::xcmath
-    PRIVATE
-    ${OPENGL_BACKEND_LIBS}
-    glfw
-    imgui::imgui
 )
 
-add_executable(xcal_app)
-target_sources(xcal_app PUBLIC main.cc)
-
-target_link_libraries(xcal_app PRIVATE
-    xcal
-)

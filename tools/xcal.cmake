@@ -17,6 +17,13 @@ function(xcal_add_library NAME IDENT)
                 ${CMAKE_BINARY_DIR}/examples
                 COMMENT "Copying ${NAME} to examples directory"
             )
+            add_custom_command(
+                TARGET ${NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                $<TARGET_FILE:${NAME}>
+                ${CMAKE_BINARY_DIR}/app
+                COMMENT "Copying ${NAME} to examples directory"
+            )
         endif()
     else()
         message(STATUS "[XCAL] configuring static library ${NAME}")

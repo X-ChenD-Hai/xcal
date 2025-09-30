@@ -10,8 +10,6 @@
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/core/mobject_types.hpp>
-#include <xcal/render/impl/ui/imguiglfw3opengl3backend.hpp>
-#include <xcal/render/impl/ui/listui.hpp>
 #include <xcmath/utils/show.hpp>
 
 //

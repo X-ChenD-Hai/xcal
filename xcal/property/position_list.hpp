@@ -8,7 +8,7 @@
 namespace xcal::property {
 
 template <typename __ItemType, Type __Type>
-class XCAL_API _PositionList : public MProperty {
+class _PositionList : public MProperty {
     Type type_() const override { return __Type; }
 
    public:
@@ -42,5 +42,9 @@ class XCAL_API _PositionList : public MProperty {
 using PositionList = _PositionList<xcmath::vec<float_t, 2>, Type::PositionList>;
 using ThreeDPositionList =
     _PositionList<xcmath::vec<float_t, 3>, Type::ThreeDPositionList>;
-
+extern template class _PositionList<xcmath::vec<float_t, 2>,
+                                    Type::PositionList>;
+extern template class _PositionList<xcmath::vec<float_t, 3>,
+                                    Type::ThreeDPositionList>;
+extern template class MProperty::Proxy<bool_t>;
 }  // namespace xcal::property

@@ -1,4 +1,4 @@
-#include <xcal/render/impl/opengl/utils/openglapiloadhelper.inc>
+#include <renderers/opengl/utils/openglapiloadhelper.inc>
 //
 #include <GLFW/glfw3.h>
 //

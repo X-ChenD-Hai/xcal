@@ -6,7 +6,7 @@
 
 namespace xcal::property {
 template <typename T, size_t N>
-class XCAL_API Vec : public MProperty {
+class Vec : public MProperty {
     XCAL_PROPERTY_TYPE(Vec)
    public:
     using data_t = xcmath::vec<T, N>;
@@ -65,4 +65,6 @@ class XCAL_API Vec : public MProperty {
         return *this;
     }
 };
+extern template class Vec<xcal::float_t, 3>;
+extern template class Vec<xcal::float_t, 4>;
 }  // namespace xcal::property

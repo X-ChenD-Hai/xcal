@@ -1,13 +1,13 @@
 #include <xcal/public.h>
 
+#include <frontends/window/glfw/glfwrender.hpp>
 #include <memory>
+#include <renderers/opengl/openglrender.hpp>
 #include <xcal/animation/Interpolation.hpp>
 #include <xcal/animation/core/timeline.hpp>
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/mobject/objects/circle.hpp>
-#include <xcal/render/impl/glfw/glfwrender.hpp>
-#include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcmath/utils/show.hpp>
 
 int main(int argc, char **argv) {

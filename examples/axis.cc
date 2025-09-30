@@ -1,9 +1,9 @@
 #include <cmath>
 #include <cstddef>
+#include <frontends/window/glfw/glfwrender.hpp>
+#include <renderers/opengl/openglrender.hpp>
 #include <xcal/mobject/objects/axis.hpp>
 #include <xcal/mobject/objects/path.hpp>
-#include <xcal/render/impl/glfw/glfwrender.hpp>
-#include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcal/scene/scene.hpp>
 #include <xcmath/mobject/function.hpp>
 
