@@ -22,8 +22,8 @@ struct ResourceAllocator<xcal::render::opengl::GL::VertexArrayObject, Catgory,
 };
 template <class T, size_t _id>
 using VertexArrayObjectInstance =
-    DynamicResourceDistributor<xcal::render::opengl::GL::VertexArrayObject, T,
-                               _id>;
+    StaticResourceDistributor<xcal::render::opengl::GL::VertexArrayObject, T,
+                              _id>;
 
 template <typename Catgory, size_t Id>
 struct ResourceAllocator<xcal::render::opengl::GL::Buffer, Catgory, Id> {
@@ -33,7 +33,7 @@ struct ResourceAllocator<xcal::render::opengl::GL::Buffer, Catgory, Id> {
 };
 template <class T, size_t _id>
 using BufferInstance =
-    DynamicResourceDistributor<xcal::render::opengl::GL::Buffer, T, _id>;
+    StaticResourceDistributor<xcal::render::opengl::GL::Buffer, T, _id>;
 
 }  // namespace xcal::render::opengl::utils
 

@@ -28,13 +28,14 @@
 #define ROLE OpenGL
 #define LABEL OpenGLRender
 #include <xcal/utils/logmacrohelper.inc>
-
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     static_cast<xcal::render::opengl::OpenGLRender*>(
+#pragma clang diagnostic pop
         glfwGetWindowUserPointer(window))
         ->framebuffer_size_callback(window, w, h);
 }
-
 void init_glbackend() {
 #ifdef GL_BACKEND_GLBINDING
     glbinding::initialize(glfwGetProcAddress, false);
@@ -229,8 +230,8 @@ void xcal::render::opengl::OpenGLRender::setup_glfw() {
     }
     glfwSetWindowUserPointer(window_, this);
     glfwSetFramebufferSizeCallback(window_, ::framebuffer_size_callback);
-    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode,
-                                   int action, int mods) {
+    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key,
+                                   int /*scancode*/, int action, int /*mods*/) {
         auto& render = *static_cast<xcal::render::opengl::OpenGLRender*>(
             glfwGetWindowUserPointer(window));
         if (key == GLFW_KEY_A) {

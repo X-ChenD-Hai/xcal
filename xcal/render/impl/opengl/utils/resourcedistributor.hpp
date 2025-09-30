@@ -1,7 +1,6 @@
+#pragma once
 #include <memory>
 #include <unordered_map>
-static constexpr size_t CLEAR_THRESHOLD = 100;
-
 namespace xcal::render::opengl::utils {
 template <typename T, typename Catgory = void, size_t Id = 0>
 struct ResourceAllocator {
@@ -28,37 +27,63 @@ class StaticResourceDistributor {
 template <typename T, typename Catgory, size_t Id>
 std::weak_ptr<T> StaticResourceDistributor<T, Catgory, Id>::resource_;
 
-template <typename T, typename Catgory = void, size_t Id = 0>
-class DynamicResourceDistributor {
-    static std::unordered_map<size_t, std::weak_ptr<T>> resources_;
-    static size_t last_size_;
-
-   public:
-    static std::shared_ptr<T> instance(size_t id = 0) {
-        auto resource = resources_[id].lock();
-        if (!resource) {
-            resource = ResourceAllocator<T, Catgory, Id>::allocate();
-            resources_[id] = resource;
+template <class T, class KeyType, class Catgory = void, size_t Id = 0>
+struct DynamicResourceAllocator {
+    template <typename... Args>
+    static std::shared_ptr<T> allocate(Args&&... args) {
+        static_assert(false,
+                      "DynamicResourceAllocator::allocate not implemented");
+    }
+};
+template <class K, class V>
+struct DynamicResources {
+    static std::unordered_map<K, std::weak_ptr<V>> resources;
+    static size_t last_size;
+    static void gc() {
+        std::vector<K> to_erase;
+        for (auto& pair : resources) {
+            if (pair.second.expired()) {
+                to_erase.push_back(pair.first);
+            }
         }
-        if (resources_.size() > last_size_ + CLEAR_THRESHOLD) {
-            std::vector<size_t> to_erase;
-            for (auto& pair : resources_) {
-                if (pair.second.expired()) {
-                    to_erase.push_back(pair.first);
-                }
-            }
-            for (auto id : to_erase) {
-                resources_.erase(id);
-            }
+        for (const auto& id : to_erase) {
+            resources.erase(id);
+        }
+        last_size = resources.size();
+    }
+};
+template <class K, class V>
+std::unordered_map<K, std::weak_ptr<V>> DynamicResources<K, V>::resources;
+template <class K, class V>
+size_t DynamicResources<K, V>::last_size = 0;
 
-            last_size_ = resources_.size();
+template <typename T, class ResourceId, size_t ClearedThreshold = 100>
+class DynamicResourceDistributor {
+   public:
+    using KeyType = typename ResourceId::type;
+    using Resources = DynamicResources<KeyType, T>;
+    template <class Catgory = void, size_t Id = 0, typename... Args>
+    static std::shared_ptr<T> instance(Args&&... args) {
+        using Allocator = DynamicResourceAllocator<T, KeyType, Catgory, Id>;
+        auto& resources_ = Resources::resources;
+        auto last_size_ = Resources::last_size;
+        auto id = ResourceId::template allocate<Catgory, Id, Args...>(
+            std::forward<Args>(args)...);
+        std::shared_ptr<T> resource;
+        if (auto it = resources_.find(id); it == resources_.end()) {
+            resource = Allocator::allocate(std::forward<Args>(args)...);
+            resources_[id] = resource;
+        } else {
+            resource = it->second.lock();
+            if (!resource) {
+                resource = Allocator::allocate(std::forward<Args>(args)...);
+                it->second = resource;
+            }
+        }
+        if (resources_.size() > last_size_ + ClearedThreshold) {
+            Resources::gc();
         }
         return resource;
     }
 };
-template <typename T, typename Catgory, size_t Id>
-std::unordered_map<size_t, std::weak_ptr<T>>
-    DynamicResourceDistributor<T, Catgory, Id>::resources_;
-template <typename T, typename Catgory, size_t Id>
-size_t DynamicResourceDistributor<T, Catgory, Id>::last_size_ = 0;
 }  // namespace xcal::render::opengl::utils

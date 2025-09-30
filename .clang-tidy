@@ -21,8 +21,7 @@ Checks: '-*,
         bugprone-bool-pointer-implicit-conversion,
         bugprone-misplaced-widening-cast,
         cppcoreguidelines-narrowing-conversions,
-        misc-unconventional-assign-operator,
-        misc-unused-parameters'
+        misc-unconventional-assign-operator
 WarningsAsErrors: ''
 HeaderFilterRegex: '^(?!.*third_party/).*'
 CheckOptions:
@@ -71,4 +70,4 @@ CheckOptions:
   - key:             misc-unconventional-assign-operator
     value:           'true'
   - key:             misc-unused-parameters
-    value:           'true'
+    value:           'false'

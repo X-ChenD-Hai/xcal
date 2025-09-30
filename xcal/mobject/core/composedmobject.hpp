@@ -124,4 +124,36 @@ class XCAL_API ComposedMObject : public AbsMObject,
     ComposedMObject() : _PropertyMObjects<_Derived>{}... {}
 };
 
+template <class T>
+struct MObjectProperties {
+    static constexpr auto is_mobject = std::derived_from<T, AbsMObject>;
+    static constexpr auto is_scaleable =
+        std::derived_from<T, ScalableMObject<T>>;
+    static constexpr auto is_positionable =
+        std::derived_from<T, PositionableMObject<T>>;
+    static constexpr auto is_rotatable =
+        std::derived_from<T, RotatableMObject<T>>;
+    static constexpr auto is_strokeable =
+        std::derived_from<T, StrokeableMObject<T>>;
+    static constexpr auto is_fillable =
+        std::derived_from<T, FillableMObject<T>>;
+    static constexpr auto is_transformable =
+        std::derived_from<T, BaseTransformableMobject<T>>;
+};
+#ifdef _HAS_CXX20
+template <typename T>
+concept is_mobject = std::derived_from<T, AbsMObject>;
+template <typename T>
+concept is_scaleable = std::derived_from<T, ScalableMObject<T>>;
+template <typename T>
+concept is_positionable = std::derived_from<T, PositionableMObject<T>>;
+template <typename T>
+concept is_rotatable = std::derived_from<T, RotatableMObject<T>>;
+template <typename T>
+concept is_strokeable = std::derived_from<T, StrokeableMObject<T>>;
+template <typename T>
+concept is_fillable = std::derived_from<T, FillableMObject<T>>;
+template <typename T>
+concept is_transformable = std::derived_from<T, BaseTransformableMobject<T>>;
+#endif
 }  // namespace xcal::mobject
