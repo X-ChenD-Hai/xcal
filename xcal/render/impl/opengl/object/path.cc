@@ -12,10 +12,12 @@
 constexpr static auto STROKE_SHADER_ID = 0;
 constexpr static auto FILL_SHADER_ID = 1;
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Path, STROKE_SHADER_ID) {
+    using namespace xcal::render::opengl;
     return GL::ShaderProgram::from_file(SHADER_FILE("path/stroke.vs"),
                                         SHADER_FILE("path/stroke.fs"));
 }
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Path, FILL_SHADER_ID) {
+    using namespace xcal::render::opengl;
     return GL::ShaderProgram::from_file(SHADER_FILE("path/fill.vs"),
                                         SHADER_FILE("path/fill.fs"));
 }
@@ -68,6 +70,7 @@ void xcal::render::opengl::object::Path::create() {
     _gl glEnableVertexAttribArray(0);
     _gl glEnableVertexAttribArray(1);
     _gl glEnableVertexAttribArray(2);
+    namespace utils = xcal::render::utils;
     stroke_shader_program_ =
         utils::ShaderInstance<Path, STROKE_SHADER_ID>::instance();
     fill_shader_program_ =

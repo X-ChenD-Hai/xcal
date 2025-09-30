@@ -11,7 +11,7 @@
 #pragma once
 #include <xcal/public.h>
 
-namespace xcal::render::opengl::ui {
+namespace xcal::render::ui {
 class XCAL_API ImGuiBackend {
     friend class ImGuiUiRender;
     virtual void init() = 0;
@@ -29,4 +29,4 @@ class XCAL_API ImGuiBackend {
     ImGuiBackend &operator=(const ImGuiBackend &) = delete;
     ImGuiBackend &operator=(ImGuiBackend &&) = delete;
 };
-}  // namespace xcal::render::opengl::ui
+}  // namespace xcal::render::ui

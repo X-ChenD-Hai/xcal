@@ -8,7 +8,6 @@
 #include <xcal/camera/core/abs_camera.hpp>
 #include <xcal/mobject/core/abs_mobject.hpp>
 #include <xcal/render/core/render.hpp>
-#include <xcal/render/impl/opengl/core/rendercommand.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/object/object.hpp>
 

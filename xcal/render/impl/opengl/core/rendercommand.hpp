@@ -12,7 +12,7 @@
 #include <cstddef>
 #include <vector>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
-#include <xcal/render/impl/opengl/utils/resourcedistributor.hpp>
+#include <xcal/render//utils/resourcedistributor.hpp>
 
 namespace xcal::render::opengl::GL {
 class GLObject {

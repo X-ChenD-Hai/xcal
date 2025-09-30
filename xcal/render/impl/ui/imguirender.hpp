@@ -14,10 +14,10 @@
 
 #include <memory>
 #include <xcal/render/core/context.hpp>
-#include <xcal/render/impl/opengl/ui/imguibackend.hpp>
+#include <xcal/render/impl/ui/imguibackend.hpp>
 #include <xcmath/xcmath.hpp>
 
-namespace xcal::render::opengl::ui {
+namespace xcal::render::ui {
 class XCAL_API ImGuiUiRender : public render::Context {
    private:
     std::unique_ptr<ImGuiBackend> backend_;
@@ -45,4 +45,4 @@ class XCAL_API ImGuiUiRender : public render::Context {
     ImGuiUiRender &operator=(const ImGuiUiRender &) = delete;
     ImGuiUiRender &operator=(ImGuiUiRender &&) = delete;
 };
-}  // namespace xcal::render::opengl::ui
+}  // namespace xcal::render::ui

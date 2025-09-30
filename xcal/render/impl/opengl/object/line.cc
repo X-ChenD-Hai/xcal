@@ -18,6 +18,7 @@ static constexpr auto SHADER_ID = 0;
 static constexpr auto BUFFER_ID = 0;
 
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Line, SHADER_ID) {
+    using namespace xcal::render::opengl;
     return GL::ShaderProgram::from_file(SHADER_FILE("line1.vs"),
                                         SHADER_FILE("line1.fs"));
 }
@@ -45,9 +46,12 @@ struct StaticLine {
     shader_sp shader_program;
     StaticLine() {
         using namespace xcal::render::opengl;
-        vao = utils::VertexArrayObjectInstance<object::Line, 0>::instance();
+        namespace utils = xcal::render::utils;
+        vao = utils::VertexArrayObjectInstance<object::Line,
+                                                             0>::instance();
         vao->bind();
-        vbo = utils::BufferInstance<object::Line, BUFFER_ID>::instance();
+        vbo =
+            utils::BufferInstance<object::Line, BUFFER_ID>::instance();
         vbo->bind();
         _gl glEnableVertexAttribArray(0);
         _gl glVertexAttribPointer(0, 3, _gl GL_FLOAT, _gl GL_FALSE,

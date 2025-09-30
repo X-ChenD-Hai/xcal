@@ -1,6 +1,8 @@
+#pragma once
+#include <xcal/render/utils/resourcedistributor.hpp>
 #include <xcal/render/impl/opengl/gl/shaderprogram.hpp>
-#include <xcal/render/impl/opengl/utils/resourcedistributor.hpp>
-namespace xcal::render::opengl::utils {
+
+namespace xcal::render::utils {
 
 template <typename Catgory, size_t Id>
 struct ResourceAllocator<xcal::render::opengl::GL::ShaderProgram, Catgory, Id> {
@@ -9,8 +11,8 @@ struct ResourceAllocator<xcal::render::opengl::GL::ShaderProgram, Catgory, Id> {
     }
 };
 template <class T, size_t _id>
-using ShaderInstance =
-    StaticResourceDistributor<xcal::render::opengl::GL::ShaderProgram, T, _id>;
+using ShaderInstance = render::utils::StaticResourceDistributor<
+    xcal::render::opengl::GL::ShaderProgram, T, _id>;
 
 template <typename Catgory, size_t Id>
 struct ResourceAllocator<xcal::render::opengl::GL::VertexArrayObject, Catgory,
@@ -21,9 +23,8 @@ struct ResourceAllocator<xcal::render::opengl::GL::VertexArrayObject, Catgory,
     }
 };
 template <class T, size_t _id>
-using VertexArrayObjectInstance =
-    StaticResourceDistributor<xcal::render::opengl::GL::VertexArrayObject, T,
-                              _id>;
+using VertexArrayObjectInstance = StaticResourceDistributor<
+    xcal::render::opengl::GL::VertexArrayObject, T, _id>;
 
 template <typename Catgory, size_t Id>
 struct ResourceAllocator<xcal::render::opengl::GL::Buffer, Catgory, Id> {
@@ -33,27 +34,28 @@ struct ResourceAllocator<xcal::render::opengl::GL::Buffer, Catgory, Id> {
 };
 template <class T, size_t _id>
 using BufferInstance =
-    StaticResourceDistributor<xcal::render::opengl::GL::Buffer, T, _id>;
+    StaticResourceDistributor<xcal::render::opengl::GL::Buffer,
+                                             T, _id>;
 
 }  // namespace xcal::render::opengl::utils
 
 #define XCAL_DEFINE_STATIC_GLOBJECT(T, Catgory, Id) \
     template <>                                     \
     std::shared_ptr<T>                              \
-    xcal::render::opengl::utils::ResourceAllocator<T, Catgory, Id>::allocate()
-#define XCAL_STATIC_GLOBJECT(T, Catgory, Id)                              \
-    (::xcal::render::opengl::utils::StaticResourceDistributor<T, Catgory, \
-                                                              Id>::instance())
+    xcal::render::utils::ResourceAllocator<T, Catgory, Id>::allocate()
+#define XCAL_STATIC_GLOBJECT(T, Catgory, Id)                                  \
+    (::xcal::render::utils::StaticResourceDistributor< \
+        T, Catgory, Id>::instance())
 
 #define XCAL_BUFFER_INSTANCE(T, _id)                  \
     template <>                                       \
     std::shared_ptr<xcal::render::opengl::GL::Buffer> \
-    xcal::render::opengl::utils::ResourceAllocator<   \
+    xcal::render::utils::ResourceAllocator<   \
         xcal::render::opengl::GL::Buffer, T, _id>::allocate()
 #define XCAL_SHADER_INSTANCE(T, _id)                         \
     template <>                                              \
     std::shared_ptr<xcal::render::opengl::GL::ShaderProgram> \
-    xcal::render::opengl::utils::ResourceAllocator<          \
+    xcal::render::utils::ResourceAllocator<          \
         xcal::render::opengl::GL::ShaderProgram, T, _id>::allocate()
 
 #ifdef XCAL_debug

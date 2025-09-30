@@ -2,8 +2,8 @@
 
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/core/mobject.hpp>
-#include <xcal/render/impl/opengl/opengl_render.hpp>
-#include <xcal/render/impl/opengl/ui/listui.hpp>
+#include <xcal/render/impl/ui/listui.hpp>
+#include <xcal/render/core/render.hpp>
 #include <xcmath/utils/show.hpp>
 
 #define ROLE OpenGL
@@ -15,7 +15,7 @@
     static_cast<const xcal::camera::PerspectiveCamera*>(mobj)
 #define _PCPTR(mobj) static_cast<xcal::camera::PerspectiveCamera*>(mobj)
 
-bool xcal::render::opengl::ui::ListUi::render_vec3f_edit(
+bool xcal::render::ui::ListUi::render_vec3f_edit(
     const xcmath::vec3<float_t>& vec3f, const char* label, const char* x_label,
     const char* y_label, const char* z_label) {
     namespace I = ImGui;
@@ -36,7 +36,7 @@ bool xcal::render::opengl::ui::ListUi::render_vec3f_edit(
     vec3f_tmp_ = tmp;
     return true;
 }
-void xcal::render::opengl::ui::ListUi::render_obj(ObjectHandle& obj) {
+void xcal::render::ui::ListUi::render_obj(ObjectHandle& obj) {
     // namespace I = ImGui;
     // if (I::CollapsingHeader(obj.name.c_str())) {
     //     I::Text("pos: ");
@@ -60,7 +60,7 @@ void xcal::render::opengl::ui::ListUi::render_obj(ObjectHandle& obj) {
     //     if (I::InputFloat("Depth", &tmp_)) obj.obj->depth() = tmp_;
     // }
 }
-void xcal::render::opengl::ui::ListUi::render_camera(CameraHandle& cam) {
+void xcal::render::ui::ListUi::render_camera(CameraHandle& cam) {
     if (!cam.camera) return;
 
     namespace I = ImGui;
@@ -128,14 +128,14 @@ void xcal::render::opengl::ui::ListUi::render_camera(CameraHandle& cam) {
         }
     }
 }
-void xcal::render::opengl::ui::ListUi::render_animation(AnimationHandle& anim) {
+void xcal::render::ui::ListUi::render_animation(AnimationHandle& anim) {
     if (!anim.animation) return;
     namespace I = ImGui;
     if (I::CollapsingHeader(anim.name.c_str())) {
         int id = 0;
     }
 }
-void xcal::render::opengl::ui::ListUi::render_timeline(
+void xcal::render::ui::ListUi::render_timeline(
     TimelineHandle& timeline) {
     if (!timeline.timeline) return;
     namespace I = ImGui;
@@ -146,7 +146,7 @@ void xcal::render::opengl::ui::ListUi::render_timeline(
         renderer()->play_timeline(timeline.timeline);
     }
 }
-void xcal::render::opengl::ui::ListUi::render_ui() {
+void xcal::render::ui::ListUi::render_ui() {
     namespace I = ImGui;
     if (!show_) return;
     default_camera_handle().camera = renderer()->default_camera();

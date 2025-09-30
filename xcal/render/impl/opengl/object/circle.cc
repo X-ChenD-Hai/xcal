@@ -15,6 +15,7 @@
 #include <xcmath/utils/show.hpp>
 #define SHADER_ID 0
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Circle, SHADER_ID) {
+    using namespace xcal::render::opengl;
     return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
                                         SHADER_FILE("line.fs"));
 }
@@ -65,7 +66,8 @@ void xcal::render::opengl::object::Circle::create() {
                               6 * sizeof(float),            // stride
                               (void*)(3 * sizeof(float)));  // offset
 
-    shader_program_ = utils::ShaderInstance<Circle, SHADER_ID>::instance();
+    shader_program_ =
+        render::utils::ShaderInstance<Circle, SHADER_ID>::instance();
     vao().unbind();
 };
 

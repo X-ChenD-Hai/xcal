@@ -1,12 +1,12 @@
 #include <GLFW/glfw3.h>
 
-#include <xcal/render/impl/opengl/glfwrender.hpp>
-#include <xcal/render/impl/opengl/ui/imguiglfw3opengl3backend.hpp>
-#include <xcal/render/impl/opengl/ui/listui.hpp>
+#include <xcal/render/impl/glfw/glfwrender.hpp>
+#include <xcal/render/impl/ui/imguiglfw3opengl3backend.hpp>
+#include <xcal/render/impl/ui/listui.hpp>
 
 #define ROLE GLFWRender
 #define LABEL GLFWRender
-#include <xcal/render/impl/opengl/utils/glfwdarkheadersupport.inc>
+#include <xcal/render/impl/glfw/glfwdarkheadersupport.inc>
 #include <xcal/utils/logmacrohelper.inc>
 
 #include "glfwrender.hpp"
@@ -40,8 +40,8 @@ xcal::render::GLFWRender::GLFWRender(Render* render)
     glfwSetMouseButtonCallback(window_, mouse_button_callback);
     render_ = render;
     render_->init(glfwGetProcAddress);
-    ui_render_ = std::make_unique<opengl::ui::ListUi>(
-        std::make_unique<opengl::ui::ImGuiGlfw3OpenGL3Backend>(window_),
+    ui_render_ = std::make_unique<ui::ListUi>(
+        std::make_unique<ui::ImGuiGlfw3OpenGL3Backend>(window_),
         render_);
     ui_render_->init();
 }

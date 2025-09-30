@@ -19,6 +19,7 @@
 #include <xcmath/utils/show.hpp>
 #define SHADER_ID 0
 XCAL_SHADER_INSTANCE(xcal::render::opengl::object::Axis3D, SHADER_ID) {
+    using namespace xcal::render::opengl;
     return GL::ShaderProgram::from_file(SHADER_FILE("line.vs"),
                                         SHADER_FILE("line.fs"));
 }
@@ -85,8 +86,8 @@ void xcal::render::opengl::object::Axis3D::create() {
     vao().unbind();
 
     shader_program_ =
-        utils::ShaderInstance<xcal::render::opengl::object::Axis3D,
-                              SHADER_ID>::instance();
+        render::utils::ShaderInstance<xcal::render::opengl::object::Axis3D,
+                                      SHADER_ID>::instance();
     vao().unbind();
 }
 

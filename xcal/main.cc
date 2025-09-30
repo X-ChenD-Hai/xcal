@@ -6,7 +6,7 @@
 #include <xcal/camera/perspectivecamera.hpp>
 #include <xcal/mobject/mobject_all.hpp>
 #include <xcal/mobject/objects/circle.hpp>
-#include <xcal/render/impl/opengl/glfwrender.hpp>
+#include <xcal/render/impl/glfw/glfwrender.hpp>
 #include <xcal/render/impl/opengl/openglrender.hpp>
 #include <xcmath/utils/show.hpp>
 

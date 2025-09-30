@@ -12,10 +12,10 @@
 
 #include <xcal/public.h>
 
-#include <xcal/render/impl/opengl/ui/imguirender.hpp>
+#include <xcal/render/impl/ui/imguirender.hpp>
 #include <xcmath/xcmath.hpp>
 
-namespace xcal::render::opengl::ui {
+namespace xcal::render::ui {
 class XCAL_API ListUi : public ImGuiUiRender {
    private:
     xcmath::vec3<float_t> vec3f_tmp_;
@@ -42,4 +42,4 @@ class XCAL_API ListUi : public ImGuiUiRender {
     ListUi& operator=(const ListUi&) = delete;
     ListUi& operator=(ListUi&&) = delete;
 };
-}  // namespace xcal::render::opengl::ui
+}  // namespace xcal::render::ui

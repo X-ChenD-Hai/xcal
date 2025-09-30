@@ -11,8 +11,8 @@
 #include <xcal/mobject/core/mobject_types.hpp>
 #include <xcal/render/impl/opengl/core/typedef.hpp>
 #include <xcal/render/impl/opengl/openglrender.hpp>
-#include <xcal/render/impl/opengl/ui/imguiglfw3opengl3backend.hpp>
-#include <xcal/render/impl/opengl/ui/listui.hpp>
+#include <xcal/render/impl/ui/imguiglfw3opengl3backend.hpp>
+#include <xcal/render/impl/ui/listui.hpp>
 #include <xcmath/utils/show.hpp>
 
 //

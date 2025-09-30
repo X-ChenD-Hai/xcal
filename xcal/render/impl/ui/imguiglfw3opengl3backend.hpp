@@ -12,10 +12,10 @@
 #pragma once
 #include <xcal/public.h>
 
-#include <xcal/render/impl/opengl/ui/imguibackend.hpp>
+#include <xcal/render/impl/ui/imguibackend.hpp>
 
 struct GLFWwindow;
-namespace xcal::render::opengl::ui {
+namespace xcal::render::ui {
 class XCAL_API ImGuiGlfw3OpenGL3Backend : public ImGuiBackend {
    private:
     GLFWwindow *window_;
@@ -34,4 +34,4 @@ class XCAL_API ImGuiGlfw3OpenGL3Backend : public ImGuiBackend {
         delete;
     ImGuiGlfw3OpenGL3Backend &operator=(ImGuiGlfw3OpenGL3Backend &&) = delete;
 };
-}  // namespace xcal::render::opengl::ui
+}  // namespace xcal::render::ui

@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <unordered_map>
-namespace xcal::render::opengl::utils {
+namespace xcal::render::utils {
 template <typename T, typename Catgory = void, size_t Id = 0>
 struct ResourceAllocator {
     static std::shared_ptr<T> allocate();
